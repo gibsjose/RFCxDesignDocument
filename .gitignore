@@ -1,3 +1,4 @@
+
 # File Extentions
 *.log
 *.aux
@@ -6,3 +7,7 @@
 *~
 # Directories
 auto/
+=======
+#Ignore temp files
+*~
+
