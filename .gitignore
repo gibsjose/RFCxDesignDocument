@@ -1,0 +1,8 @@
+# File Extentions
+*.log
+*.aux
+*.out
+*#
+*~
+# Directories
+auto/
