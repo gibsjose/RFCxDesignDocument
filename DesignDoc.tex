@@ -7,8 +7,6 @@
 \newcommand{\DATE}{April 2015}
 
 % Packages
-% Don't use this package
-%\usepackage[title]{appendix}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -19,32 +17,18 @@
 \usepackage{mathtools}
 \usepackage{caption}
 \usepackage{amssymb}
-%\usepackage{pdfpages}
-%\usepackage{hyperref}
 \usepackage[pdftex, pdfborderstyle={/S/U/W 0}]{hyperref} % this disables the boxes around links]
-% Packages for Pygments
-%\usepackage{fancyvrb}
-%\usepackage{color}
-
 % For making floating objects (tables) not be repositioned
 % use "H" modifier for tables (\begin{table}[H])
 \usepackage{float}
-%\usepackage{subfigure}
-% \restylefloat{table}
-% For text subscripts
-% \usepackage{fixltx2e}
-
 \usepackage{listings}
 % \usepackage{color}
-
 \usepackage{enumitem}
-% For requirements list
-%\renewcommand*{\theenumi}{\thesection.\arabic{enumi}}
-%\renewcommand*{\theenumii}{\theenumi.\arabic{enumii}}
-%\setlist[enumerate,1]{label={\textbf{Requirement \thesubsection.\arabic*}}}
-
-%Use fancy header package
 \usepackage{fancyhdr}
+\usepackage{caption}
+\numberwithin{figure}{section}
+\usepackage{amsmath}
+\numberwithin{equation}{section}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -69,13 +53,21 @@
   firstnumber = 1
 }
 
-% \newcommand{\namesigdate}[2][5cm]{%
-%   \begin{tabular}{@{}p{#1}@{}}
-%     #2 \\[2\normalbaselineskip] \hrule \\[0pt]
-%     {\small \textit{Signature}} \\[2\normalbaselineskip] \hrule \\[0pt]
-%     {\small \textit{Date}}
-%   \end{tabular}
-% }
+% For appendix to be printed as "Appendix A {name of appendix}" 
+% isntead of "A {name of appendix}"
+\makeatletter
+%% The "\@seccntformat" command is an auxiliary command
+%% (see pp. 26f. of 'The LaTeX Companion,' 2nd. ed.)
+\def\@seccntformat#1{\@ifundefined{#1@cntformat}%
+   {\csname the#1\endcsname\quad}  % default
+   {\csname #1@cntformat\endcsname}% enable individual control
+}
+\let\oldappendix\appendix %% save current definition of \appendix
+\renewcommand\appendix{%
+    \oldappendix
+    \newcommand{\section@cntformat}{\appendixname~\thesection\quad}
+}
+\makeatother
 
 
 \begin{document}
@@ -109,7 +101,7 @@ Date Submitted: \DATE
 
 \smallskip
 {\color{ForestGreen}\line(1,0){350}} \\ [1.0cm]
-\section*{Executive Summary}
+\section*{Executive Summary} \label{sect:execsum}
 Software, electrical, and hardware enhancements to Rainforest Connection’s currently used device are proposed in this paper. The electrical enhancements include the addition of a new PCB that contains power regulation and battery charging circuitry, along with current, voltage, temperature, and humidity sensors. The software enhancements include sending sensor measurements to an Android cellphone. Sending measurements from the PCB to the phone will allow for diagnostic feedback that can be used for laboratory testing and verification as well as field statistics. The point of this project is not to entirely redesign the existing device but rather to provide modular enhancements and improvements to specific components.
 
 \bigskip
@@ -122,7 +114,7 @@ Temperature is another major concern. To mitigate the heat produced by the phone
 Sending diagnostics will be achieved using an 8-bit Atmel ATmega328P microcontroller. Power, temperature, and humidity data will be sent from the microcontroller to the cell phone via USB, where it will be received and displayed by an Android application. 
 
 
-\section*{Keywords}
+\section*{Keywords} \label{sect:keywords}
 Rain forest, Recycling, RFCx, Rainforest Connection, cellphone, Android, logging
 
 \vfill
@@ -152,7 +144,7 @@ Rain forest, Recycling, RFCx, Rainforest Connection, cellphone, Android, logging
 \newpage
 \tableofcontents
 \newpage
-\section{Introduction and Design Background}
+\section{Introduction and Design Background} \label{sect:intro}
 Rainforest Connection (RFCx) is a non-profit organization that is dedicated to stopping illegal logging and deforestation in rainforests throughout the world. The destruction of tropical rainforests is a leading cause of CO2 emission, and much of it is caused by illegal activities. RFCx combats illegal logging by using re-purposed cell-phones strategically placed in trees in remote areas. These cell phones listen and record audio streams at all times, using their data connection to periodically send audio data to the RFCx server, where it is processed. Digital signal processing algorithms are used to detect the sound of chainsaws and engines at a distance of up to $\frac{2}{3}$ of a mile, because the sheer size of the area covered by a single human makes it impractical, if not impossible, to properly monitor the forests for illegal activities without the aid of technology. If a chainsaw is detected, a real-time alert is sent to pre-existing ground patrols, who can react to the situation and combat the threat. In addition to man-made sounds, the RFCx platform is also used to record the sounds of animals in the forest. These sounds can be used to gain information about certain species of animals and are open to anyone to use and analyze.
 
 \bigskip
@@ -184,10 +176,10 @@ On the phone, the RFCx Sentinel App monitors the incoming diagnostics, displayin
 	\caption{Actual RFCx Sentinel App Screenshot}
 	\label{fig:sentscrn}
 \end{figure}
-\section{Requirements and Functional Specifications}
-\subsection{External Interfaces Requirements}
+\section{Requirements and Functional Specifications} \label{sect:requirementsandspec}
+\subsection{External Interfaces Requirements} \label{sect:externinterface}
 This section addresses the requirements of the enhanced device pertaining to its external interfaces. External interfaces are defined as components of the device interacting with something outside of the device enclosure.
-\subsubsection{Hardware}
+\subsubsection{Hardware} \label{sect:hardware1}
 \begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{Requirement \thesubsubsection.\arabic*.}, itemindent=0em]
 
 \item \label{HWa} The device shall not exceed the existing power consumption and should reduce power consumption by at least 10\%.
@@ -203,7 +195,7 @@ To verify \ref{HWg}. a sample group of people with varying skill levels will be 
 
 \item \label{HWh} The assembly and installation documentation may be translated into Spanish, French, and/or Portuguese.
 \end{enumerate}
-\subsubsection{Software}
+\subsubsection{Software} \label{sect:software1}
 \begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{Requirement \thesubsubsection.\arabic*.}, itemindent=0em]
 \item \label{SWa} The algorithm used to compress the audio signal may be compared to other existing algorithms and may be changed as such depending on the outcomes of comparative testing.
 
@@ -211,9 +203,9 @@ To verify \ref{HWg}. a sample group of people with varying skill levels will be 
 To verify \ref{SWa}, audio will be recorded and compressed using multiple algorithms including the current algorithm. An infographic hosted on RFCx’s website, shown in Figure 2 illustrates the flow of data that is collected from the phone and analyzed on the server.
 \end{enumerate}
 
-\subsection{Internal Device Requirements}
+\subsection{Internal Device Requirements} \label{sect:internaldev}
 This section addresses the requirements of the enhanced device pertaining to its internal interfaces and software. Internal here is defined as anything inside of the device enclosure.
-\subsubsection{Hardware}
+\subsubsection{Hardware} \label{sect:hardware2}
 \begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{Requirement \thesubsubsection.\arabic*.}, itemindent=0em]
 \item \label{HW1}The PCB shall consist of battery management circuitry, the power regulation circuitry, power interface to the phone, power monitoring circuitry, as well as the microphone interface.
 
@@ -229,7 +221,7 @@ To verify \ref{HW3}, simple packets will be sent from the microcontroller to the
 \item \label{HW4} The monetary cost of the device, not including the solar panels, shall not exceed 25\% more than the current device cost, also not including the solar panels. The current cost of the solar panels has been quoted at \$200 and the rest of the device has been quoted at \$200. Increases in monetary cost above the current cost and below 125\% of the current cost are for enhancements in functionality (i.e. the PCB, etc.) and reductions in assembly time.
 
 \end{enumerate}
-\subsubsection{Software}
+\subsubsection{Software} \label{sect:software2}
 \begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{Requirement \thesubsubsection.\arabic*.}, itemindent=0em]
 \item \label{SW1}The microcontroller software should be capable of bi-directional communication between itself and the Android phone.
 \item \label{SW2}The microcontroller software should be capable of communicating power usage diagnostics to the phone over the ADB protocol.
@@ -237,8 +229,8 @@ To verify \ref{HW3}, simple packets will be sent from the microcontroller to the
 \item \label{SW4}There shall be a header on the PCB to program to reprogram the microcontroller.
 \end{enumerate}
 
-\section{System Architecture}
-\subsection{Hardware Specifications}
+\section{System Architecture} \label{sect:sysarch}
+\subsection{Hardware Specifications} \label{sect:hardwarespec}
 \textbf{PCB}
 
 The following is a list of the main IC’s that make up the design of this PCB
@@ -256,7 +248,7 @@ The following is a list of the main IC’s that make up the design of this PCB
 \item[LTC4412]: Low loss powerpath controller
 \end{description}
 
-\subsubsection{Hardware Design}
+\subsubsection{Hardware Design} \label{sect:hardwaredesign}
 
 \textbf{Power Sources}
 
@@ -335,7 +327,7 @@ A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.
 \textbf{Input and Output Current and Voltage Sensing}
 The ADS1015 is a 12-bit ADC that can communicate over I2C with the microcontroller. An external ADC is used here because fewer I/O lines are used on the microcontoller and this has a higher resolution. 
 
-The LTC6800 instrumentation amplifier is used to sense the voltage across a known sense resistor. This is so that the ADC can read the output and the current that is being drawn by the circuit can be calculated by the microcontroller. The input current sense circuit is configured to have a gain of around 80.5. The sense resistor has been selected to be 0.01 Ohms. With this configuration the ADC will be able to sense the current with a resolution of 1mA/bit. The calculations for this section can be seen in the Appendix. The configuration of the current sense amplifier can be seen in the following figure.
+The LTC6800 instrumentation amplifier is used to sense the voltage across a known sense resistor. This is so that the ADC can read the output and the current that is being drawn by the circuit can be calculated by the microcontroller. The input current sense circuit is configured to have a gain of around 80.5. The sense resistor has been selected to be 0.01$\Omega$. With this configuration the ADC will be able to sense the current with a resolution of 1mA/bit. The calculations for this section can be seen in the Appendix. The configuration of the current sense amplifier can be seen in the following figure.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.4\textwidth]{AtoV}
@@ -378,11 +370,11 @@ Two size options were proposed for the PCB, including having only enough space f
 \textbf{Heat Dissipation}
 Multiple alternatives were explored for dissipating heat built up in the enclosure, including drilling holes into the enclosure, putting fans in the enclosure to control airflow in and out of the enclosure, and using a heat sink. Using a heat sink was chosen as the best design alternative for heat dissipation. Drilling holes in the enclosure can allow water, insects and dust to enter the enclosure. A wire mesh over the holes could be used to keep insects out of the enclosure, but water and dust could still get into the enclosure and damage the electronics. Running fans in the device creates a sound in a similar frequency range to the chainsaw noise the device is trying to detect. This can cause false detection of a chainsaw by the RFCx server. A heat sink also requires a hole to be drilled into the enclosure for the heat sink to reach outside of the enclosure. This opening is sealed with caulk or by other methods to prevent water, insects and dust from entering the enclosure. The battery cover on the phone is removed and thermal paste is used between the phone battery and the PBC, and between the PCB and the heat sink. This allows heat to dissipate out of the enclosure and help keep the phone attached to the PCB and the PCB attached to the heat sink. Vias in the PCB help heat to transfer more readily through the board instead of trying to transfer the heat through the fiberglass the board is made of.
 
-\subsubsection{Hardware Implementation}
+\subsubsection{Hardware Implementation} \label{sect:hardwareimp}
 \textbf{Heat Sink}
-A heat sink, as described in Section 3.1.1 is shown in Figure 1.4.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heat sink may pass through.  The shape of the heat sink will be optimized for reduced interior air temperature through heat transfer calculations.
+A heat sink, as described in Section \ref{sect:hardwaredesign} is shown in Figure 1.4.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heat sink may pass through.  The shape of the heat sink will be optimized for reduced interior air temperature through heat transfer calculations.
 
-\subsection{Software Specifications}
+\subsection{Software Specifications} \label{sect:softwarespec}
 The software used in the design will consists of C and C++ code running on the ATMega328P microcontroller, as well as a companion app (RFCx Sentinel) written in Java, running on the Android phone.
 \begin{figure}[H]
 	\centering
@@ -391,7 +383,7 @@ The software used in the design will consists of C and C++ code running on the A
 	\label{fig:swuml}
 \end{figure}
 
-\subsubsection{Software Design}
+\subsubsection{Software Design} \label{sect:softwaredes}
 The microcontroller software gathers data from a humidity/temperature sensor, and input/output current and voltage. This data is sent via the ATMega328P serial port to the Android phone via the FTDI chip on the PCB and the usb-serial-for-android libraries on the phone.
 Listing \ref{lst:snip} describes the basic functionality of the microcontroller software.
 
@@ -406,26 +398,26 @@ void wakeFromSleep() {
 }
 \end{lstlisting}
 
-\subsubsection{Software Implementation}
+\subsubsection{Software Implementation} \label{sect:softwareimp}
 An ATMega328P microcontroller is be used to take measurements from the sensors. The temperature (and possibly humidity) measurements are sent digitally via I2C to the microcontroller. On the same I2C bus is the ADS1015, which has four single-ended analog inputs for reading the input current, input voltage, output current, and output voltage. This data is be sent to the phone using the standard AVR UART serial library.
 
 The data, once sent to the phone, is be monitored by the RFCx Sentinel app. This app is written in Java in Android Studio, and uses the open-source usb-serial-for-android library. The app opens a connection upon discovering a compatible device (FTDI is compatible), and allows the user to view a streamlined interface with relevant data, as well as a tab for the raw hex dump of incoming serial data. The data may or may not be transmitted along with audio data to the RFCx server for real-time monitoring.
 
 
-\section{Verification}
-\subsection{Hardware Verification}
+\section{Verification} \label{sect:verification}
+\subsection{Hardware Verification} \label{sect:hardwareverification}
 To verify the power consumption of the devices in \ref{HWa}. the voltage applied and current drawn by the both the enhanced device and the current device will be measured over the course of 1 hour during a realistic usage scenario. The average power will be verified to not exceed 90\% of the existing device’s usage.
 
 To verify \ref{HWf}. a visual inspection by volunteers will qualify camouflage schemes. A successful inspection will be one in which more than 80\% of the volunteers are unable to find the device within a 2 minute inspection window.
 
 To verify \ref{HWg}. a sample group of people with varying skill levels will be asked to provide feedback the on assembly process.
 
-\subsection{Software Verification}
+\subsection{Software Verification} \label{sect:softwareverification}
 To verify \ref{SWa}., audio will be recorded and compressed using multiple algorithms including the current algorithm. An infographic hosted on RFCx’s website, shown in Figure 2 illustrates the flow of data that is collected from the phone and analyzed on the server.
 
 To verify \ref{HW3}, simple packets will be sent from the microcontroller to the phone. These packets can be verified with debug tools or simple programs on the microcontroller and the phone. A debug serial port may be included as a peripheral to the microcontroller to aid in debugging. Any analog values read by the microcontroller will be verified with shop equipment.
 
-\section{Validation}
+\section{Validation} \label{sect:validation}
 \ref{HW2}, \ref{HWb}, and \ref{HWd} can be validated by inspecting the components on the PCB to ensure all required components are present on the board. Requirements \ref{HWg} and \ref{HWh} can be validated by handing the assembly instructions out to a sample group of people with varying skill levels and receiving feedback on the set of instructions from them. People with the ability to read other languages can be used if the documents have been translated from English into other languages.
 
 \ref{HW4} can be validated by inspecting the total cost printed on the BOM for the enhanced device.
@@ -438,8 +430,8 @@ To verify \ref{HW3}, simple packets will be sent from the microcontroller to the
 
 \ref{HWc}, \ref{SW3}, and \ref{SWa} can be validated during a field test. The enhance device can be mounted at eye level in a tree and turned on to allow the device to start sending audio data to the RFCx server. Requirement \ref{HWf} can be validated by having a volunteer outside of the project search for the device in a wooded area without knowing what it looks like to see if it sticks out. A chainsaw can be turned on 0.25 miles from the device to trigger an alert and validate that the enhanced device can communicate with the RFCx server. The size of the audio recording sent to the RFCx server after employing the audio compression algorithm can be compared to the size of audio data sent to the RFCx server by the current device to determine the audio compression ratio of this algorithm. Both audio recordings can be played back to determine the level of audio interference created by GSM transmission.
 
-\section{Project Budget and Schedule}
-\subsection{Budget}
+\section{Project Budget and Schedule} \label{sect:budgetandschedule}
+\subsection{Budget} \label{sect:budget}
 This project will require minor funding for manufacturing and populating the PCB, and the materials to construct a new enclosure, as well as general testing and component costs. As RFCx is a non-profit organization working solely on grant money, this budget is not expected to be covered by them.
 \begin{itemize}
 \item \$400 = 4 x \$100 for PCB manufacturing
@@ -448,12 +440,11 @@ This project will require minor funding for manufacturing and populating the PCB
 \item Estimated Total: \$920
 \end{itemize}
 
-\section{Schedule}
-The schedule in Figure 6.2 is the proposed schedule for all phases of the project. This will be used as a general timeline for guidance throughout the project.
+\section{Schedule} \label{sect:schedule}
+The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases of the project. This will be used as a general timeline for guidance throughout the project.
 
 \begin{figure}[H]
   \centering
-  %\includegraphics[scale=0.75, trim=0cm 12cm 0cm 0cm , clip=true]{Schedule.pdf}
   \includegraphics[scale=0.65, trim=0cm 12cm 0cm 0cm, clip=true]{Schedule.pdf}
   \caption{Gantt Chart for Schedule}
   \label{fig:gantt}
@@ -461,7 +452,11 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 
 
 \newpage
-\section{Appendix A: Electrical Schematics}
+\section*{Appendices}
+\addcontentsline{toc}{section}{Appendicies}
+\newpage
+\appendix
+\section{Electrical Schematics} \label{sect:appendixA}
 % \makeatletter
 % \@addtoreset{figure}{section}
 % \makeatother
@@ -552,7 +547,7 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 \end{figure}
 
 \newpage
-\section{Appendix B: Bill Of Materials}
+\section{Bill Of Materials} \label{sect:appendixB}
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=1,width=0.9\textwidth]{RFCx_BOM.pdf}
@@ -568,13 +563,52 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 
 
 \newpage
-\section{Appendix C: Mechanical Drawings}
+\section{Mechanical Drawings} \label{sect:appendixC}
 
 \newpage
-\section{Appendix D: Calculations}
+\section{Calculations} \label{sect:appendixD}
+\subsection{bq2057CTS Battery Management Calcs}
+\textbf{Current Regulation}
+\begin{align}
+  \label{eq:currentreg}
+  R_{SNS} &= \frac{V_{SNS}}{IO_{REG}} \\
+  &= \frac{105mV}{0.2 \cdot 4400mAHr} \\
+  &= 119m\Omega
+\end{align}
+\textbf{Voltage Regulation}
+\begin{align}
+  \label{eq:voltreg}
+  \frac{R_{B1}}{R_{B2}} &= \left(N \cdot \frac{V_{CELL}}{V_{OREG}}\right) - 1
+\end{align}
+
+\textbf{Temperature Monitoring} \newline
+Using PTC thermistor 
+
+\textbf{External PNP Transistor} \newline
+Max Power disipation when battery is lowest (3V)
+\begin{align*}
+  V_{in} &= 5.2 \\
+  I_{REG} &= 880mA \\
+  V_{CS} &= 0.176 \\
+  V_D &= 0.3
+\end{align*}
+% \begin{align}
+%   \label{eq:diodepwr}
+%   P_D &= \left(\left(V_{in} - V_D - V_{CS}\right) - V_{BAT}\right) * I_{REG} \\
+%   &= \left(5.2 - 0.3 - 0.176 - 3) \cdot 0.88 \\
+%   &= 1.517 W
+% \end{align}
+\textbf{Calculate $\beta_{min}$}
+\begin{align}
+  \label{eq:betamin}
+  \beta_{min} &= \frac{I_{Cmax}}{I_{B}} \\
+  &= \frac{0.88}{0.035} \\
+  &= 25.14
+\end{align}
+
 
 \newpage
-\section{Appendix E: Data Sheet Snippets}
+\section{Data Sheet Snippets} \label{sect:appendixE}
 This appendix contains the 1st sheet of the data sheets for the parts used in this project.
 \begin{figure}[H]
 	\centering
@@ -667,7 +701,7 @@ This appendix contains the 1st sheet of the data sheets for the parts used in th
 	\label{fig:ftdidat}
 \end{figure}
 \newpage
-\section{Appendix F: Source Code}
+\section{Source Code} \label{sect:appendixF}
 
 \end{document}
 

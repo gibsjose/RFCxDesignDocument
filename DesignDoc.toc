@@ -20,9 +20,11 @@
 \contentsline {section}{\numberline {6}Project Budget and Schedule}{12}{section.6}
 \contentsline {subsection}{\numberline {6.1}Budget}{12}{subsection.6.1}
 \contentsline {section}{\numberline {7}Schedule}{13}{section.7}
-\contentsline {section}{\numberline {8}Appendix A: Electrical Schematics}{14}{section.8}
-\contentsline {section}{\numberline {9}Appendix B: Bill Of Materials}{26}{section.9}
-\contentsline {section}{\numberline {10}Appendix C: Mechanical Drawings}{28}{section.10}
-\contentsline {section}{\numberline {11}Appendix D: Calculations}{29}{section.11}
-\contentsline {section}{\numberline {12}Appendix E: Data Sheet Snippets}{30}{section.12}
-\contentsline {section}{\numberline {13}Appendix F: Source Code}{43}{section.13}
+\contentsline {section}{Appendicies}{14}{section*.18}
+\contentsline {section}{\numberline {A}Electrical Schematics}{15}{appendix.A}
+\contentsline {section}{\numberline {B}Bill Of Materials}{27}{appendix.B}
+\contentsline {section}{\numberline {C}Mechanical Drawings}{29}{appendix.C}
+\contentsline {section}{\numberline {D}Calculations}{30}{appendix.D}
+\contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calcs}{30}{subsection.D.1}
+\contentsline {section}{\numberline {E}Data Sheet Snippets}{31}{appendix.E}
+\contentsline {section}{\numberline {F}Source Code}{44}{appendix.F}
