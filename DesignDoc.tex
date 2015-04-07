@@ -150,6 +150,8 @@ Rain forest, Recycling, RFCx, Rainforest Connection, cellphone, Android, logging
 \setlength{\parindent}{0cm}
 % =====----- Rest of Report -----=====
 \newpage
+\tableofcontents
+\newpage
 \section{Introduction and Design Background}
 Rainforest Connection (RFCx) is a non-profit organization that is dedicated to stopping illegal logging and deforestation in rainforests throughout the world. The destruction of tropical rainforests is a leading cause of CO2 emission, and much of it is caused by illegal activities. RFCx combats illegal logging by using re-purposed cell-phones strategically placed in trees in remote areas. These cell phones listen and record audio streams at all times, using their data connection to periodically send audio data to the RFCx server, where it is processed. Digital signal processing algorithms are used to detect the sound of chainsaws and engines at a distance of up to $\frac{2}{3}$ of a mile, because the sheer size of the area covered by a single human makes it impractical, if not impossible, to properly monitor the forests for illegal activities without the aid of technology. If a chainsaw is detected, a real-time alert is sent to pre-existing ground patrols, who can react to the situation and combat the threat. In addition to man-made sounds, the RFCx platform is also used to record the sounds of animals in the forest. These sounds can be used to gain information about certain species of animals and are open to anyone to use and analyze.
 
@@ -161,7 +163,6 @@ On the PCB, an ATMega328P microcontroller (\ref{fig:atmeldat}) will be used. An 
 
 On the phone, the RFCx Sentinel App monitors the incoming diagnostics, displaying them to a screen, logging them to a file, and possibly transmitting them along with the audio data to the server. The RFCx Sentinel Application was developed for this project. 
 
-\subsection{}
 
 \begin{figure}[H]
   \centering
@@ -454,7 +455,7 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 
 
 \newpage
-\section*{Appendix A: Electrical Schematics}
+\section{Appendix A: Electrical Schematics}
 % \makeatletter
 % \@addtoreset{figure}{section}
 % \makeatother
@@ -545,7 +546,7 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 \end{figure}
 
 \newpage
-\section*{Appendix B: Bill Of Materials}
+\section{Appendix B: Bill Of Materials}
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=1,width=0.9\textwidth]{RFCx_BOM.pdf}
@@ -561,13 +562,13 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 
 
 \newpage
-\section*{Appendix C: Mechanical Drawings}
+\section{Appendix C: Mechanical Drawings}
 
 \newpage
-\section*{Appendix D: Calculations}
+\section{Appendix D: Calculations}
 
 \newpage
-\section*{Appendix E: Data Sheet Snippets}
+\section{Appendix E: Data Sheet Snippets}
 This appendix contains the 1st sheet of the data sheets for the parts used in this project.
 \begin{figure}[H]
 	\centering
@@ -660,7 +661,8 @@ This appendix contains the 1st sheet of the data sheets for the parts used in th
 	\label{fig:ftdidat}
 \end{figure}
 \newpage
-\section*{Appendix F: Source Code}
+\section{Appendix F: Source Code}
+
 \end{document}
 
 % ======== For Reference =============
