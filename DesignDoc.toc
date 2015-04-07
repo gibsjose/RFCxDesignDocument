@@ -26,5 +26,5 @@
 \contentsline {section}{\numberline {C}Mechanical Drawings}{29}{appendix.C}
 \contentsline {section}{\numberline {D}Calculations}{30}{appendix.D}
 \contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calcs}{30}{subsection.D.1}
-\contentsline {section}{\numberline {E}Data Sheet Snippets}{31}{appendix.E}
-\contentsline {section}{\numberline {F}Source Code}{44}{appendix.F}
+\contentsline {section}{\numberline {E}Data Sheet Snippets}{32}{appendix.E}
+\contentsline {section}{\numberline {F}Source Code}{45}{appendix.F}
