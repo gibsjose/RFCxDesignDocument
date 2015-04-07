@@ -411,29 +411,29 @@ The data, once sent to the phone, is be monitored by the RFCx Sentinel app. This
 
 \section{Verification}
 \subsection{Hardware Verification}
-To verify the power consumption of the devices in Requirement 2.1.1.1. the voltage applied and current drawn by the both the enhanced device and the current device will be measured over the course of 1 hour during a realistic usage scenario. The average power will be verified to not exceed 90\% of the existing device’s usage.
+To verify the power consumption of the devices in \ref{HWa}. the voltage applied and current drawn by the both the enhanced device and the current device will be measured over the course of 1 hour during a realistic usage scenario. The average power will be verified to not exceed 90\% of the existing device’s usage.
 
-To verify Requirement 2.1.1.5. a visual inspection by volunteers will qualify camouflage schemes. A successful inspection will be one in which more than 80\% of the volunteers are unable to find the device within a 2 minute inspection window.
+To verify \ref{HWf}. a visual inspection by volunteers will qualify camouflage schemes. A successful inspection will be one in which more than 80\% of the volunteers are unable to find the device within a 2 minute inspection window.
 
-To verify Requirement 2.1.1.6. a sample group of people with varying skill levels will be asked to provide feedback on the assembly process.
+To verify \ref{HWg}. a sample group of people with varying skill levels will be asked to provide feedback the on assembly process.
 
 \subsection{Software Verification}
-To verify Requirement 2.1.2.1., audio will be recorded and compressed using multiple algorithms including the current algorithm. An infographic hosted on RFCx’s website, shown in Figure 2 illustrates the flow of data that is collected from the phone and analyzed on the server.
+To verify \ref{SWa}., audio will be recorded and compressed using multiple algorithms including the current algorithm. An infographic hosted on RFCx’s website, shown in Figure 2 illustrates the flow of data that is collected from the phone and analyzed on the server.
 
-To verify Requirement 2.2.1.3., simple packets will be sent from the microcontroller to the phone. These packets can be verified with debug tools or simple programs on the microcontroller and the phone. A debug serial port may be included as a peripheral to the microcontroller to aid in debugging. Any analog values read by the microcontroller will be verified with shop equipment.
+To verify \ref{HW3}, simple packets will be sent from the microcontroller to the phone. These packets can be verified with debug tools or simple programs on the microcontroller and the phone. A debug serial port may be included as a peripheral to the microcontroller to aid in debugging. Any analog values read by the microcontroller will be verified with shop equipment.
 
 \section{Validation}
-Requirements 2.2.1.2, 2.1.1.2, and 2.1.1.4 can be validated by inspecting the components on the PCB to ensure all required components are present on the board. Requirements 2.1.1.6 and 2.1.1.7 can be validated by handing the assembly instructions out to a sample group of people with varying skill levels and receiving feedback on the set of instructions from them. People with the ability to read other languages can be used if the documents have been translated from English into other languages.
+\ref{HW2}, \ref{HWb}, and \ref{HWd} can be validated by inspecting the components on the PCB to ensure all required components are present on the board. Requirements \ref{HWg} and \ref{HWh} can be validated by handing the assembly instructions out to a sample group of people with varying skill levels and receiving feedback on the set of instructions from them. People with the ability to read other languages can be used if the documents have been translated from English into other languages.
 
-Requirement 2.2.1.4 can be validated by inspecting the total cost printed on the BOM for the enhanced device.
+\ref{HW4} can be validated by inspecting the total cost printed on the BOM for the enhanced device.
 
-Requirements 2.2.1.1, 2.1.1.1, and 2.2.1.3 can be validated by current and voltage measurements taken in the lab using a DMM. The power calculations made based on those measurements can be compared to similar calculations based on measurements taken from the current device. SPICE simulation data and values displayed on the RFCx Sentinel app will be compared to the actual power consumption of the new device.
+\ref{HW1}, \ref{HWa}, and \ref{HW3} can be validated by current and voltage measurements taken in the lab using a DMM. The power calculations made based on those measurements can be compared to similar calculations based on measurements taken from the current device. SPICE simulation data and values displayed on the RFCx Sentinel app will be compared to the actual power consumption of the new device.
 
-Requirement 2.2.2.1, 2.2.2.2, 2.2.2.3, and 2.2.1.3 can be validated by comparing the values reported in the RFCx Sentinel app to the calculated power consumption of the enhanced device.
+\ref{SW1}, \ref{SW2}, \ref{SW3}, and \ref{HW3} can be validated by comparing the values reported in the RFCx Sentinel app to the calculated power consumption of the enhanced device.
 
-Requirement 2.1.1.3 can be validated by changing the scale factor in the microcontroller program, reprogramming the microcontroller from the PCB header and comparing the values displayed on the RFCx Sentinel app to the previous displayed values. The new values displayed on the RFCx Sentinel app should reflect the change to the scale factor in the microcontroller program.
+\ref{HWc} can be validated by changing the scale factor in the microcontroller program, reprogramming the microcontroller from the PCB header and comparing the values displayed on the RFCx Sentinel app to the previous displayed values. The new values displayed on the RFCx Sentinel app should reflect the change to the scale factor in the microcontroller program.
 
-Requirement 2.1.1.3, 2.2.2.3, and 2.1.2.1 can be validated during a field test. The enhance device can be mounted at eye level in a tree and turned on to allow the device to start sending audio data to the RFCx server. Requirement 2.1.1.5 can be validated by having a volunteer outside of the project search for the device in a wooded area without knowing what it looks like to see if it sticks out. A chainsaw can be turned on 0.25 miles from the device to trigger an alert and validate that the enhanced device can communicate with the RFCx server. The size of the audio recording sent to the RFCx server after employing the audio compression algorithm can be compared to the size of audio data sent to the RFCx server by the current device to determine the audio compression ratio of this algorithm. Both audio recordings can be played back to determine the level of audio interference created by GSM transmission.
+\ref{HWc}, \ref{SW3}, and \ref{SWa} can be validated during a field test. The enhance device can be mounted at eye level in a tree and turned on to allow the device to start sending audio data to the RFCx server. Requirement \ref{HWf} can be validated by having a volunteer outside of the project search for the device in a wooded area without knowing what it looks like to see if it sticks out. A chainsaw can be turned on 0.25 miles from the device to trigger an alert and validate that the enhanced device can communicate with the RFCx server. The size of the audio recording sent to the RFCx server after employing the audio compression algorithm can be compared to the size of audio data sent to the RFCx server by the current device to determine the audio compression ratio of this algorithm. Both audio recordings can be played back to determine the level of audio interference created by GSM transmission.
 
 \section{Project Budget and Schedule}
 \subsection{Budget}
