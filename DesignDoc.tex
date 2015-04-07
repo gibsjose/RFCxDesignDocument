@@ -155,7 +155,7 @@ Rainforest Connection (RFCx) is a non-profit organization that is dedicated to s
 RFCx Project Necromancer is a project involving the design of new hardware, as well as upgrades to the existing hardware. The principal objective is to merge all of the external electronics into a custom printed circuit board. This involves integrating the regulation circuitry, photovoltaic battery charge controller, sensors (temperature, power, etc.), microcontroller, and other supporting electronics into a single board. Power, temperature, and humidity diagnostics will be sent from the microcontroller to the Android phone. Relaying the collected diagnostic data to the server is possible with the existing framework but outside of the scope of this project. Instead, the collected data will be displayed for testing and verification purposes. 
 
 \bigskip
-On the PCB, an ATMega328P microcontroller (\ref{fig:atmeldat}) will be used. An SPV1040 Max Point Power Tracker (MPPT)(\ref{fig:spvdat}) will be used to obtain the maximum power from the solar panels and to efficiently charge the Lithium-Ion batteries(\ref{fig:batdat}). Current and voltage measurements on both the solar panel inputs as well as the output to the batteries will be measured by using an external ADC. The ADC chosen is a low-power TI ADS1015(\ref{fig:adsdat}), which has four single-ended analog inputs, and draws as little as 150uA under worst case conditions. Two options were considered for temperature, one also providing humidity measurements. The single temperature sensor is the NXT LM75BD(\ref{fig:lm75dat}), which is a super low power temperature sensor with an accuracy of $\pm2^{\circ}C$, communicating over I2C. It uses less around 300uA during peak transmission, and costs under \$1. The combined temperature and humidity sensor is the Honeywell HIH6130(\ref{fig:HIHdat}), which is a low-power sensor with 14-bit resolution for both humidity and temperature, low-current operation, from 1uA in sleep mode to under 1mA worst case draw. The HIH6130 chip also has its own internal ADC, EEPROM, and oscillator, but costs nearly \$14. The LM75BD will be used to cut costs but the HIH6130 footprint will be included but unpopulated on the final PCB as an option to the end user.  All sensor ICs communicate with the microcontroller via the I2C protocol. For communication with the Android phone, the ATMega328P serial port will be interfaced through FTDI(\ref{fig:ftdidat}) to an on-board USB connector.
+On the PCB, an ATMega328P microcontroller (\ref{fig:atmeldat}) will be used. An SPV1040 Max Point Power Tracker (MPPT)(\ref{fig:spvdat}) will be used to obtain the maximum power from the solar panels and to efficiently charge the Lithium-Ion batteries(\ref{fig:batdat}). Current and voltage measurements on both the solar panel inputs as well as the output to the batteries will be measured by using an external ADC. The ADC chosen is a low-power TI ADS1015(\ref{fig:adsdat}), which has four single-ended analog inputs, and draws as little as 150uA under worst case conditions. Two options were considered for temperature, one also providing humidity measurements. The single temperature sensor is the NXT LM75BD(\ref{fig:lm75dat}), which is a super low power temperature sensor with an accuracy of $\pm2^{\circ}C$, communicating over I2C. It uses less around 300uA during peak transmission, and costs under \$1. The combined temperature and humidity sensor is the Honeywell HIH6130(\ref{fig:hihdat}), which is a low-power sensor with 14-bit resolution for both humidity and temperature, low-current operation, from 1uA in sleep mode to under 1mA worst case draw. The HIH6130 chip also has its own internal ADC, EEPROM, and oscillator, but costs nearly \$14. The LM75BD will be used to cut costs but the HIH6130 footprint will be included but unpopulated on the final PCB as an option to the end user.  All sensor ICs communicate with the microcontroller via the I2C protocol. For communication with the Android phone, the ATMega328P serial port will be interfaced through FTDI(\ref{fig:ftdidat}) to an on-board USB connector.
 
 On the phone, the RFCx Sentinel App monitors the incoming diagnostics, displaying them to a screen, logging them to a file, and possibly transmitting them along with the audio data to the server. The RFCx Sentinel Application was developed for this project. 
 
@@ -544,6 +544,19 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 
 \newpage
 \section*{Appendix B: Bill Of Materials}
+\begin{figure}[H]
+	\centering
+	\includegraphics[page=1,width=0.9\textwidth]{RFCx_BOM.pdf}
+	\caption{}
+	\label{fig:bom1}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[page=2,width=0.9\textwidth]{RFCx_BOM.pdf}
+	\caption{}
+	\label{fig:bom2}
+\end{figure}
+
 
 \newpage
 \section*{Appendix C: Mechanical Drawings}
@@ -553,6 +566,7 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 
 \newpage
 \section*{Appendix E: Data Sheet Snippets}
+This appendix contains the 1st sheet of the data sheets for the parts used in this project.
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=1,width=0.9\textwidth]{combined.pdf}
@@ -585,7 +599,7 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 	\centering
 	\includegraphics[page=5,width=0.9\textwidth]{combined.pdf}
 	\caption{1st Page of HIH6130 Datasheet}
-	\label{fig:HIHdat}
+	\label{fig:hihdat}
 \end{figure}
 
 \begin{figure}[H]
@@ -599,7 +613,7 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 	\centering
 	\includegraphics[page=7,width=0.9\textwidth]{combined.pdf}
 	\caption{1st Page of LM75B Datasheet}
-	\label{fig:lm75bdat}
+	\label{fig:lm75dat}
 \end{figure}
 
 \begin{figure}[H]
@@ -635,6 +649,13 @@ The schedule in Figure 6.2 is the proposed schedule for all phases of the projec
 	\includegraphics[page=12,width=0.9\textwidth]{combined.pdf}
 	\caption{1st Page of SPV1040 Datasheet}
 	\label{fig:spvdat}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[page=13,width=0.9\textwidth]{combined.pdf}
+	\caption{1st Page of FTDI Datasheet}
+	\label{fig:ftdidat}
 \end{figure}
 \newpage
 \section*{Appendix F: Source Code}
