@@ -30,11 +30,11 @@
 \contentsline {subsubsection}{\numberline {5.1.8}Connectors}{19}{subsubsection.5.1.8}
 \contentsline {subsubsection}{\numberline {5.1.9}GSM Interference}{19}{subsubsection.5.1.9}
 \contentsline {subsubsection}{\numberline {5.1.10}PCB Size}{19}{subsubsection.5.1.10}
-\contentsline {subsubsection}{\numberline {5.1.11}Heat Dissipation}{19}{subsubsection.5.1.11}
+\contentsline {subsubsection}{\numberline {5.1.11}Heat Dissipation}{20}{subsubsection.5.1.11}
 \contentsline {subsection}{\numberline {5.2}Hardware Implementation}{20}{subsection.5.2}
 \contentsline {subsubsection}{\numberline {5.2.1}Heat Sink}{20}{subsubsection.5.2.1}
 \contentsline {subsection}{\numberline {5.3}Software Design}{20}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Software Implementation}{20}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.4}Software Implementation}{21}{subsection.5.4}
 \contentsline {section}{\numberline {6}Verification}{21}{section.6}
 \contentsline {subsection}{\numberline {6.1}Hardware Verification}{21}{subsection.6.1}
 \contentsline {subsection}{\numberline {6.2}Software Verification}{21}{subsection.6.2}
@@ -42,12 +42,12 @@
 \contentsline {section}{\numberline {8}Project Budget and Schedule}{22}{section.8}
 \contentsline {subsection}{\numberline {8.1}Budget}{22}{subsection.8.1}
 \contentsline {section}{\numberline {9}Schedule}{22}{section.9}
-\contentsline {section}{Appendicies}{23}{section*.25}
-\contentsline {section}{\numberline {A}Electrical Schematics}{24}{appendix.A}
-\contentsline {section}{\numberline {B}Bill Of Materials}{36}{appendix.B}
-\contentsline {section}{\numberline {C}Mechanical Drawings}{38}{appendix.C}
-\contentsline {section}{\numberline {D}Calculations}{39}{appendix.D}
-\contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calculations}{39}{subsection.D.1}
-\contentsline {subsection}{\numberline {D.2}Current and Voltage Sensing}{40}{subsection.D.2}
-\contentsline {section}{\numberline {E}Data Sheet Snippets}{41}{appendix.E}
-\contentsline {section}{\numberline {F}Source Code}{54}{appendix.F}
+\contentsline {section}{Appendicies}{24}{section*.25}
+\contentsline {section}{\numberline {A}Electrical Schematics}{25}{appendix.A}
+\contentsline {section}{\numberline {B}Bill Of Materials}{37}{appendix.B}
+\contentsline {section}{\numberline {C}Mechanical Drawings}{39}{appendix.C}
+\contentsline {section}{\numberline {D}Calculations}{40}{appendix.D}
+\contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calculations}{40}{subsection.D.1}
+\contentsline {subsection}{\numberline {D.2}Current and Voltage Sensing}{41}{subsection.D.2}
+\contentsline {section}{\numberline {E}Data Sheet Snippets}{42}{appendix.E}
+\contentsline {section}{\numberline {F}Source Code}{55}{appendix.F}

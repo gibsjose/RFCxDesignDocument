@@ -465,7 +465,6 @@ A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.
 \subsubsection{Input and Output Current and Voltage Sensing}
 
 The ADS1015 is a 12-bit ADC that can communicate over I2C with the microcontroller. This ADC will operate in single shot mode and then go back to sleep. The ADS1015 uses a $\delta\sigma$ ADC and can perform conversions at rates up to 3300 samples per second. The microcontroller will initiate a conversion over I2C and be able to send the diagnostic to the phone for further processing. 
-%@TODO Jesse: Say a little more about the design of the ADS1015
 
 The LTC6800 instrumentation amplifier is used to sense the voltage across a known sense resistor. The input current sense circuit is configured to have a gain of around 80.5. The sense resistor has been selected to be 0.01$\Omega$. With this configuration the ADC will be able to sense the current with a resolution of 1mA/bit. The calculations for this section can be seen in Appendix \ref{fig:calc???}. The configuration of the current sense amplifier can be seen in Figure \ref{fig:AV} below. The input and output voltage are sensed with simple resistor dividers that are fed to the ADC.
 \begin{figure}[H]
@@ -480,11 +479,11 @@ The LTC6800 instrumentation amplifier is used to sense the voltage across a know
 %@TODO Joe: Move the details of the other MCU part numbers to the justification section and delete the rest of this paragraph
 Three other microcontrollers were considered. Two ARM M0+ low power micro controllers were considered. The Atmel ATSAM ARM M0+ was not chosen because it drew more current than the 328P and was decided to be over kill for this application. Some nice features were that it had a built in USB module and required no external tools to program it. The Freescale KL25Z was also decided to be overkill for this application and was not chosen because the programming interface of the end user would have been difficult as it required a JTAG programmer. The other microcontroller was a Texas Instruments 16-bit RISC MSP430. This microcontroller was the most expensive, drew the highest current in active and sleep modes, and requires an external tool to program. The ATmega328P does require an external tool to program but it does have low power sleep modes, it is cheap, its is simple, and it is well documented not only by Atmel but by a very large community. It is felt that this would benefit the end user the most in the future.
 
-%@TODO Jesse: There is no discussion of the design with the ATmega. Discuss the supporting circuitry, and the connections to the I2C and other peripherals.
+The only supporting circuitry for the ATmega328P is the 6-pin in-circuit serial programming (ICSP) port, a 32kHz external crystal, and external pull up resistors on the I2C communication lines. The 32kHz crystal is included for the real time clock. The real time clock is used so that the ATmega328P microcontroller can go into a sleep mode and wake up later to conserve power usage.
 
 \subsubsection{Temperature and Humidity}
 
-A temperature sensor (LM75BD) and a humidity/temperature sensor(HIH6130) will be included on the board. The schematic connections of the two ICs is shown below in Figure \ref{fig:tandh}.
+A temperature sensor (LM75BD, \ref{fig:lm75dat}) and a humidity/temperature sensor(HIH6130, \ref{fig:hihdat}) will be included on the board. Both of these interfaces are supplied but not intended to be populated at the same time. The purpose for providing a choice is because the available I2C humidity sensors seem to be around the \$15 range. This is a little expensive to include on every device but the end user may want to include the humidity sensor on some of the devices and only sense temperature. The schematic connections of the two ICs is shown in Figure \ref{fig:tandh}. 
 
 %@TODO Jesse: Describe the design of the circuit and interaface with MCU, etc. Reference the ranges of the devices and that they fit within our required range
 
@@ -494,6 +493,9 @@ A temperature sensor (LM75BD) and a humidity/temperature sensor(HIH6130) will be
 	\caption{Temperature and Humidity Sensors}
 	\label{fig:tandh}
 \end{figure}
+
+The LM75BD can sense temperature with a resolution of $0.125^{\circ}C$ and up to $+125^{\circ}C$. This resolution and temperature operating range is well withing the environmental conditions that the device is intended to operate in. 
+The HIH6130 is a I2C capable humidity and temperature sensor can operate in the temperature range of $-25^{\circ}C$ to $85^{\circ}C$ and humidity in the range $\pm5 \%RH$. These ranges and limits are also within the ranges foreseen in the intended rain forest environment. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@TODO This is as far as I got... %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %@TODO Joe: Put \bigskip before each \textbf for formatting...
