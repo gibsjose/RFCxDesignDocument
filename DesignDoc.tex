@@ -142,7 +142,17 @@ Rain forest, Recycling, RFCx, Rainforest Connection, cellphone, Android, logging
 \tableofcontents
 \newpage
 \section{RFCx Background} \label{sect:background}
-Rainforest Connection (RFCx) is a non-profit organization that is dedicated to stopping illegal logging and deforestation in rainforests throughout the world. The destruction of tropical rainforests is a leading cause of carbon dioxide emission, and much of it is caused by illegal activities. RFCx combats illegal logging by using re-purposed cell-phones strategically placed in trees in remote areas. These cell phones listen and record audio streams at all times, using their data connection to periodically send audio data to the RFCx server. On the server, digital signal processing algorithms are used to detect the sound of chainsaws and engines at a distance of up to $\frac{2}{3}$ of a mile, because the sheer size of the area covered by a single human makes it impractical, if not impossible, to properly monitor the forests for illegal activities without the aid of technology. If a chainsaw is detected, a real-time alert is sent to pre-existing ground patrols, who can react to the situation and combat the threat. In addition to man-made sounds, the RFCx platform is also used to record the sounds of animals in the forest. These sounds can be used to gain information about certain species of animals and are open to anyone to use and analyze. The flow of data, from audio collection to human intervention, is shown below in Figure \ref{fig:infographic}.
+Rainforest Connection (RFCx) is a non-profit organization that is dedicated to stopping illegal logging and deforestation in rainforests throughout the world. The destruction of tropical rainforests is a leading cause of carbon dioxide emission, and much of it is caused by illegal activities. RFCx combats illegal logging with devices using re-purposed cell-phones strategically placed in trees in remote areas. A picture of the entire device is shown below in Figure \ref{fig:device}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{device}
+  \caption{RFCx President Topher White installing an existing device in the rainforests of Borneo}
+  \label{fig:device}
+\end{figure}
+\newpage
+
+These devices listen and record audio streams at all times, using their data connection to periodically send audio data to the RFCx server. On the server, digital signal processing algorithms are used to detect the sound of chainsaws and engines at a distance of up to $\frac{2}{3}$ of a mile. If a chainsaw is detected, a real-time alert is sent to pre-existing ground patrols, who can react to the situation and combat the threat. In addition to man-made sounds, the RFCx platform is also used to record the sounds of animals in the forest. These sounds can be used to gain information about certain species of animals and are open to anyone to use and analyze. Because of the sheer size of the area covered by a single human, it is impractical, if not impossible, to properly monitor the forests for illegal activities without the aid of technology. The flow of data, from audio collection to human intervention, is shown below in Figure \ref{fig:infographic}.
 
 \begin{figure}[H]
   \centering
@@ -153,20 +163,27 @@ Rainforest Connection (RFCx) is a non-profit organization that is dedicated to s
 \newpage
 
 \section{Project Introduction} \label{sect:intro}
-RFCx Project Necromancer is primarily comprised of enhancements to the existing system in the areas of power consumption, power efficiency, temperature concerns, and overall modularity of components. The principal objective is to merge all of the external electronics into a custom printed circuit board. This involves integrating the regulation circuitry, photovoltaic battery charge controller, sensors (temperature, power, etc.), microcontroller, and other supporting electronics into a single board. Power, temperature, and humidity diagnostics will also be sent from the microcontroller to the Android phone via a USB connection. Relaying the collected diagnostic data to the server is possible with the existing framework but outside of the scope of this project. Instead, the collected data will be displayed for testing and verification purposes. A picture of the entire device is shown below in Figure \ref{fig:device}.
+RFCx Project Necromancer is primarily comprised of enhancements to the existing system in the areas of power consumption, power efficiency, temperature concerns, and overall modularity of components. The devices currently consist of an Android phone, Radioshack enclosure, off-the-shelf external microhpone and antenna, RFCx solar petals, two dual-cell Lithium-Ion batteries, and  various off-the-shelf PCBs and individual electrical components comprising the power regulation and solar and battery management control. The external microphone, antenna, solar petals, batteries, and Android phone will remain the same. A view inside of the device is shown in Figure \ref{fig:device_inside}.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{device}
-  \caption{RFCx President Topher White installing an existing device in the rainforests of Borneo}
-  \label{fig:device}
+  \includegraphics[width=0.8\textwidth]{device_inside}
+  \caption{Inside of a device: Android phone, batteries, and various electrical components. Some solar charge controller PCBs can be seen in red at the bottom of the enclosure}
+  \label{fig:device_inside}
 \end{figure}
+\newpage
 
-\bigskip
-On the PCB, an ATMega328P microcontroller (\ref{fig:atmeldat}) will be used. An SPV1040 Max Point Power Tracker (MPPT)(\ref{fig:spvdat}) will be used to obtain the maximum power from the solar panels and to efficiently charge the Lithium-Ion batteries(\ref{fig:batdat}). Current and voltage measurements on both the solar panel inputs as well as the output to the batteries will be measured by using an external ADC. The ADC chosen is a low-power TI ADS1015(\ref{fig:adsdat}), which has four single-ended analog inputs, and draws as little as 150uA under worst case conditions. Two options were considered for temperature, one also providing humidity measurements. The single temperature sensor is the NXT LM75BD(\ref{fig:lm75dat}), which is a super low power temperature sensor with an accuracy of $\pm2^{\circ}C$, communicating over I2C. It uses less around 300uA during peak transmission, and costs under \$1. The combined temperature and humidity sensor is the Honeywell HIH6130(\ref{fig:hihdat}), which is a low-power sensor with 14-bit resolution for both humidity and temperature, low-current operation, from 1uA in sleep mode to under 1mA worst case draw. The HIH6130 chip also has its own internal ADC, EEPROM, and oscillator, but costs nearly \$14. The LM75BD will be used to cut costs but the HIH6130 footprint will be included but unpopulated on the final PCB as an option to the end user.  All sensor ICs communicate with the microcontroller via the I2C protocol. For communication with the Android phone, the ATMega328P serial port will be interfaced through FTDI(\ref{fig:ftdidat}) to an on-board USB connector.
+The solar panel array consists of four petals, each of which has two solar panels on it. The panels are designed and patented by RFCx to work well under low light conditions such as those under the tree canopy. A single petal produces 1.5W of power under laboratory conditions. An individual petal can be seen in Figure \ref{fig:solar_petal}
 
-On the phone, the RFCx Sentinel App monitors the incoming diagnostics, displaying them to a screen, logging them to a file, and possibly transmitting them along with the audio data to the server. The RFCx Sentinel Application was developed for this project.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{solar_petal}
+  \caption{A single solar petal consisting of two panels. Each panel is made from three strips of panel scraps left over from manufacturing at major solar panel companies, connected in series to produce a 1.5V output on each panel}
+  \label{fig:solar_petal}
+\end{figure}
+\newpage
 
+In regards to device enhancements, the principal objective of Project Necromancer is to merge all of the external electronics into a custom printed circuit board. This involves integrating the regulation circuitry and photovoltaic battery charge controller into a single board, and also introducing sensors for temperature, humidity, and power, a microcontroller, and other supporting electronics. The power, temperature, and humidity diagnostics will be sent from the microcontroller to the Android phone via a USB connection. Relaying the collected diagnostic data to the server is possible with the existing framework but is outside of the scope of this project. Instead, the collected data will be displayed for testing and verification purposes. A block diagram of the designed system is shown below in Figure \ref{fig:hldia}.
 
 \begin{figure}[H]
   \centering
@@ -174,13 +191,9 @@ On the phone, the RFCx Sentinel App monitors the incoming diagnostics, displayin
   \caption{High Level Functional Diagram of the Major Components}
   \label{fig:hldia}
 \end{figure}
+\newpage
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.8\textwidth]{DeviceDesign}
-%   \caption{3D Rendering of Final Device Design: Shows the relative placement of the phone and PCB inside of the enclosure}
-%   \label{fig:devdesign}
-% \end{figure}
+On the phone, an app called RFCx Sentinel monitors the incoming diagnostics, displaying them to a screen, logging them to a file, and perhaps in the future transmitting them along with the audio data to the server. The RFCx Sentinel Application was developed by our team for the purpose of this project. An actual screenshot of the Sentinel application receiving data from a microcontroller is shown below in Figure \ref{fig:sentscrn}. In addition, although outside of the scope of this project, different audio compression schemes may be investigated if time allows.
 
 \begin{figure}[H]
 	\centering
@@ -188,22 +201,34 @@ On the phone, the RFCx Sentinel App monitors the incoming diagnostics, displayin
 	\caption{Actual RFCx Sentinel App Screenshot}
 	\label{fig:sentscrn}
 \end{figure}
+\newpage
+
+%@TODO Introduce and display this figure (although we really should use a different angle here...)
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{DeviceDesign}
+%   \caption{3D Rendering of Final Device Design: Shows the relative placement of the phone and PCB inside of the enclosure}
+%   \label{fig:devdesign}
+% \end{figure}
+
 \section{Requirements and Functional Specifications} \label{sect:requirementsandspec}
+This section is organized by external and internal interfaces, with subsections in each for both hardware and software requirements.
+
 \subsection{External Interfaces Requirements} \label{sect:externinterface}
-This section addresses the requirements of the enhanced device pertaining to its external interfaces. External interfaces are defined as components of the device interacting with something outside of the device enclosure.
+This section addresses the requirements of the enhanced device pertaining to its external interfaces. External interfaces are defined as components of the device interacting with something outside of the device enclosure, including the antenna, microphone, solar panels, and GSM data communication. The possibility of compression is included under external interfaces because it directly relates to the sending of data outside of the device to the server.
+
 \subsubsection{Hardware} \label{sect:hardware1}
 \begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{Requirement \thesubsubsection.\arabic*.}, itemindent=0em]
 
 \item \label{HWa} The device shall not exceed the existing power consumption and should reduce power consumption by at least 10\%.
-\item \label{HWb} The interface with the phone shall consist of a USB connection for power and data, a microphone connection via the standard audio jack, and a connection to the external antenna.
-\item \label{HWc} The interface with the phone shall consist of a USB connection for power and data, a microphone connection via the standard audio jack, and a connection to the external antenna.
+\item \label{HWb} The interface with the phone shall consist of a USB connection for power and data, a 3.5mm microphone connection via the standard audio jack, and a connection to the external antenna via the existing antenna cable.
+\item \label{HWc}The device shall use the existing external microphone and antennae
 \item \label{HWd} Shielding techniques should be investigated to reduce the GSM audio interference noted by Topher White in the audio recordings.
-\item \label{HWe} The microphone shall be interfaced via the standard audio jack on the Android phone.
 \item \label{HWf} Camouflage color scheme may be used to conceal the device from loggers.  Additional camouflage features may be added so long as those features do not cover the solar panels.
 \item \label{HWg} A simple assembly process shall be well documented with illustrations.
 
 \baselinestretch
-To verify \ref{HWg}. a sample group of people with varying skill levels will be asked to provide feedback on the assembly process and will be timed.
+To verify \ref{HWg}. a sample group of people with varying skill levels will be asked to provide feedback on the assembly process and will be timed. The assembly times will be compared with current assembly times.
 
 \item \label{HWh} The assembly and installation documentation may be translated into Spanish, French, and/or Portuguese.
 \end{enumerate}
@@ -216,7 +241,8 @@ To verify \ref{SWa}, audio will be recorded and compressed using multiple algori
 \end{enumerate}
 
 \subsection{Internal Device Requirements} \label{sect:internaldev}
-This section addresses the requirements of the enhanced device pertaining to its internal interfaces and software. Internal here is defined as anything inside of the device enclosure.
+This section addresses the requirements of the enhanced device pertaining to its internal interfaces and software. Internal here is defined as anything inside of the device enclosure, including but not limited to the Android phone, batteries, custom PCB, and supporting electronics.
+
 \subsubsection{Hardware} \label{sect:hardware2}
 \begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{Requirement \thesubsubsection.\arabic*.}, itemindent=0em]
 \item \label{HW1}The PCB shall consist of battery management circuitry, the power regulation circuitry, power interface to the phone, power monitoring circuitry, as well as the microphone interface.
@@ -224,8 +250,7 @@ This section addresses the requirements of the enhanced device pertaining to its
 \baselinestretch
 To verify \ref{HW1}, SPICE will be used to simulate the power charging circuitry to obtain power consumption and efficiency calculations. The manufactured and assembled board will then be subjected to a load test in a lab setting.
 
-\item \label{HW2}The device shall use the existing external microphone and antennae
-\item \label{HW3}There should be a low power microcontroller included on the PCB that communicates with the Android phone. This will be used to monitor power consumption and provide external control of peripherals through the Android Debug Bridge protocol over USB. Extra general purpose IO pins of the microcontroller should be easily accessible for interfacing with future hardware.
+\item \label{HW3}There should be a low power microcontroller included on the PCB that communicates with the Android phone, sending it diagnostic information about components on the PCB. This will be used to monitor power consumption and provide external control of peripherals through the Android Debug Bridge protocol over USB. Extra general purpose pins of the microcontroller should be easily accessible for interfacing with future hardware.
 
 \baselinestretch
 To verify \ref{HW3}, simple packets will be sent from the microcontroller to the phone. These packets can be verified with debug tools or simple programs on the microcontroller and the phone. A debug serial port may be included as a peripheral to the microcontroller to aid in debugging. Any analog values read by the microcontroller will be verified with shop equipment.
@@ -241,11 +266,12 @@ To verify \ref{HW3}, simple packets will be sent from the microcontroller to the
 \item \label{SW4}There shall be a header on the PCB to program to reprogram the microcontroller.
 \end{enumerate}
 
-\section{System Architecture} \label{sect:sysarch}
-\subsection{Hardware Specifications} \label{sect:hardwarespec}
-\textbf{PCB}
+%@TODO This should come AFTER the requirements and specifications and before the design section
+\section{Component Justification} \label{sect:justification}
+This section describes each component of the PCB in detail and gives justifications for their selection and a discussion of alternative choices that were considered.
 
-The following is a list of the main IC’s that make up the design of this PCB
+\bigskip
+The following is a list of the main ICs that comprise the PCB:
 \begin{description}[font=$\bullet$\scshape\bfseries]
 \item[Atmel ATMega328P]: 8-bit AVR microcontroller
 \item[SPV1040 Max Point Power Tracker]: Solar power controller and lithium-ion battery charger
@@ -260,6 +286,62 @@ The following is a list of the main IC’s that make up the design of this PCB
 \item[LTC4412]: Low loss powerpath controller
 \end{description}
 
+\subsection{Microcontroller} \label{sect:micro_just}
+The ATmega328P microcontroller was chosen as the microcontroller for the PCB. Many aspects were considered when choosing a microcontroller, including power consumption, available interfaces, availability of code samples, community support, ease of programming, and package size.
+
+\bigskip
+To this end, the ATmega328P is a logical choice; it is the microcontroller used by the popular Arduino platform, which means there are a multitude of code samples to reference for most any project. In addition, the 328P has a pico-power deep sleep mode, which consumes under 0.1$\mu$A of current. Unlike many options, the 328P has an easy to solder TQFP package. It is also is easily programmed by the use of an ICSP interface and does not require expensive hardware programmers or debuggers.
+
+\bigskip
+USB communication was another concern when choosing a microcontroller. Similar MCUs that included on-board USB interfaces were also considered, but none could be found that offered the simple package, deep sleep mode, and I2C communication. I2C communication is needed to communicate with the analog-to-digital converter and temperature/humidity sensors.
+
+\subsection{MPPT} \label{sect:mppt_just}
+The SPV1040 Max Point Power Tracker (MPPT) was chosen to perform the solar charge management. A driving factor in choosing the SPV1040 was that RFCx had already established a supplier and had many on-hand to ship us for prototyping. In addition, it has the advantage of being simpler to use than similar chips, like the Solar Magic SM72442, in that no I2C communication is necessary to set and configure registers to perform the same function.
+
+\subsection{MPPT Configuration} \label{sect:mppt_config_just}
+The MPPT configuration makes a large difference in many aspects of the selection of other components. First, each MPPT can only handle 1.8A of current. Also, the input voltage of each MPPT must be much less than the desired output voltage for them to function properly. Depending on the configuration, the number of MPPT ICs can vary from 1 to 8, increasing cost, and the voltage and current characterstics vary depending on whether they are connected in series or in parallel.
+
+\bigskip
+The following figure (Figure \ref{fig:mppt_config2}) describes the chosen MPPT configuration. In this configuration, each petal, which consists of two 1.5V panels, has its panels connected in series, giving an output of 3.0V, at 1.5W. This results in a current of 500mA for each MPPT, which is well below the maximum. Each petal (four total) is then connected to its own MPPT, which is set to boost to 5.2V. The MPPTs are then connected in parallel.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{mppt_config2}
+  \caption{Four MPPTs are connected in parallel with the input being the series connection of each panel within a single petal}
+  \label{fig:mppt_config2}
+\end{figure}
+
+This configuration offers many benefits. First, the panels on a single petal can be either connected in series or in parallel. Since the SPV1040 can handle up to 1.8A, even when connected in parallel the petal will only produce a maximum of 1A. The input voltage to the MPPT can be either 1.5V (panels in parallel) or 3.0V (series), and the MPPT's internal boost regulator will still produce 5.2V. This allows for testing configurations where all petals have their panels connected in parallel, all in seriese, or a combination of both under different lighting conditions to see which performs the best without modifying the PCB in any way.
+
+\bigskip
+In addition, this configuration localizes the power tracking to an individual petal. Rather than maximizing the entire array, localizing to each petal allows for some petals to be in direct sunlight while others are in shade and each MPPT will react accoringly.
+
+\bigskip
+Furthermore, this configuration could be easily adapted to using less MPPTs if needed (to reduce cost, for example). To use two MPPTs, for example, instead of four, two of the ICs would simply not be populated and pairs of petals would be connected in parallel externally and connected to the two populated MPPTs.
+
+\bigskip
+Finally, as required by the SPV1040, the input voltage will always be much less than the output in this configuration. The input voltage will be either 1.5V (parallel panels) or 3.0V (series), well below the 5.2V output.
+
+\subsection{ADC} \label{sect:adc_just}
+
+\subsection{Temperature and Humidity Sensor} \label{sect:temp_just}
+
+\subsection{FTDI} \label{sect:ftdi_just}
+
+\subsection{Battery Management} \label{sect:battery_just}
+
+\subsection{Power Management} \label{sect_pow_just}
+
+\subsection{Power Regulation} \label{sect:reg_just}
+
+\subsection{Current Sensing} \label{sect:cur_just}
+
+
+% This paragraph is pure design and should be in the design section
+% On the PCB, an ATMega328P microcontroller (Appendix \ref{fig:atmeldat}) will be used. An SPV1040 Max Point Power Tracker (MPPT)(Appendix \ref{fig:spvdat}) will be used to obtain the maximum power from the solar panels and to efficiently charge the Lithium-Ion batteries(Appendix \ref{fig:batdat}). Current and voltage measurements on both the solar panel inputs as well as the output to the batteries will be measured by using an external ADC. The ADC chosen is a low-power TI ADS1015(Appendix \ref{fig:adsdat}), which has four single-ended analog inputs, and draws as little as 150uA under worst case conditions. Two options were considered for temperature, one also providing humidity measurements. The single temperature sensor is the NXT LM75BD(Appendix \ref{fig:lm75dat}), which is a super low power temperature sensor with an accuracy of $\pm2^{\circ}C$, communicating over I2C. It uses less around 300uA during peak transmission, and costs under \$1. The combined temperature and humidity sensor is the Honeywell HIH6130(Appendix \ref{fig:hihdat}), which is a low-power sensor with 14-bit resolution for both humidity and temperature, low-current operation, from 1uA in sleep mode to under 1mA worst case draw. The HIH6130 chip also has its own internal ADC, EEPROM, and oscillator, but costs nearly \$14. The LM75BD will be used to cut costs but the HIH6130 footprint will be included but unpopulated on the final PCB as an option to the end user.  All sensor ICs communicate with the microcontroller via the I2C protocol. For communication with the Android phone, the ATMega328P serial port will be interfaced through FTDI(Appendix \ref{fig:ftdidat}) to an on-board USB connector.
+
+\section{System Design} \label{sect:sysarch}
+\subsection{Hardware} \label{sect:hardwarespec}
 \subsubsection{Hardware Design} \label{sect:hardwaredesign}
 
 \textbf{Power Sources}
@@ -386,7 +468,7 @@ Multiple alternatives were explored for dissipating heat built up in the enclosu
 \textbf{Heat Sink}
 A heat sink, as described in Section \ref{sect:hardwaredesign} is shown in Figure 1.4.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heat sink may pass through.  The shape of the heat sink will be optimized for reduced interior air temperature through heat transfer calculations.
 
-\subsection{Software Specifications} \label{sect:softwarespec}
+\subsection{Software} \label{sect:softwarespec}
 The software used in the design will consists of C and C++ code running on the ATMega328P microcontroller, as well as a companion app (RFCx Sentinel) written in Java, running on the Android phone.
 \begin{figure}[H]
 	\centering
