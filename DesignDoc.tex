@@ -266,9 +266,10 @@ To verify \ref{HW3}, simple packets will be sent from the microcontroller to the
 \item \label{SW4}There shall be a header on the PCB to program to reprogram the microcontroller.
 \end{enumerate}
 
-%@TODO This should come AFTER the requirements and specifications and before the design section
 \section{Component Justification} \label{sect:justification}
 This section describes each component of the PCB in detail and gives justifications for their selection and a discussion of alternative choices that were considered.
+
+%@TODO Add references to the datasheets for the list as well as all references inside the justifications
 
 \bigskip
 The following is a list of the main ICs that comprise the PCB:
@@ -317,25 +318,55 @@ This configuration offers many benefits. First, the panels on a single petal can
 In addition, this configuration localizes the power tracking to an individual petal. Rather than maximizing the entire array, localizing to each petal allows for some petals to be in direct sunlight while others are in shade and each MPPT will react accoringly.
 
 \bigskip
-Furthermore, this configuration could be easily adapted to using less MPPTs if needed (to reduce cost, for example). To use two MPPTs, for example, instead of four, two of the ICs would simply not be populated and pairs of petals would be connected in parallel externally and connected to the two populated MPPTs.
+Furthermore, this configuration could be easily adapted to using less MPPTs if needed (to reduce cost, for example). To use two MPPTs, for example, instead of four, two of the ICs would simply not be populated and pairs of petals would be connected in parallel externally and connected to the two populated MPPTs. This is shown in Figure \ref{fig:mppt_config_3}.
 
 \bigskip
 Finally, as required by the SPV1040, the input voltage will always be much less than the output in this configuration. The input voltage will be either 1.5V (parallel panels) or 3.0V (series), well below the 5.2V output.
 
+\bigskip
+Two other configurations that were considered are shown below. In the first alterate configuration, in Figure \ref{fig:mppt_config1}, two pairs of MPPTs connected in series are then connected in parallel. This has many drawbacks, including requiring a higher output voltage when it is not needed, and requiring the use of diodes to prevent current from backfeeding into the other MPPTs.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{mppt_config2}
+  \caption{Two pairs of MPPTs are first connected in series, then in parallel, requiring the use of feedback diode protection and resulting in a higher than needed output voltage which must then be bucked down}
+  \label{fig:mppt_config1}
+\end{figure}
+
+The second alternate configuration, in Figure \ref{fig:mppt_config3}, is really the same as the chosen one, but using two MPPTs instead of four as described above.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{mppt_config2}
+  \caption{Chosen configuration but with two MPPTs instead of four. Results in less control but saves the cost of two ICs and the supporting circuitry of each}
+  \label{fig:mppt_config3}
+\end{figure}
+
 \subsection{ADC} \label{sect:adc_just}
+The ADS1015 external ADC was chosen to perform analog-to-digital conversions for the power sensing. The ATmega328P does not have a strong internal ADC, being only 10-bit resolution, and the ADS1015 is easy to communicate with via I2C. In addition, I2C supports multiple devices in parallel, so only two of the ATmega328P's six analog pins are used. This frees the other four for future use. The ADS1015 consumes less than 150$\mu$A, has 12-bit resolution, and supports four single-ended analog inputs, which will be used to monitor input current, input voltage, output current, and output voltage on the PCB.
 
 \subsection{Temperature and Humidity Sensor} \label{sect:temp_just}
+The LM75BD was chosen as the temperature sensor.  The LM75 is a super low power temperature sensor with an accuracy of $\pm2^{\circ}C$. It uses less than 300uA during peak transmission, and costs under \$1.
+
+\bigskip
+An alternative sensor prodiving both temperature and humidity measurements, the HIH6130, was also considered. Also using I2C and also being low-power, the only real drawback is the price, at nearly \$14. For this reason the LM75BD was chosen, but the footprint for the HIH6130 will be included but unpopulated on the board as an option to the end user.
+
+Other lower-cost humidity and temperature sensors were investigated, such as the DHT11 and DHT22. The DHT11 is affordable, at around \$5, but has a limited range of 0-50$^{\circ}C$. The DHT22 has the range required and is accurate, but costs almost as much as as the HIH6130 at around \$9. Both the DHT11 and DHT22 are not I2C, but rather use the one-wire-interface which requires elaborate timing to get the correct data, and take up another pin on the microcontroller. In addition, Adafruit and Amazon were the only places that stock the DHT22, neither of which offer the reliability or quantity of sources like Digikey or Mouser.
 
 \subsection{FTDI} \label{sect:ftdi_just}
+The FT230X FTDI chip was chosen for the UART to USB interface between the microcontroller and the Android phone. FTDI is widely used and supported, and, unlike similar devices like the Arduino's CDCACM, does not require another microcontroller to be added, configured, and flashed with software. In addition, the RFCx Sentinel application, which uses the open source usb-serial-for-android library, readily supports FTDI. Serial USB communication has already been achieve using an ATmega328P MCU, a similar FTDI chip, and the Sentinel app.
 
 \subsection{Battery Management} \label{sect:battery_just}
+%@TODO Jesse: Choice of battery management IC and justification for doing it at all (also describe that we have two dual-cell batteries and that the current platform is meant for single-cell Li-ion batteries)
 
 \subsection{Power Management} \label{sect_pow_just}
+%@TODO Jesse: Choice of Low Loss Power Path thingy
 
 \subsection{Power Regulation} \label{sect:reg_just}
+%@TODO Jesse: Choice of boost/buck regulators
 
 \subsection{Current Sensing} \label{sect:cur_just}
-
+The LTC6800 instrumentation opamp was chosen to perform current sensing. A sense resistor value of 0.010 was chosen. 
 
 % This paragraph is pure design and should be in the design section
 % On the PCB, an ATMega328P microcontroller (Appendix \ref{fig:atmeldat}) will be used. An SPV1040 Max Point Power Tracker (MPPT)(Appendix \ref{fig:spvdat}) will be used to obtain the maximum power from the solar panels and to efficiently charge the Lithium-Ion batteries(Appendix \ref{fig:batdat}). Current and voltage measurements on both the solar panel inputs as well as the output to the batteries will be measured by using an external ADC. The ADC chosen is a low-power TI ADS1015(Appendix \ref{fig:adsdat}), which has four single-ended analog inputs, and draws as little as 150uA under worst case conditions. Two options were considered for temperature, one also providing humidity measurements. The single temperature sensor is the NXT LM75BD(Appendix \ref{fig:lm75dat}), which is a super low power temperature sensor with an accuracy of $\pm2^{\circ}C$, communicating over I2C. It uses less around 300uA during peak transmission, and costs under \$1. The combined temperature and humidity sensor is the Honeywell HIH6130(Appendix \ref{fig:hihdat}), which is a low-power sensor with 14-bit resolution for both humidity and temperature, low-current operation, from 1uA in sleep mode to under 1mA worst case draw. The HIH6130 chip also has its own internal ADC, EEPROM, and oscillator, but costs nearly \$14. The LM75BD will be used to cut costs but the HIH6130 footprint will be included but unpopulated on the final PCB as an option to the end user.  All sensor ICs communicate with the microcontroller via the I2C protocol. For communication with the Android phone, the ATMega328P serial port will be interfaced through FTDI(Appendix \ref{fig:ftdidat}) to an on-board USB connector.
