@@ -12,19 +12,19 @@
 \contentsline {subsection}{\numberline {4.2}MPPT}{11}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}MPPT Configuration}{11}{subsection.4.3}
 \contentsline {subsection}{\numberline {4.4}ADC}{13}{subsection.4.4}
-\contentsline {subsection}{\numberline {4.5}Temperature and Humidity Sensor}{14}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.5}Temperature and Humidity Sensor}{13}{subsection.4.5}
 \contentsline {subsection}{\numberline {4.6}FTDI}{14}{subsection.4.6}
 \contentsline {subsection}{\numberline {4.7}Battery Management}{14}{subsection.4.7}
 \contentsline {subsection}{\numberline {4.8}Power Management}{14}{subsection.4.8}
 \contentsline {subsection}{\numberline {4.9}Power Regulation}{14}{subsection.4.9}
 \contentsline {subsection}{\numberline {4.10}Current Sensing}{14}{subsection.4.10}
-\contentsline {section}{\numberline {5}System Design}{15}{section.5}
-\contentsline {subsection}{\numberline {5.1}Hardware}{15}{subsection.5.1}
-\contentsline {subsubsection}{\numberline {5.1.1}Hardware Design}{15}{subsubsection.5.1.1}
+\contentsline {section}{\numberline {5}System Design}{14}{section.5}
+\contentsline {subsection}{\numberline {5.1}Hardware}{14}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}Hardware Design}{14}{subsubsection.5.1.1}
 \contentsline {subsubsection}{\numberline {5.1.2}Hardware Implementation}{19}{subsubsection.5.1.2}
 \contentsline {subsection}{\numberline {5.2}Software}{19}{subsection.5.2}
 \contentsline {subsubsection}{\numberline {5.2.1}Software Design}{19}{subsubsection.5.2.1}
-\contentsline {subsubsection}{\numberline {5.2.2}Software Implementation}{19}{subsubsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.2}Software Implementation}{20}{subsubsection.5.2.2}
 \contentsline {section}{\numberline {6}Verification}{20}{section.6}
 \contentsline {subsection}{\numberline {6.1}Hardware Verification}{20}{subsection.6.1}
 \contentsline {subsection}{\numberline {6.2}Software Verification}{20}{subsection.6.2}
@@ -32,12 +32,12 @@
 \contentsline {section}{\numberline {8}Project Budget and Schedule}{21}{section.8}
 \contentsline {subsection}{\numberline {8.1}Budget}{21}{subsection.8.1}
 \contentsline {section}{\numberline {9}Schedule}{21}{section.9}
-\contentsline {section}{Appendicies}{22}{section*.25}
-\contentsline {section}{\numberline {A}Electrical Schematics}{23}{appendix.A}
-\contentsline {section}{\numberline {B}Bill Of Materials}{35}{appendix.B}
-\contentsline {section}{\numberline {C}Mechanical Drawings}{37}{appendix.C}
-\contentsline {section}{\numberline {D}Calculations}{38}{appendix.D}
-\contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calculations}{38}{subsection.D.1}
-\contentsline {subsection}{\numberline {D.2}Current and Voltage Sensing}{39}{subsection.D.2}
-\contentsline {section}{\numberline {E}Data Sheet Snippets}{40}{appendix.E}
-\contentsline {section}{\numberline {F}Source Code}{53}{appendix.F}
+\contentsline {section}{Appendicies}{23}{section*.25}
+\contentsline {section}{\numberline {A}Electrical Schematics}{24}{appendix.A}
+\contentsline {section}{\numberline {B}Bill Of Materials}{36}{appendix.B}
+\contentsline {section}{\numberline {C}Mechanical Drawings}{38}{appendix.C}
+\contentsline {section}{\numberline {D}Calculations}{39}{appendix.D}
+\contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calculations}{39}{subsection.D.1}
+\contentsline {subsection}{\numberline {D.2}Current and Voltage Sensing}{40}{subsection.D.2}
+\contentsline {section}{\numberline {E}Data Sheet Snippets}{41}{appendix.E}
+\contentsline {section}{\numberline {F}Source Code}{54}{appendix.F}

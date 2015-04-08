@@ -307,7 +307,7 @@ The following figure (Figure \ref{fig:mppt_config2}) describes the chosen MPPT c
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{mppt_config2}
+  \includegraphics[width=0.8\textwidth]{MPPTConfig2}
   \caption{Four MPPTs are connected in parallel with the input being the series connection of each panel within a single petal}
   \label{fig:mppt_config2}
 \end{figure}
@@ -328,7 +328,7 @@ Two other configurations that were considered are shown below. In the first alte
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{mppt_config2}
+  \includegraphics[width=0.8\textwidth]{MPPTConfig1}
   \caption{Two pairs of MPPTs are first connected in series, then in parallel, requiring the use of feedback diode protection and resulting in a higher than needed output voltage which must then be bucked down}
   \label{fig:mppt_config1}
 \end{figure}
@@ -337,7 +337,7 @@ The second alternate configuration, in Figure \ref{fig:mppt_config3}, is really 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{mppt_config2}
+  \includegraphics[width=0.8\textwidth]{MPPTConfig3}
   \caption{Chosen configuration but with two MPPTs instead of four. Results in less control but saves the cost of two ICs and the supporting circuitry of each}
   \label{fig:mppt_config3}
 \end{figure}
@@ -377,6 +377,7 @@ The LTC6800 instrumentation opamp (Appendix \ref{fig:ltc6800dat}) was chosen to 
 The system is powered from eight solar cells that have been manufactured by RFCx. These solar panels have been reported to have an open circuit voltage of 1.6V and produce an average of 0.75W each under laboratory conditions. The other power sources on board are two dual-cell 4400mA/Hr lithium-ion (Li-ion) battery packs. As discussed in the MPPT configuration justification, the solar panels will be configured in a way that a pair on an individual petal may be wired in either series or parallel. The pairs will be wired how the end user would like them and the remaining wires will be connected to a terminal block with screw/leaf spring wire termination on the PCB board, which will be powering the MPPT controllers. This is illustrated in the figure \ref{fig:mpptsol}.
 
 %@TODO Jesse: Spelling correction: 'pedal#' needs to be 'petal#' for all the solar petals in the MPPT schematic
+%@TODO Jesse: Learn to spell
 
 \begin{figure}[H]
 	\centering
@@ -397,7 +398,7 @@ The two dual-cell Lithium-Ion batteries are each managed by a BQ2057CTS. The fol
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{BatteryManage}
+	\includegraphics[width=0.7\textwidth]{BatteryManage}
 	\caption{Battery Management Circuitry}
 	\label{fig:batman}
 \end{figure}
@@ -409,7 +410,7 @@ The calculations for the component selection for the battery management circuitr
 A diode-ORed power path management circuit was used to switch the power source that feeds the 3.3V and 5V regulation circuitry. This circuit is shown below in Figure \ref{fig:dored}. %@TODO Jesse: Describe this design in greater detail
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{DiodeOR}
+	\includegraphics[width=0.6\textwidth]{DiodeOR}
 	\caption{Diode Ored Circuit}
 	\label{fig:dored}
 \end{figure}
@@ -418,7 +419,7 @@ This circuit provides power path switching in under 100 $\mu$s, and there is vir
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{DiodeORSIM}
+	\includegraphics[width=0.6\textwidth]{DiodeORSIM}
 	\caption{Simulation of Diode Ored Circuit}
 	\label{fig:doredsim}
 \end{figure}
@@ -429,7 +430,7 @@ The two circuits were simulated with LTSpice. The same diode and transistor were
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{DiodeORres1}
+	\includegraphics[width=0.6\textwidth]{DiodeORres1}
 	\caption{Simulation Result of Old Diode Ored Circuit}
 	\label{fig:doredsimres1}
 \end{figure}
@@ -438,7 +439,7 @@ The two circuits were simulated with LTSpice. The same diode and transistor were
 It can be seen that as the panel voltage is rising, there is a considerable dip to around 3.0V. If this occured, the 3.3V linear drop out regulator would not be able to regulate properly and the 3.3V line would be deactivated. The diode-ored controller topology simulation result can be seen in the following figure.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{DiodeORres2}
+	\includegraphics[width=0.6\textwidth]{DiodeORres2}
 	\caption{Simulation Result of Current Diode Ored Circuit}
 	\label{fig:doredsimres2}
 \end{figure}
@@ -455,7 +456,7 @@ The LM61428 is a step-up voltage regulator that is configured to boost the input
 The calculations for the surrounding components can be seen in Appendix \ref{fig:calc???}. The layout of the 5V boost regulator can be seen in the following figure.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{PS5V}
+	\includegraphics[width=0.6\textwidth]{PS5V}
 	\caption{5V Voltage Regulation}
 	\label{fig:ps5}
 \end{figure}
