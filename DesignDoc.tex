@@ -267,7 +267,7 @@ To verify \ref{HW3}, simple packets will be sent from the microcontroller to the
 \end{enumerate}
 
 \section{Component Justification} \label{sect:justification}
-This section describes each component of the PCB in detail and gives justifications for their selection and a discussion of alternative choices that were considered. Two main concerns for every component is packaging and power consumption. There should be no component that the end user can not fix to the PCB without common soldering equipment. Power consumption is a major concern as the device is meant to be located in a remote area and powered by batteries and solar power. 
+This section describes each component of the PCB in detail and gives justifications for their selection and a discussion of alternative choices that were considered. Two main concerns for every component is packaging and power consumption. There should be no component that the end user can not fix to the PCB without common soldering equipment. Power consumption is a major concern as the device is meant to be located in a remote area and powered by batteries and solar power.
 
 %@TODO Add references to the datasheets for the list as well as all references inside the justifications
 
@@ -363,7 +363,7 @@ Battery management is important for the ability to reclaim and potentially fix a
 To manage the power selection between the solar panels and the batteries, a power path management solution was required. This was required because while the batteries are being charged the rest of the circuit should not draw from them. If the rest of the circuit draws from them while they are being charged, the battery charge management IC could get confused and damage the batteries by over charging or under charging. A diode-ORed configuration, in which power sources are ORed together via a near ideal diode($0.02V_f$), selects the source with the higher voltage. The LTC4412 (Appendix \ref{fig:ltc4412dat}) was chosen to perform this power path management. The ideal diodes are implemented externally with a FZT788B P-Channel MOSFET (Appendix \ref{fig:ftzdat}). This IC also has a very low quiescent current, below $1.15\mu A$.
 
 \subsection{Power Regulation} \label{sect:reg_just}
-The LMR61428(Appendix \ref{fig:lmrdat}) Step-Up Voltage regulator was chosen because of its price, package, and performance. It is important for all of the ICs on this board to be in a package that the end user can assemble with without the aid of more advanced PCB assembly equipment such as solder paste/stencils and ovens. This means that they can not be in packages where there are pins underneath or too small to place with tweazers. The operation requirements for the LMR61428 where with in the worst case behavior for the feeding circuitry. Some of the other buck/boost controllers required a much higher input voltage when the load current was around 500mA. The LMR61428 requires less than 2V, which is possible even when drawing from the batteries. Since this is design is for a remote device powered from batteries and solar power, quiecent current is a concern as well. The LM61428 only draws 80mA when in the operating mode. 
+The LMR61428(Appendix \ref{fig:lmrdat}) Step-Up Voltage regulator was chosen because of its price, package, and performance. It is important for all of the ICs on this board to be in a package that the end user can assemble with without the aid of more advanced PCB assembly equipment such as solder paste/stencils and ovens. This means that they can not be in packages where there are pins underneath or too small to place with tweazers. The operation requirements for the LMR61428 where with in the worst case behavior for the feeding circuitry. Some of the other buck/boost controllers required a much higher input voltage when the load current was around 500mA. The LMR61428 requires less than 2V, which is possible even when drawing from the batteries. Since this is design is for a remote device powered from batteries and solar power, quiecent current is a concern as well. The LM61428 only draws 80mA when in the operating mode.
 
 \subsection{Current Sensing} \label{sect:cur_just}
 The LTC6800 precision instrumentation amplifier (Appendix \ref{fig:ltc6800dat}) was chosen to perform current sensing. This instrumentation amplifier operates rail-to-rail on the input and output, which provides a larger window to sense the voltage across the sense resistor. A sense resistor value of 0.010$\Omega$ was chosen to provide minimal power dissipation. Although very small, since the leakage current into the opamp is also extremely small (on the order of 1nA), the trace resistance, which is approximately 0.035$\Omega$, is not a concern. The LTC6800 also draws very little current. Under no load the LTC6800 draws a maximum of 1.3mA.
@@ -390,7 +390,7 @@ A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current a
 
 \subsubsection{Battery Management}
 
-The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with resistor \textit{R24}. Only the lower temperature bound is set here because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R10} and \textit{R22}. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance. 
+The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with resistor \textit{R24}. Only the lower temperature bound is set here because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R10} and \textit{R22}. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
 
 \begin{figure}[H]
 	\centering
@@ -402,7 +402,7 @@ The calculations for the component selection for the battery management circuitr
 
 \subsubsection{Voltage Regulation}
 
-A diode-ORed power path management circuit was used to switch the power source that feeds the 3.3V and 5V regulation circuitry. This circuit is shown in figure \ref{fig:dored}. 
+A diode-ORed power path management circuit was used to switch the power source that feeds the 3.3V and 5V regulation circuitry. This circuit is shown in figure \ref{fig:dored}.
 %@TODO Jesse: Describe this design in greater detail
 \begin{figure}[H]
 	\centering
@@ -464,7 +464,7 @@ A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.
 
 \subsubsection{Input and Output Current and Voltage Sensing}
 
-The ADS1015 is a 12-bit ADC that can communicate over I2C with the microcontroller. This ADC will operate in single shot mode and then go back to sleep. The ADS1015 uses a $\delta\sigma$ ADC and can perform conversions at rates up to 3300 samples per second. The microcontroller will initiate a conversion over I2C and be able to send the diagnostic to the phone for further processing. 
+The ADS1015 is a 12-bit ADC that can communicate over I2C with the microcontroller. This ADC will operate in single shot mode and then go back to sleep. The ADS1015 uses a $\delta\sigma$ ADC and can perform conversions at rates up to 3300 samples per second. The microcontroller will initiate a conversion over I2C and be able to send the diagnostic to the phone for further processing.
 
 The LTC6800 instrumentation amplifier is used to sense the voltage across a known sense resistor. The input current sense circuit is configured to have a gain of around 80.5. The sense resistor has been selected to be 0.01$\Omega$. With this configuration the ADC will be able to sense the current with a resolution of 1mA/bit. The calculations for this section can be seen in Appendix \ref{fig:calc???}. The configuration of the current sense amplifier can be seen in Figure \ref{fig:AV} below. The input and output voltage are sensed with simple resistor dividers that are fed to the ADC.
 \begin{figure}[H]
@@ -481,7 +481,7 @@ Three other microcontrollers were considered. Two ARM M0+ low power micro contro
 
 \subsubsection{Temperature and Humidity}
 
-A temperature sensor (LM75BD, \ref{fig:lm75dat}) and a humidity/temperature sensor(HIH6130, \ref{fig:hihdat}) will be included on the board. Both of these interfaces are supplied but not intended to be populated at the same time. The purpose for providing a choice is because the available I2C humidity sensors seem to be around the \$15 range. This is a little expensive to include on every device but the end user may want to include the humidity sensor on some of the devices and only sense temperature. The schematic connections of the two ICs is shown in Figure \ref{fig:tandh}. 
+A temperature sensor (LM75BD, \ref{fig:lm75dat}) and a humidity/temperature sensor(HIH6130, \ref{fig:hihdat}) will be included on the board. Both of these interfaces are supplied but not intended to be populated at the same time. The purpose for providing a choice is because the available I2C humidity sensors seem to be around the \$15 range. This is a little expensive to include on every device but the end user may want to include the humidity sensor on some of the devices and only sense temperature. The schematic connections of the two ICs is shown in Figure \ref{fig:tandh}.
 
 %@TODO Jesse: Describe the design of the circuit and interaface with MCU, etc. Reference the ranges of the devices and that they fit within our required range
 
@@ -492,11 +492,10 @@ A temperature sensor (LM75BD, \ref{fig:lm75dat}) and a humidity/temperature sens
 	\label{fig:tandh}
 \end{figure}
 
-The LM75BD can sense temperature with a resolution of $0.125^{\circ}C$ and up to $+125^{\circ}C$. This resolution and temperature operating range is well withing the environmental conditions that the device is intended to operate in. 
-The HIH6130 is a I2C capable humidity and temperature sensor can operate in the temperature range of $-25^{\circ}C$ to $85^{\circ}C$ and humidity in the range $\pm5 \%RH$. These ranges and limits are also within the ranges foreseen in the intended rain forest environment. 
+The LM75BD can sense temperature with a resolution of $0.125^{\circ}C$ and up to $+125^{\circ}C$. This resolution and temperature operating range is well within the environmental conditions that the device is intended to operate in.
+The HIH6130 is a I2C capable humidity and temperature sensor can operate in the temperature range of $-25^{\circ}C$ to $85^{\circ}C$ and humidity in the range $\pm5 \%RH$. These ranges and limits are also within the ranges foreseen in the intended rain forest environment.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@TODO This is as far as I got... %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%@TODO Joe: Put \bigskip before each \textbf for formatting...
 
 \subsubsection{Connectors}
 
@@ -547,7 +546,6 @@ An ATMega328P microcontroller is be used to take measurements from the sensors. 
 
 The data, once sent to the phone, is be monitored by the RFCx Sentinel app. This app is written in Java in Android Studio, and uses the open-source usb-serial-for-android library. The app opens a connection upon discovering a compatible device (FTDI is compatible), and allows the user to view a streamlined interface with relevant data, as well as a tab for the raw hex dump of incoming serial data. The data may or may not be transmitted along with audio data to the RFCx server for real-time monitoring.
 
-
 \section{Verification} \label{sect:verification}
 \subsection{Hardware Verification} \label{sect:hardwareverification}
 To verify the power consumption of the devices in \ref{HWa}. the voltage applied and current drawn by the both the enhanced device and the current device will be measured over the course of 1 hour during a realistic usage scenario. The average power will be verified to not exceed 90\% of the existing device’s usage.
@@ -597,8 +595,6 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
 
 \newpage
 \section*{Appendices}
-%@TODO Joe: Looks strange with just the work 'Appendices' on a blank page...
-%@JOE: This was done so that in the contents there is a clear starting for where the Appendices start. Otherwise it looks weird because the sections are listed as "A Electrical Schematics". I thought it was clearer if it went "Appendicies\n A Electrical Schematics" 
 \addcontentsline{toc}{section}{Appendicies}
 \newpage
 \appendix
@@ -904,7 +900,440 @@ This appendix contains the 1st sheet of the data sheets for the parts used in th
 \end{figure}
 \newpage
 \section{Source Code} \label{sect:appendixF}
-%@TODO Joe: Add RFCx Sentinel Source Code and MCU Pseudo-code (maybe...)
+\begin{lstlisting}[language=Java,label=lst:devicelist,caption=DeviceListActivity.java]
+    /**
+     * Copyright 2015 RFCx <www.rfcx.org>
+     * Copyright 2015 Grand Valley State University <www.gvsu.edu>
+     *
+     * This library is free software; you can redistribute it and/or
+     * modify it under the terms of the GNU Lesser General Public
+     * License as published by the Free Software Foundation; either
+     * version 2.1 of the License, or (at your option) any later version.
+     *
+     * This library is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     * Lesser General Public License for more details.
+     *
+     * You should have received a copy of the GNU Lesser General Public
+     * License along with this library; if not, write to the Free Software
+     * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+     * USA.
+     *
+     * Project Home Page: www.github.com/gibsjose/RFCxSentinel
+     */
+
+    package org.rfcx.sentinel;
+
+    import android.app.Activity;
+    import android.content.Context;
+    import android.hardware.usb.UsbDevice;
+    import android.hardware.usb.UsbManager;
+    import android.os.AsyncTask;
+    import android.os.Bundle;
+    import android.os.Handler;
+    import android.os.Message;
+    import android.os.SystemClock;
+    import android.util.Log;
+    import android.view.LayoutInflater;
+    import android.view.View;
+    import android.view.ViewGroup;
+    import android.widget.AdapterView;
+    import android.widget.ArrayAdapter;
+    import android.widget.ListView;
+    import android.widget.ProgressBar;
+    import android.widget.TextView;
+    import android.widget.TwoLineListItem;
+
+    import com.hoho.android.usbserial.driver.UsbSerialDriver;
+    import com.hoho.android.usbserial.driver.UsbSerialPort;
+    import com.hoho.android.usbserial.driver.UsbSerialProber;
+    import com.hoho.android.usbserial.util.HexDump;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    /**
+     * Shows a {@link ListView} of available USB devices.
+     *
+     * @author Joe Gibson (gibsjose@mail.gvsu.edu)
+     * @author Mike Wakerly (opensource@hoho.com)
+     */
+    public class DeviceListActivity extends Activity {
+
+        private final String TAG = DeviceListActivity.class.getSimpleName();
+
+        private UsbManager mUsbManager;
+        private ListView mListView;
+        private TextView mProgressBarTitle;
+        private ProgressBar mProgressBar;
+
+        private static final int MESSAGE_REFRESH = 101;
+        private static final long REFRESH_TIMEOUT_MILLIS = 5000;
+
+        private final Handler mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case MESSAGE_REFRESH:
+                        refreshDeviceList();
+                        mHandler.sendEmptyMessageDelayed(MESSAGE_REFRESH, REFRESH_TIMEOUT_MILLIS);
+                        break;
+                    default:
+                        super.handleMessage(msg);
+                        break;
+                }
+            }
+
+        };
+
+        private List<UsbSerialPort> mEntries = new ArrayList<UsbSerialPort>();
+        private ArrayAdapter<UsbSerialPort> mAdapter;
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.main);
+
+            mUsbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
+            mListView = (ListView) findViewById(R.id.deviceList);
+            mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+            mProgressBarTitle = (TextView) findViewById(R.id.progressBarTitle);
+
+            mAdapter = new ArrayAdapter<UsbSerialPort>(this,
+                    android.R.layout.simple_expandable_list_item_2, mEntries) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    final TwoLineListItem row;
+                    if (convertView == null){
+                        final LayoutInflater inflater =
+                                (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        row = (TwoLineListItem) inflater.inflate(android.R.layout.simple_list_item_2, null);
+                    } else {
+                        row = (TwoLineListItem) convertView;
+                    }
+
+                    final UsbSerialPort port = mEntries.get(position);
+                    final UsbSerialDriver driver = port.getDriver();
+                    final UsbDevice device = driver.getDevice();
+
+                    final String title = String.format("Vendor %s Product %s",
+                            HexDump.toHexString((short) device.getVendorId()),
+                            HexDump.toHexString((short) device.getProductId()));
+                    row.getText1().setText(title);
+
+                    final String subtitle = driver.getClass().getSimpleName();
+                    row.getText2().setText(subtitle);
+
+                    return row;
+                }
+
+            };
+            mListView.setAdapter(mAdapter);
+
+            mListView.setOnItemClickListener(new ListView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.d(TAG, "Pressed item " + position);
+                    if (position >= mEntries.size()) {
+                        Log.w(TAG, "Illegal position.");
+                        return;
+                    }
+
+                    final UsbSerialPort port = mEntries.get(position);
+                    showConsoleActivity(port);
+                }
+            });
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+            mHandler.sendEmptyMessage(MESSAGE_REFRESH);
+        }
+
+        @Override
+        protected void onPause() {
+            super.onPause();
+            mHandler.removeMessages(MESSAGE_REFRESH);
+        }
+
+        private void refreshDeviceList() {
+            showProgressBar();
+
+            new AsyncTask<Void, Void, List<UsbSerialPort>>() {
+                @Override
+                protected List<UsbSerialPort> doInBackground(Void... params) {
+                    Log.d(TAG, "Refreshing device list ...");
+                    SystemClock.sleep(1000);
+
+                    final List<UsbSerialDriver> drivers =
+                            UsbSerialProber.getDefaultProber().findAllDrivers(mUsbManager);
+
+                    final List<UsbSerialPort> result = new ArrayList<UsbSerialPort>();
+                    for (final UsbSerialDriver driver : drivers) {
+                        final List<UsbSerialPort> ports = driver.getPorts();
+                        Log.d(TAG, String.format("+ %s: %s port%s",
+                                driver, Integer.valueOf(ports.size()), ports.size() == 1 ? "" : "s"));
+                        result.addAll(ports);
+                    }
+
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(List<UsbSerialPort> result) {
+                    mEntries.clear();
+                    mEntries.addAll(result);
+                    mAdapter.notifyDataSetChanged();
+                    mProgressBarTitle.setText(
+                            String.format("%s device(s) found",Integer.valueOf(mEntries.size())));
+                    hideProgressBar();
+                    Log.d(TAG, "Done refreshing, " + mEntries.size() + " entries found.");
+                }
+
+            }.execute((Void) null);
+        }
+
+        private void showProgressBar() {
+            mProgressBar.setVisibility(View.VISIBLE);
+            mProgressBarTitle.setText(R.string.refreshing);
+        }
+
+        private void hideProgressBar() {
+            mProgressBar.setVisibility(View.INVISIBLE);
+        }
+
+        private void showConsoleActivity(UsbSerialPort port) {
+            //Uncomment this to use the Serial Activity for Raw Serial Data
+            //SerialConsoleActivity.show(this, port);
+            SentinelActivity.show(this, port);
+        }
+
+    }
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java,label=lst:sentlist,caption=SentinelActivity.java]
+    /**
+     * Copyright 2015 RFCx <www.rfcx.org>
+     * Copyright 2015 Grand Valley State University <www.gvsu.edu>
+     *
+     * This library is free software; you can redistribute it and/or
+     * modify it under the terms of the GNU Lesser General Public
+     * License as published by the Free Software Foundation; either
+     * version 2.1 of the License, or (at your option) any later version.
+     *
+     * This library is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     * Lesser General Public License for more details.
+     *
+     * You should have received a copy of the GNU Lesser General Public
+     * License along with this library; if not, write to the Free Software
+     * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+     * USA.
+     *
+     * Project Home Page: www.github.com/gibsjose/RFCxSentinel
+     */
+
+    package org.rfcx.sentinel;
+
+    import android.app.Activity;
+    import android.content.Context;
+    import android.content.Intent;
+    import android.graphics.Color;
+    import android.hardware.usb.UsbDeviceConnection;
+    import android.hardware.usb.UsbManager;
+    import android.os.Bundle;
+    import android.util.Log;
+    import android.widget.TextView;
+
+    import com.hoho.android.usbserial.driver.UsbSerialPort;
+    import com.hoho.android.usbserial.util.SerialInputOutputManager;
+
+    import java.io.IOException;
+    import java.util.concurrent.ExecutorService;
+    import java.util.concurrent.Executors;
+
+    /**
+     * Shows a {@link android.widget.TextView} of relevant data (power, temperature, humidity)
+     *
+     * @author Joe Gibson (gibsjose@mail.gvsu.edu)
+     */
+    public class SentinelActivity extends Activity {
+        private final String TAG = SentinelActivity.class.getSimpleName();
+        //private final long BEGIN_FLAG = 0xBB;
+        //private final long END_FLAG = 0xEE;
+
+        private static UsbSerialPort sPort = null;
+
+        private TextView mStatus;
+        private TextView mInputCurrentValue;
+        private TextView mInputVoltageValue;
+        private TextView mOutputCurrentValue;
+        private TextView mOutputVoltageValue;
+        private TextView mTemperatureValue;
+        private TextView mHumidityValue;
+
+        private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
+
+        private SerialInputOutputManager mSerialIoManager;
+
+        private final SerialInputOutputManager.Listener mListener = new SerialInputOutputManager.Listener() {
+
+            @Override
+            public void onRunError(Exception e) {
+                Log.d(TAG, "Runner stopped.");
+            }
+
+            @Override
+            public void onNewData(final byte[] data) {
+                SentinelActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SentinelActivity.this.updateReceivedData(data);
+                    }
+                });
+            }
+        };
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.sentinel);
+            mStatus = (TextView) findViewById(R.id.status);
+            mInputCurrentValue = (TextView)findViewById(R.id.inputCurrentValue);
+            mInputVoltageValue = (TextView)findViewById(R.id.inputVoltageValue);
+            mOutputCurrentValue = (TextView)findViewById(R.id.outputCurrentValue);
+            mOutputVoltageValue = (TextView)findViewById(R.id.outputVoltageValue);
+            mTemperatureValue = (TextView)findViewById(R.id.temperatureValue);
+            mHumidityValue = (TextView)findViewById(R.id.humidityValue);
+        }
+
+        @Override
+        protected void onPause() {
+            super.onPause();
+            stopIoManager();
+            if (sPort != null) {
+                try {
+                    sPort.close();
+                } catch (IOException e) {
+                    // Ignore.
+                }
+                sPort = null;
+            }
+            finish();
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+            Log.d(TAG, "Resumed, port=" + sPort);
+            if (sPort == null) {
+                mStatus.setText("No serial device.");
+                mStatus.setTextColor(0xFFFF5F69);
+            } else {
+                final UsbManager usbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
+
+                UsbDeviceConnection connection = usbManager.openDevice(sPort.getDriver().getDevice());
+                if (connection == null) {
+                    mStatus.setText("Opening device failed");
+                    mStatus.setTextColor(0xFFFF5F69);
+                    return;
+                }
+
+                try {
+                    sPort.open(connection);
+
+                    //115200 Baud rate
+                    //8 data bits
+                    //1 stop bit
+                    //No parity bit
+                    sPort.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+                } catch (IOException e) {
+                    Log.e(TAG, "Error setting up device: " + e.getMessage(), e);
+                    mStatus.setText("Error opening device: " + e.getMessage());
+                    mStatus.setTextColor(0xFFFF5F69);
+                    try {
+                        sPort.close();
+                    } catch (IOException e2) {
+                        // Ignore.
+                    }
+                    sPort = null;
+                    return;
+                }
+                mStatus.setText("Device: " + sPort.getClass().getSimpleName());
+                mStatus.setTextColor(0xFFFFFFFF);
+            }
+            onDeviceStateChange();
+        }
+
+        private void stopIoManager() {
+            if (mSerialIoManager != null) {
+                Log.i(TAG, "Stopping io manager ..");
+                mSerialIoManager.stop();
+                mSerialIoManager = null;
+            }
+        }
+
+        private void startIoManager() {
+            if (sPort != null) {
+                Log.i(TAG, "Starting io manager ..");
+                mSerialIoManager = new SerialInputOutputManager(sPort, mListener);
+                mExecutor.submit(mSerialIoManager);
+            }
+        }
+
+        private void onDeviceStateChange() {
+            stopIoManager();
+            startIoManager();
+        }
+
+        private void updateReceivedData(byte[] data) {
+            final String message = new String(data);
+
+            /**
+             *  values[0] = Input Current (mA)
+             *  values[1] = Input Voltage (V)
+             *  values[2] = Output Current (mA)
+             *  values[3] = Output Voltage (V)
+             *  values[4] = Temperature (C)
+             *  values[5] = Humidity (RH)
+             */
+            String[] values = message.split(",");
+
+            //Ensure the length is correct (8), and use framing
+            //if((values.length >= 8) && (Long.parseLong(values[0]) == BEGIN_FLAG) && (Long.parseLong(values[7]) == END_FLAG)) {
+            if(values.length >= 8) {
+                    mStatus.setTextColor(Color.GREEN);
+                    mInputCurrentValue.setText(values[1] + " mA");
+                    mInputVoltageValue.setText(values[2] + " V");
+                    mOutputCurrentValue.setText(values[3] + " mA");
+                    mOutputVoltageValue.setText(values[4] + "V");
+                    mTemperatureValue.setText(values[5] + " C");
+                    mHumidityValue.setText(values[6] + " % RH");
+            } else {
+                mStatus.setTextColor(Color.RED);
+                //mStatus.setText(message);
+                //mInputCurrentValue.setText("Length: " + values.length);
+            }
+        }
+
+        /**
+         * Starts the activity, using the supplied driver instance.
+         *
+         * @param context the Context
+         * @param port the USB Serial port
+         */
+        static void show(Context context, UsbSerialPort port) {
+            sPort = port;
+            final Intent intent = new Intent(context, SentinelActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+            context.startActivity(intent);
+        }
+    }
+\end{lstlisting}
+
 \end{document}
 
 % ======== For Reference =============
