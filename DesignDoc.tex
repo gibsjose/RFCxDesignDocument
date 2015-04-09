@@ -818,6 +818,17 @@ The data sheet recommended that $R_{comp2}$ be $10k\Omega$ and that $V_{sns}$ be
 \end{align}
 
 \textbf{NTC Calculations}
+The BC2384-ND $47k\Omega$ NTC Thermistor was used
+$RT_2$ was calculated because only the upper bound is of interest
+\begin{align}
+  \label{eq:ntc}
+  R_{TH} &= 18k\Omega \mbox{ (Property of the NTC)}\\
+  R_{TC} &= 673k\Omega \mbox{ Property of the NTC)}\\
+  R_{T2} &= \frac{5 \cdot R_{TH} \cdot R_{TC}}{(2\cdot R_{TC})-(7\cdot R_{TH})} \\
+  &= 49.65k\Omega \\
+  &\cong 49.9\Omega
+\end{align}
+
 
 \subsection{Current and Voltage Sensing}\label{app:cvsense}
 Using the LTC6800
