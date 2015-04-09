@@ -368,6 +368,7 @@ To manage the power selection between the solar panels and the batteries, a powe
 
 \subsection{Power Regulation} \label{sect:reg_just}
 The LMR61428(Appendix \ref{fig:lmrdat}) Step-Up Voltage regulator was chosen because of its price, package, and performance. It is important for all of the ICs on this board to be in a package that the end user can assemble without the aid of more advanced PCB assembly equipment such as solder paste/stencils and ovens. This means that they can not be in packages where there are pins underneath or too small to place with tweazers. The operation requirements for the LMR61428 where with in the worst case behavior for the feeding circuitry. Some of the other buck/boost controllers required a much higher input voltage when the load current was around 500mA. The LMR61428 requires less than 2V, which is possible even when drawing from the batteries. Since this is design is for a remote device powered from batteries and solar power, quiecent current is a concern as well. The LM61428 only draws 80mA when in the operating mode.
+A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.3V line. This was chosen over a switching regulator because the minimum voltage of 3.7 and the output voltage of 3.3V were too close together, causing the duty cycle calculations to come out to negative or not meet certain regulator’s requirements.
 
 \subsection{Current Sensing} \label{sect:cur_just}
 The LTC6800 precision instrumentation amplifier (Appendix \ref{fig:ltc6800dat}) was chosen to perform current sensing. This instrumentation amplifier operates rail-to-rail on the input and output, which provides a larger window to sense the voltage across the sense resistor. A sense resistor value of 0.010$\Omega$ was chosen to provide minimal power dissipation. Although very small, since the leakage current into the opamp is also extremely small (on the order of 1nA), the trace resistance, which is approximately 0.035$\Omega$, is not a concern. The LTC6800 also draws very little current. Under no load the LTC6800 draws a maximum of 1.3mA.
@@ -406,7 +407,7 @@ A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current a
 
 \subsubsection{Battery Management}
 
-The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with resistor \textit{R24}. Only the lower temperature bound is set here because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R10} and \textit{R22}. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
+The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with resistor \textit{R24}. Only the lower temperature bound is set here because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R18} and \textit{R22}. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
 %@TODO Nice! This one is perfect! All the design paragraphs should be like this one.
 
 \begin{figure}[H]
@@ -476,7 +477,14 @@ The layout of the 5V boost regulator can be seen in figure \ref{fig:ps5}.
 \end{figure}
 
 %@TODO Jesse: Move the 'it was chosen because...' stuff to the justification section. Only talk about design here. Talk about the surrounding circuitry and the interface with the top level, etc.
-A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.3V line. This was chosen over a switching regulator because the minimum voltage of 3.7 and the output voltage of 3.3V were too close together, causing the duty cycle calculations to come out to negative or not meet certain regulator’s requirements. The SM72238 has very low dropout, which is in range for the need of this application. The only external components required by the LDO are two low ESR 1uF capacitors on the input and output.
+A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.3V line. The SM72238 has very low dropout, which is in range for the need of this application. The only external components required by the LDO are two low ESR 1uF capacitors on the input and output. The circuit can be seen in figure \ref{fig:sm722}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{PS33V}
+	\caption{3.3V Voltage Regulation}
+	\label{fig:sm722}
+\end{figure}
 
 \subsubsection{Input and Output Current and Voltage Sensing}
 
