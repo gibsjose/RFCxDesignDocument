@@ -325,7 +325,7 @@ This configuration offers many benefits. First, the panels on a single petal can
 In addition, this configuration localizes the power tracking to an individual petal. Rather than maximizing the entire array, localizing to each petal allows for some petals to be in direct sunlight while others are in shade and each MPPT will react accoringly.
 
 \bigskip
-Furthermore, this configuration could be easily adapted to using less MPPTs if needed (to reduce cost, for example). To use two MPPTs, for example, instead of four, two of the ICs would simply not be populated and pairs of petals would be connected in parallel externally and connected to the two populated MPPTs. This is shown in Figure \ref{fig:mppt_config_3}.
+Furthermore, this configuration could be easily adapted to using less MPPTs if needed (to reduce cost, for example). To use two MPPTs, for example, instead of four, two of the ICs would simply not be populated and pairs of petals would be connected in parallel externally and connected to the two populated MPPTs. This is shown in Figure \ref{fig:mppt_config3}.
 
 \bigskip
 Finally, as required by the SPV1040, the input voltage will always be much less than the output in this configuration. The input voltage will be either 1.5V (parallel panels) or 3.0V (series), well below the 5.2V output.
@@ -353,7 +353,7 @@ The second alternate configuration, in Figure \ref{fig:mppt_config3}, is really 
 The ADS1015 external ADC (Appendix \ref{fig:adsdat}) was chosen to perform analog-to-digital conversions for the power sensing. The ATmega328P does not have a strong internal ADC, being only 10-bit resolution, and the ADS1015 is easy to communicate with via $I^2 C$. In addition, $I^2 C$ supports multiple devices in parallel, so only two of the ATmega328P's six analog pins are used. This frees the other four for future use. The ADS1015 consumes less than 150$\mu$A, has 12-bit resolution, and supports four single-ended analog inputs, which will be used to monitor input current, input voltage, output current, and output voltage on the PCB.
 
 \subsection{Temperature and Humidity Sensor} \label{sect:temp_just}
-The LM75BD (Appendix \ref{fig:lm75dat}) was chosen as the temperature sensor.  The LM75 is a super low power temperature sensor with an accuracy of $\pm2^{\circ}C$. It uses less than 300uA during peak transmission, and costs under \$1.
+The LM75BD (Appendix \ref{fig:lm75dat}) was chosen as the temperature sensor.  The LM75 is a low power temperature sensor with an accuracy of $\pm2^{\circ}C$. It uses less than 300uA during peak transmission, and costs under \$1.
 
 \bigskip
 An alternative sensor prodiving both temperature and humidity measurements, the HIH6130 (Appendix \ref{fig:hihdat}), was also considered. Also using $I^2 C$ and also being low-power, the only real drawback is the price, at nearly \$14. For this reason the LM75BD was chosen, but the footprint for the HIH6130 will be included but unpopulated on the board as an option to the end user.
@@ -365,10 +365,10 @@ Other lower-cost humidity and temperature sensors were investigated, such as the
 The LM75BD is accurate within $\pm3^{\circ}C$ from $-25$ to $+100^{\circ}C$ and within $\pm2^{\circ}C$ from $-55$ to $+125^{\circ}C$. The HIH6130 can operate in the temperature range of $-25^{\circ}C$ to $85^{\circ}C$ and from 10\% to 90\% Relative Humidity (RH) with an accuracy of $\pm1^{\circ}C$ and $\pm5$\% RH.
 
 \subsection{FTDI} \label{sect:ftdi_just}
-The FT230X FTDI chip (Appendix \ref{fig:ftdidat}) was chosen for the UART to USB interface between the microcontroller and the Android phone. FTDI is widely used and supported, and, unlike similar devices like the Arduino's CDCACM, does not require another microcontroller to be added, configured, and flashed with software. In addition, the RFCx Sentinel application, which uses the open source usb-serial-for-android library, readily supports FTDI. Serial USB communication has already been achieve using an ATmega328P MCU, a similar FTDI chip, and the Sentinel app.
+The FT230X FTDI chip (Appendix \ref{fig:ftdidat}) was chosen for the UART to USB interface between the microcontroller and the Android phone. FTDI is widely used and supported, and, unlike similar devices like the Arduino's CDCACM, does not require another microcontroller to be added, configured, and flashed with software. In addition, the RFCx Sentinel application, which uses the open source usb-serial-for-android library, readily supports FTDI. Serial USB communication has already been achieved using an ATmega328P MCU, a similar FTDI chip, and the Sentinel app.
 
 \subsection{Battery Management} \label{sect:battery_just}
-Battery management is important for the ability to reclaim and potentially fix a damaged battery, and also to prevent potential fire hazards. Being in a hot climate and surrounded by ample fuel for a large-scale forest fire, battery management was chosen to be included in the design. The BQ2057CTS battery charge management IC was thus chosen to control the charging of the Lithium-Ion batteries. It is designed for both single and dual-cell battery packs, and combines current and voltage regulation, charge status indication, and charge rate auto compensation.
+Battery management is important for the ability to reclaim and potentially fix a damaged battery, and also to prevent potential fire hazards. Being in a hot climate and surrounded by ample fuel for a large-scale forest fire, battery management was chosen to be included in the design. The bq2057CTS battery charge management IC was thus chosen to control the charging of the Lithium-Ion batteries. It is designed for both single and dual-cell battery packs, and combines current and voltage regulation, charge status indication, and charge rate auto compensation.
 
 \subsection{Power Path Management} \label{sect_pow_just}
 To manage the power selection between the solar panels and the batteries, a power path management solution was required. This was required because while the batteries are being charged the rest of the circuit should not draw from them. If the rest of the circuit draws from them while they are being charged, the battery charge management IC could get confused and damage the batteries by over charging or under charging. A diode-ORed configuration, in which power sources are ORed together via a near ideal diode($0.02V_f$), selects the source with the higher voltage. The LTC4412 (Appendix \ref{fig:ltc4412dat}) was chosen to perform this power path management. The ideal diodes are implemented externally with a FZT788B P-Channel MOSFET (Appendix \ref{fig:ftzdat}). This IC also has a very low quiescent current, below $1.15\mu A$.
@@ -402,12 +402,21 @@ With this configuration a configurable output voltage of 5.2V, the maximum of th
 \subsubsection{Solar Charging}
 
 
-A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. The time constant of the resistor and capacitor on the \textit{MPPT SET} pin of the SPV1040 IC must be less than or equal to the maximum power point tracking time ($T_{MPPT} \cong 1ms$). It is recommended that the resistor be set to $1k\Omega$. This means that the capacitor must be less than $10\mu F$. The inductor selected was based on the maximum input voltage and current produced by the solar petals. The inductor value was calculated to being greater than or equal to $8.5\mu H$. The saturation current for the inductor must also be greater than 1.8A, which is the limit of the SPV1040. The output voltage capacitor was chosen based on the short circuit current of the solar petals and the maximum voltage ripple. The output voltage capacitor must be greater than $142\mu F$ so $150 \mu F$ was chosen. This was calculated with a maximum output ripple voltage of 0.01V. There are two resistors that divide the output of the SPV1040 and provide feedback to the controller. These resistors were calculated to be $76.8k\Omega$ and $24.3k\Omega$. This divides the desired maximum output voltage of 5.2V to 1.25 at the voltage sensing pin. The capacitor on the $V_{CTRL}$ pin of the SPV1040 is needed to reject noise sensed by the pin. This was calculated to be around $45.2\mu F$. The voltage drop across the sense resistor is compared to the 50mV internal reference. The sense resistor is calculated to be around $27m\Omega$. Since there may be some noise from the switching, there is a filter on the sense pins, \textit{Ictrl\_+} and \textit{Ictrl\_-}. It is recomended that the inline resistors are $1k\Omega$ and the capacitor between the two is $1\mu F$. A Schottky diode is placed between the \textit{Lx} and \textit{Vout} pins of the SPV1040. The \textit{Diodes Incorporated} 1N5819HW Schottky diode meets the suggested criteria. It has a forward voltage drop of 450mV and a non repetitive peak current of 25A. 
+A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The circuit design for one of the MPPT ICs can be seen in figure \ref{fig:singlemppt}. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{singlempptcircuit}
+	\caption{Single SPV1040 MPPT Circuit}
+	\label{fig:singlemppt}
+\end{figure}
+
+ The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. The time constant of the resistor and capacitor on the \textit{MPPT SET} pin of the SPV1040 IC must be less than or equal to the maximum power point tracking time ($T_{MPPT} \cong 1ms$). It is recommended that the resistor be set to $1k\Omega$. This means that the capacitor must be less than $10\mu F$. The inductor selected was based on the maximum input voltage and current produced by the solar petals. The inductor value was calculated to being greater than or equal to $8.5\mu H$. The saturation current for the inductor must also be greater than 1.8A, which is the limit of the SPV1040. The output voltage capacitor was chosen based on the short circuit current of the solar petals and the maximum voltage ripple. The output voltage capacitor must be greater than $142\mu F$ so $150 \mu F$ was chosen. This was calculated with a maximum output ripple voltage of 0.01V. There are two resistors that divide the output of the SPV1040 and provide feedback to the controller. These resistors were calculated to be $76.8k\Omega$ and $24.3k\Omega$. This divides the desired maximum output voltage of 5.2V to 1.25 at the voltage sensing pin. The capacitor on the $V_{CTRL}$ pin of the SPV1040 is needed to reject noise sensed by the pin. This was calculated to be around $45.2\mu F$. The voltage drop across the sense resistor is compared to the 50mV internal reference. The sense resistor is calculated to be around $27m\Omega$. Since there may be some noise from the switching, there is a filter on the sense pins, \textit{Ictrl\_+} and \textit{Ictrl\_-}. It is recomended that the inline resistors are $1k\Omega$ and the capacitor between the two is $1\mu F$. A Schottky diode is placed between the \textit{Lx} and \textit{Vout} pins of the SPV1040. The \textit{Diodes Incorporated} 1N5819HW Schottky diode meets the suggested criteria. It has a forward voltage drop of 450mV and a non repetitive peak current of 25A. The calculations for these components can be found in Appendix \ref{app:spvcalcs}.
 
 
 \subsubsection{Battery Management}
 
-The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with resistor \textit{R24}. Only the lower temperature bound is set here because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R10} and \textit{R22}. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
+The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with resistor \textit{R24}. Only the lower temperature bound is set here because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R18} and \textit{R22}. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
 %@TODO Nice! This one is perfect! All the design paragraphs should be like this one.
 
 \begin{figure}[H]
@@ -433,12 +442,12 @@ A diode-ORed power path management circuit was used to switch the power source t
 This circuit provides power path switching in under 100 $\mu$s, and there is virtually no dip in the output voltage during the switch. A dip of approximately 500mV was observed when using a transistor alone to simply switch between the two sources, as shown in the simulation figure in Appendix \ref{fig:doredsimres1}. With the diode-ORed topology, the switch is clean, as seen in the simulation figure in Appendix \ref{fig:doredsimres2}.
 
 \bigskip
-The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone.
+The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone. The values for the supporting circuitry were recommended by the data sheet. 
 
 %@TODO Jesse: Reference the calculations and the efficiency of the regulator, and compare with our projected 10% decrease in power (although we don't know what it actually consumes, I think topher did give us a number once in an skype chat that we documented. I wouldn't look too hard for it though)
 
 \bigskip
-The calculations for the surrounding components can be seen in Appendix \ref{fig:calc???}. The layout of the 5V boost regulator can be seen in the following figure.
+The layout of the 5V boost regulator can be seen in figure \ref{fig:ps5}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{PS5V}
@@ -447,13 +456,13 @@ The calculations for the surrounding components can be seen in Appendix \ref{fig
 \end{figure}
 
 \bigskip
-A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.3V line. The only external components required by the LDO are two low ESR 1uF capacitors on the input and output, as shown in Figure \ref{fig:ps3}.
+A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.3V line. The SM72238 has very low dropout, which is in range for the need of this application. The only external components required by the LDO are two low ESR 1uF capacitors on the input and output. The circuit can be seen in figure \ref{fig:sm722}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{PS3V}
+	\includegraphics[width=0.6\textwidth]{PS33V}
 	\caption{3.3V Voltage Regulation}
-	\label{fig:ps3}
+	\label{fig:sm722}
 \end{figure}
 
 
@@ -461,7 +470,7 @@ A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.
 
 The ADS1015 is a 12-bit ADC that can communicate over $I^2 C$ with the microcontroller. This ADC will operate in single shot mode and then go back to sleep. The ADS1015 uses a $\delta\sigma$ ADC and can perform conversions at rates up to 3300 samples per second. The microcontroller will initiate a conversion over $I^2 C$ and be able to send the diagnostic to the phone for further processing. A code snippet can be seen below in Section \ref{sect:softwaredes}.
 
-The LTC6800 instrumentation amplifier is used to sense the voltage across a known sense resistor. The input current sense circuit is configured to have a gain of around 80.5. The sense resistor has been selected to be 0.01$\Omega$. With this configuration the ADC will be able to sense the current with a resolution of 1mA/bit. The calculations for this section can be seen in Appendix \ref{fig:calc???}. The configuration of the current sense amplifier can be seen in Figure \ref{fig:AV} below. The input and output voltage are sensed with simple resistor dividers that are fed to the ADC.
+The LTC6800 instrumentation amplifier is used to sense the voltage across a known sense resistor. The input current sense circuit is configured to have a gain of around 80.5. The sense resistor has been selected to be 0.01$\Omega$. With this configuration the ADC will be able to sense the current with a resolution of 1mA/bit. The calculations for this section can be seen in Appendix \ref{app:cvsense}. The configuration of the current sense amplifier can be seen in Figure \ref{fig:AV}. The input and output voltage are sensed with simple resistor dividers that are fed to the ADC.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{AtoV}
@@ -498,7 +507,16 @@ The USB connection consists of a standard USB Micro A connector, soldered direct
 
 \subsubsection{GSM Interference}
 
-The use of X2Y TDMA filtering capacitors will be tested to reduce the noise produced by the stopping and starting of GSM packets, which is in the audible range at ~217Hz. A pass-through 3.5mm microphone interface will be included to test the X2Y capacitors. In addition, the heatsink and large ground plane to which the phone is attached should also provide shielding.
+The use of X2Y TDMA filtering capacitors will be tested to reduce the noise produced by the stopping and starting of GSM packets, which is in the audible range at ~217Hz. X2Y capacitors are made by Johanson Diaelectric and is a four terminal capacitor. These capacitors are a 2 terminal MLC capacitor with electrode sets on either end and a third set in the middle. This makes a three node capacitive circuit that has two closely matched, low inductance capacitors in a single package. Johanson Dialectric tests showed a nearly flat response for a GSM handset that fed an amplifier. A pass-through 3.5mm microphone interface will be included to test the X2Y capacitors. The pass through circuit can be seen in figure \ref{fig:x2y}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{X2Yfiltercircuit}
+	\caption{Pass Through Microphone Filter Circuit}
+	\label{fig:x2y}
+\end{figure}
+
+ In addition, a large heatsink will be attached to a large ground plane on one side of the board, and the phone will be attached to the same ground plane, which should help with some shielding.
 
 \subsubsection{PCB Size}
 %@TODO Move all justifications here to the justification section
@@ -559,7 +577,7 @@ To verify \ref{SWa}., audio will be recorded and compressed using multiple algor
 To verify \ref{HW3}, simple packets will be sent from the microcontroller to the phone. These packets can be verified with debug tools or simple programs on the microcontroller and the phone. A debug serial port may be included as a peripheral to the microcontroller to aid in debugging. Any analog values read by the microcontroller will be verified with shop equipment.
 
 \section{Validation} \label{sect:validation}
-\ref{HW2}, \ref{HWb}, and \ref{HWd} can be validated by inspecting the components on the PCB to ensure all required components are present on the board. Requirements \ref{HWg} and \ref{HWh} can be validated by handing the assembly instructions out to a sample group of people with varying skill levels and receiving feedback on the set of instructions from them. People with the ability to read other languages can be used if the documents have been translated from English into other languages.
+\ref{HW3}, \ref{HWb}, and \ref{HWd} can be validated by inspecting the components on the PCB to ensure all required components are present on the board. Requirements \ref{HWg} and \ref{HWh} can be validated by handing the assembly instructions out to a sample group of people with varying skill levels and receiving feedback on the set of instructions from them. People with the ability to read other languages can be used if the documents have been translated from English into other languages.
 
 \ref{HW4} can be validated by inspecting the total cost printed on the BOM for the enhanced device.
 
@@ -799,7 +817,7 @@ The data sheet recommended that $R_{comp2}$ be $10k\Omega$ and that $V_{sns}$ be
   R_{comp1}&=5k\Omega
 \end{align}
 
-\subsection{Current and Voltage Sensing}
+\subsection{Current and Voltage Sensing}\label{app:cvsense}
 Using the LTC6800
 \textbf{Output Voltage}
 \begin{align}
@@ -811,22 +829,31 @@ Using the LTC6800
   \label{eq:adcres}
   \frac{3.3V}{2^{12}} &= 805\mu V
 \end{align}
-If 1A is drawn under worst case scenario and a sense resistor of $10m\Omega$ is chosen and the intended resolution is 1mA/bit: \newline
-%@TODO Jesse: finish this calculation
+
+\textbf{Choose gain of LTC6800}
 \begin{align}
   \label{eq:asense}
+  ADCres &= \frac{805\mu V}{bit} \\
+  \mbox{I want 1mA/bit resolution} \\
+  1mA &= \frac{805\mu V}{1bit} \cdot \frac{I}{V_{AmpOut}} \\
+  V_{AmpOut} &= 3.3V \mbox{ (Limited by ADC supplly)} \\
+  I &= 4.099 \\
+  V_{AmpOut} &= Gain \cdot I \cdot R_{sense} \\
   R_{sense} &= 0.01 \Omega \\
-  V_{sense} &= 0.01 V \\
-  V_{ADCsupply} &= 3.3V \\
-  Gain &= \frac{V_{ADCsupply}}{V_{sense}} \\
-  &= \frac{3.3}{0.01} \\
-  &= 330 \\
-  3.3V/A \\
-  \frac{805\mu V/Bit}{3.3} &= \\
-  &=
+  Gain &= 80.5
 \end{align}
+\textbf{Choose resistors for gain}
+\begin{align}
+  \label{eq:gainresistors}
+  V_{out} &= \left(1+\frac{R_2}{R_1}\right)\cdot V_{in} + V_{REF} \\
+  V_{REF} &= 0V \\
+  V_{in} &= 0.04V \\
+  V_{out} &= 3.3V \\
+  Gain &= 1+\frac{R_2}{R_1} = 80.5
+\end{align}
+Choose resistors to be $R_2=200k\Omega$ and $R_1=2.55k\Omega$. 
 
-\subsection{SPV1040 Calculations}
+\subsection{SPV1040 Calculations}\label{app:spvcalcs}
 \textbf{Component Values} \\
 These are constraints or known values for the calculations
 \begin{align*}
@@ -898,7 +925,14 @@ Must satisfy the following:
 \end{align*}
 The \textit{Diodes Incorporated }1N5819HW has a $V_F$ of 450mV and a non repetitive peak current of 25A.
 
-
+\subsection{LM61428 Calculations} \label{app:lm61calcs}
+The values for the components were recommended by the data sheet.
+\begin{align*}
+  L &= 6.8\mu H \\
+  C_{in} &= 22\mu F \\
+  C_{out} &= 68\mu F
+\end{align*}
+The diode was recommended to be a Schottky with $I_f$ higher than the load current, 500mA. The reverse voltage must be higher than the output voltage and it must be able to switch fast. 
 
 \newpage
 \section{Data Sheet Snippets} \label{sect:appendixE}

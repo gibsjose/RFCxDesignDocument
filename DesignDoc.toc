@@ -10,45 +10,46 @@
 \contentsline {section}{\numberline {4}Component Justification}{10}{section.4}
 \contentsline {subsection}{\numberline {4.1}Microcontroller}{11}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}MPPT}{11}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}MPPT Configuration}{11}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.3}MPPT Configuration}{12}{subsection.4.3}
 \contentsline {subsection}{\numberline {4.4}ADC}{13}{subsection.4.4}
 \contentsline {subsection}{\numberline {4.5}Temperature and Humidity Sensor}{13}{subsection.4.5}
 \contentsline {subsection}{\numberline {4.6}FTDI}{14}{subsection.4.6}
 \contentsline {subsection}{\numberline {4.7}Battery Management}{14}{subsection.4.7}
 \contentsline {subsection}{\numberline {4.8}Power Path Management}{14}{subsection.4.8}
 \contentsline {subsection}{\numberline {4.9}Power Regulation}{14}{subsection.4.9}
-\contentsline {subsection}{\numberline {4.10}Current Sensing}{14}{subsection.4.10}
+\contentsline {subsection}{\numberline {4.10}Current Sensing}{15}{subsection.4.10}
 \contentsline {section}{\numberline {5}System Design}{15}{section.5}
 \contentsline {subsection}{\numberline {5.1}Hardware Design}{15}{subsection.5.1}
 \contentsline {subsubsection}{\numberline {5.1.1}Power Sources}{15}{subsubsection.5.1.1}
 \contentsline {subsubsection}{\numberline {5.1.2}Solar Charging}{15}{subsubsection.5.1.2}
 \contentsline {subsubsection}{\numberline {5.1.3}Battery Management}{16}{subsubsection.5.1.3}
-\contentsline {subsubsection}{\numberline {5.1.4}Voltage Regulation}{16}{subsubsection.5.1.4}
+\contentsline {subsubsection}{\numberline {5.1.4}Voltage Regulation}{17}{subsubsection.5.1.4}
 \contentsline {subsubsection}{\numberline {5.1.5}Input and Output Current and Voltage Sensing}{19}{subsubsection.5.1.5}
-\contentsline {subsubsection}{\numberline {5.1.6}Microcontroller}{19}{subsubsection.5.1.6}
+\contentsline {subsubsection}{\numberline {5.1.6}Microcontroller}{20}{subsubsection.5.1.6}
 \contentsline {subsubsection}{\numberline {5.1.7}Temperature and Humidity}{20}{subsubsection.5.1.7}
 \contentsline {subsubsection}{\numberline {5.1.8}Connectors}{20}{subsubsection.5.1.8}
-\contentsline {subsubsection}{\numberline {5.1.9}GSM Interference}{20}{subsubsection.5.1.9}
-\contentsline {subsubsection}{\numberline {5.1.10}PCB Size}{20}{subsubsection.5.1.10}
+\contentsline {subsubsection}{\numberline {5.1.9}GSM Interference}{21}{subsubsection.5.1.9}
+\contentsline {subsubsection}{\numberline {5.1.10}PCB Size}{21}{subsubsection.5.1.10}
 \contentsline {subsubsection}{\numberline {5.1.11}Heat Dissipation}{21}{subsubsection.5.1.11}
-\contentsline {subsection}{\numberline {5.2}Hardware Implementation}{21}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}Heat Sink}{21}{subsubsection.5.2.1}
-\contentsline {subsection}{\numberline {5.3}Software Design}{21}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.2}Hardware Implementation}{22}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Heat Sink}{22}{subsubsection.5.2.1}
+\contentsline {subsection}{\numberline {5.3}Software Design}{22}{subsection.5.3}
 \contentsline {subsection}{\numberline {5.4}Software Implementation}{22}{subsection.5.4}
-\contentsline {section}{\numberline {6}Verification}{22}{section.6}
-\contentsline {subsection}{\numberline {6.1}Hardware Verification}{22}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Software Verification}{22}{subsection.6.2}
-\contentsline {section}{\numberline {7}Validation}{22}{section.7}
-\contentsline {section}{\numberline {8}Project Budget and Schedule}{23}{section.8}
-\contentsline {subsection}{\numberline {8.1}Budget}{23}{subsection.8.1}
-\contentsline {section}{\numberline {9}Schedule}{23}{section.9}
-\contentsline {section}{Appendicies}{25}{section*.25}
+\contentsline {section}{\numberline {6}Verification}{23}{section.6}
+\contentsline {subsection}{\numberline {6.1}Hardware Verification}{23}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Software Verification}{23}{subsection.6.2}
+\contentsline {section}{\numberline {7}Validation}{23}{section.7}
+\contentsline {section}{\numberline {8}Project Budget and Schedule}{24}{section.8}
+\contentsline {subsection}{\numberline {8.1}Budget}{24}{subsection.8.1}
+\contentsline {section}{\numberline {9}Schedule}{24}{section.9}
+\contentsline {section}{Appendicies}{25}{section*.28}
 \contentsline {section}{\numberline {A}Electrical Schematics}{26}{appendix.A}
 \contentsline {section}{\numberline {B}Bill Of Materials}{38}{appendix.B}
 \contentsline {section}{\numberline {C}Mechanical Drawings}{40}{appendix.C}
 \contentsline {section}{\numberline {D}Calculations}{41}{appendix.D}
 \contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calculations}{41}{subsection.D.1}
 \contentsline {subsection}{\numberline {D.2}Current and Voltage Sensing}{42}{subsection.D.2}
-\contentsline {subsection}{\numberline {D.3}SPV1040 Calculations}{42}{subsection.D.3}
-\contentsline {section}{\numberline {E}Data Sheet Snippets}{44}{appendix.E}
-\contentsline {section}{\numberline {F}Source Code}{57}{appendix.F}
+\contentsline {subsection}{\numberline {D.3}SPV1040 Calculations}{43}{subsection.D.3}
+\contentsline {subsection}{\numberline {D.4}LM61428 Calculations}{44}{subsection.D.4}
+\contentsline {section}{\numberline {E}Data Sheet Snippets}{45}{appendix.E}
+\contentsline {section}{\numberline {F}Source Code}{58}{appendix.F}
