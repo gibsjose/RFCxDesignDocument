@@ -4,6 +4,7 @@
 *.aux
 *.out
 *#
+*.#
 *~
 # Directories
 auto/
@@ -13,6 +14,9 @@ auto/
 
 #Ignore PDF
 DesignDoc.pdf
+
+#Ignore Table of contents file
+DesignDoc.toc
 
 #Ignore Merge Stuff
 *.orig
