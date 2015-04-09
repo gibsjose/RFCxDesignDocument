@@ -13,3 +13,6 @@ auto/
 
 #Ignore PDF
 DesignDoc.pdf
+
+#Ignore Merge Stuff
+*.orig
