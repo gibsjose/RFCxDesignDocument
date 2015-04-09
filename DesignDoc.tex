@@ -382,13 +382,25 @@ The Texas Instruments SM72238 Micropower Fixed 3.3V LDO was chosen to regulate t
 \subsection{Current Sensing} \label{sect:cur_just}
 The LTC6800 precision instrumentation amplifier (Appendix \ref{fig:ltc6800dat}) was chosen to perform current sensing. This instrumentation amplifier operates rail-to-rail on the input and output, which provides a larger window to sense the voltage across the sense resistor. A sense resistor value of 0.010$\Omega$ was chosen to provide minimal power dissipation. Although very small, since the leakage current into the opamp is also extremely small (on the order of 1nA), the trace resistance, which is approximately 0.035$\Omega$, is not a concern. The LTC6800 also draws very little current. Under no load the LTC6800 draws a maximum of 1.3mA.
 
+\subsection{PCB Size} \label{sect:pcb_just}
+Two options were considered for the physical form of the PCB. The first was only large enough for the components on the board, and would be mounted in the enclosure alongside the batteries and phone. The second design, which was chosen, uses a PCB slightly larger than the size of the phone itself. This allows for the entire phone and PCB to be attached and easily removed/inserted into the enclosure as one piece. The PCB design is shown in Section \ref{sect:pcbdesign}.
+
+\subsection{Heat Dissipation} \label{sect:heat_just}
+Multiple solutions were explored for dissipating heat inside the enclosure. These include drilling holes into the enclosure, putting fans in the enclosure to control airflow in and out of the enclosure, and using a heat sink.
+
+\bigskip
+Using a heat sink was chosen as the best design alternative for heat dissipation. Drilling holes in the enclosure can allow water, insects and dust to enter the enclosure. A wire mesh over the holes could be used to keep insects out of the enclosure, but water and dust could still get into the enclosure and damage the electronics. Running fans in the device creates a sound in a similar frequency range to the chainsaw noise the device is trying to detect. This can cause false detection of a chainsaw by the RFCx server.
+
+\bigskip
+A heat sink also requires a hole to be drilled into the enclosure for the heat sink to reach outside of the enclosure. This opening will be sealed with caulk or by other methods to prevent water, insects and dust from entering the enclosure. The battery cover on the phone will be removed and thermal paste will be used between the phone battery and the PBC, and between the PCB and the heat sink. This will allow heat to dissipate out of the enclosure and help keep the phone attached to the PCB and the PCB attached to the heat sink. Vias in the PCB will help heat to transfer through from the phone to the heatsink. The heatsink implementation is shown in Section \ref{sect:heatsinkimplementation}.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DESIGN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{System Design} \label{sect:sysarch}
 \subsection{Hardware Design} \label{sect:hardwaredesign}
 
 \subsubsection{Power Sources}
 
-The system is powered from eight solar cells that have been manufactured by RFCx. These solar panels have been reported to have an open circuit voltage of 1.6V and produce an average of 0.75W each under laboratory conditions. The other power sources on board are two dual-cell 4400mA/Hr lithium-ion (Li-ion) battery packs. As discussed in the MPPT configuration justification, the solar panels will be configured in a way that a pair on an individual petal may be wired in either series or parallel. The pairs will be wired how the end user would like them and the remaining wires will be connected to a terminal block with screw/leaf spring wire termination on the PCB board, which will be powering the MPPT controllers. This is illustrated in the figure \ref{fig:mpptsol}.
+The system is powered from eight solar cells that have been manufactured by RFCx. These solar panels have been reported to have an open circuit voltage of 1.6V and produce an average of 0.75W each under laboratory conditions. The other power sources on board are two dual-cell 4400mA/Hr lithium-ion (Li-ion) battery packs. As discussed in the MPPT configuration justification, the solar panels will be configured in a way that a pair on an individual petal may be wired in either series or parallel. The pairs will be wired how the end user would like them and the remaining wires will be connected to a terminal block with screw/leaf spring wire termination on the PCB board, which will be powering the MPPT controllers. This is illustrated in Figure \ref{fig:mpptsol}.
 
 \begin{figure}[H]
 	\centering
@@ -401,8 +413,7 @@ With this configuration a configurable output voltage of 5.2V, the maximum of th
 
 \subsubsection{Solar Charging}
 
-
-A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. The time constant of the resistor and capacitor on the \textit{MPPT SET} pin of the SPV1040 IC must be less than or equal to the maximum power point tracking time ($T_{MPPT} \cong 1ms$). It is recommended that the resistor be set to $1k\Omega$. This means that the capacitor must be less than $10\mu F$. The inductor selected was based on the maximum input voltage and current produced by the solar petals. The inductor value was calculated to being greater than or equal to $8.5\mu H$. The saturation current for the inductor must also be greater than 1.8A, which is the limit of the SPV1040. The output voltage capacitor was chosen based on the short circuit current of the solar petals and the maximum voltage ripple. The output voltage capacitor must be greater than $142\mu F$ so $150 \mu F$ was chosen. This was calculated with a maximum output ripple voltage of 0.01V. There are two resistors that divide the output of the SPV1040 and provide feedback to the controller. These resistors were calculated to be $76.8k\Omega$ and $24.3k\Omega$. This divides the desired maximum output voltage of 5.2V to 1.25 at the voltage sensing pin. The capacitor on the $V_{CTRL}$ pin of the SPV1040 is needed to reject noise sensed by the pin. This was calculated to be around $45.2\mu F$. The voltage drop across the sense resistor is compared to the 50mV internal reference. The sense resistor is calculated to be around $27m\Omega$. Since there may be some noise from the switching, there is a filter on the sense pins, \textit{Ictrl\_+} and \textit{Ictrl\_-}. It is recomended that the inline resistors are $1k\Omega$ and the capacitor between the two is $1\mu F$. A Schottky diode is placed between the \textit{Lx} and \textit{Vout} pins of the SPV1040. The \textit{Diodes Incorporated} 1N5819HW Schottky diode meets the suggested criteria. It has a forward voltage drop of 450mV and a non repetitive peak current of 25A. 
+A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The MPPT circuit is shown in Figure \ref{fig:singlemppt}.
 
 \begin{figure}[H]
 	\centering
@@ -411,8 +422,7 @@ A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current a
 	\label{fig:singlemppt}
 \end{figure}
 
- The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. The time constant of the resistor and capacitor on the \textit{MPPT SET} pin of the SPV1040 IC must be less than or equal to the maximum power point tracking time ($T_{MPPT} \cong 1ms$). It is recommended that the resistor be set to $1k\Omega$. This means that the capacitor must be less than $10\mu F$. The inductor selected was based on the maximum input voltage and current produced by the solar petals. The inductor value was calculated to being greater than or equal to $8.5\mu H$. The saturation current for the inductor must also be greater than 1.8A, which is the limit of the SPV1040. The output voltage capacitor was chosen based on the short circuit current of the solar petals and the maximum voltage ripple. The output voltage capacitor must be greater than $142\mu F$ so $150 \mu F$ was chosen. This was calculated with a maximum output ripple voltage of 0.01V. There are two resistors that divide the output of the SPV1040 and provide feedback to the controller. These resistors were calculated to be $76.8k\Omega$ and $24.3k\Omega$. This divides the desired maximum output voltage of 5.2V to 1.25 at the voltage sensing pin. The capacitor on the $V_{CTRL}$ pin of the SPV1040 is needed to reject noise sensed by the pin. This was calculated to be around $45.2\mu F$. The voltage drop across the sense resistor is compared to the 50mV internal reference. The sense resistor is calculated to be around $27m\Omega$. Since there may be some noise from the switching, there is a filter on the sense pins, \textit{Ictrl\_+} and \textit{Ictrl\_-}. It is recomended that the inline resistors are $1k\Omega$ and the capacitor between the two is $1\mu F$. A Schottky diode is placed between the \textit{Lx} and \textit{Vout} pins of the SPV1040. The \textit{Diodes Incorporated} 1N5819HW Schottky diode meets the suggested criteria. It has a forward voltage drop of 450mV and a non repetitive peak current of 25A. The calculations for these components can be found in Appendix \ref{app:spvcalcs}.
-
+The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. The time constant of the resistor and capacitor on the \textit{MPPT SET} pin of the SPV1040 IC must be less than or equal to the maximum power point tracking time ($T_{MPPT} \cong 1ms$). It is recommended that the resistor be set to $1k\Omega$. This means that the capacitor must be less than $10\mu F$. The inductor selected was based on the maximum input voltage and current produced by the solar petals. The inductor value was calculated to being greater than or equal to $8.5\mu H$. The saturation current for the inductor must also be greater than 1.8A, which is the limit of the SPV1040. The output voltage capacitor was chosen based on the short circuit current of the solar petals and the maximum voltage ripple. The output voltage capacitor must be greater than $142\mu F$ so $150 \mu F$ was chosen. This was calculated with a maximum output ripple voltage of 0.01V. There are two resistors that divide the output of the SPV1040 and provide feedback to the controller. These resistors were calculated to be $76.8k\Omega$ and $24.3k\Omega$. This divides the desired maximum output voltage of 5.2V to 1.25 at the voltage sensing pin. The capacitor on the $V_{CTRL}$ pin of the SPV1040 is needed to reject noise sensed by the pin. This was calculated to be around $45.2\mu F$. The voltage drop across the sense resistor is compared to the 50mV internal reference. The sense resistor is calculated to be around $27m\Omega$. Since there may be some noise from the switching, there is a filter on the sense pins, \textit{Ictrl\_+} and \textit{Ictrl\_-}. It is recomended that the inline resistors are $1k\Omega$ and the capacitor between the two is $1\mu F$. A Schottky diode is placed between the \textit{Lx} and \textit{Vout} pins of the SPV1040. The \textit{Diodes Incorporated} 1N5819HW Schottky diode meets the suggested criteria. It has a forward voltage drop of 450mV and a non repetitive peak current of 25A. The calculations for these components can be found in Appendix \ref{app:spvcalcs}.
 
 \subsubsection{Battery Management}
 
@@ -443,8 +453,6 @@ This circuit provides power path switching in under 100 $\mu$s, and there is vir
 \bigskip
 The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone.
 
-%@TODO Jesse: Reference the calculations and the efficiency of the regulator, and compare with our projected 10% decrease in power (although we don't know what it actually consumes, I think topher did give us a number once in an skype chat that we documented. I wouldn't look too hard for it though)
-
 \bigskip
 The layout of the 5V boost regulator can be seen in figure \ref{fig:ps5}.
 \begin{figure}[H]
@@ -459,7 +467,7 @@ A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{PS3V}
+	\includegraphics[width=0.8\textwidth]{PS33V}
 	\caption{3.3V Voltage Regulation}
 	\label{fig:sm722}
 \end{figure}
@@ -498,15 +506,33 @@ Both the temperature sensor (LM75BD, Appendix \ref{fig:lm75dat}) and humidity/te
 	\label{fig:tandh}
 \end{figure}
 
+\subsubsection{PCB} \label{sect:pcbdesign}
+The dimensions of the chosen PCB size is shown in Figure \ref{fig:pcbdimensions}. This size accomodates both the phone currently used, the Huawei Ideos U8180, with dimensions of \textit{4.09"} x \textit{2.16"} x \textit{0.54"}, as well as larger Android phones up to \textit{5"} x \textit{2.8"} x \textit{0.625"}.
+
+%@TODO Make drawing
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{PCBDimensions}
+	\caption{PCB Dimensions}
+	\label{fig:pcbdimensions}
+\end{figure}
+
+
 \subsubsection{Connectors}
 
-The USB connection consists of a standard USB Micro A connector, soldered directly onto the board and is secured to the board as a strain-relief mechanism. A standard 3.5mm audio cable is used to connect the microphone. The existing standard GSM antenna adapter is used to interface with the phone’s onboard GSM module.
+The USB connection consists of a standard USB Micro A connector, soldered directly onto the board and is secured to the board as a strain-relief mechanism, which is shown in Figure \ref{fig:usbcable}. A standard 3.5mm audio cable is used to connect the microphone. The existing standard GSM antenna adapter is used to interface with the phone’s onboard GSM module.
 
-%@TODO Drawing here?
+%@TODO Make drawing
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{USBCable}
+	\caption{USB Micro A Connector attached to the PCB with strain relief}
+	\label{fig:usbcable}
+\end{figure}
 
 \subsubsection{GSM Interference}
 
-The use of X2Y TDMA filtering capacitors will be tested to reduce the noise produced by the stopping and starting of GSM packets, which is in the audible range at ~217Hz. X2Y capacitors are made by Johanson Diaelectric and is a four terminal capacitor. These capacitors are a 2 terminal MLC capacitor with electrode sets on either end and a third set in the middle. This makes a three node capacitive circuit that has two closely matched, low inductance capacitors in a single package. Johanson Dialectric tests showed a nearly flat response for a GSM handset that fed an amplifier. A pass-through 3.5mm microphone interface will be included to test the X2Y capacitors. The pass through circuit can be seen in figure \ref{fig:x2y}.
+The use of X2Y TDMA filtering capacitors will be tested to reduce the noise produced by the stopping and starting of GSM packets, which is in the audible range at ~217Hz. These capacitors are essentially a three node capacitive circuit that has two closely matched, low inductance capacitors in a single package. Manufacturer tests show a nearly flat response for a GSM handset close to an audio circuit. A pass-through 3.5mm microphone interface will be included to test the X2Y capacitors. The pass through circuit can be seen in figure \ref{fig:x2y}.
 
 \begin{figure}[H]
 	\centering
@@ -517,20 +543,18 @@ The use of X2Y TDMA filtering capacitors will be tested to reduce the noise prod
 
 In addition, a heatsink will be attached to a large ground plane on one side of the board, and the phone will be attached to the same ground plane, to provide some shielding.
 
-\subsubsection{PCB Size}
-%@TODO Move all justifications here to the justification section
-Two size options were proposed for the PCB, including having only enough space for the components and having a long open space on the PCB for attaching the phone. Having a long PBC with space for the phone was chosen to simplify the assembly process for the device. The length of the open space is long enough to accommodate large phones, and variable length mounting holes in the PCB allow for any size phone to be securely mounted to the PCB using snap-fit mounting screws. A micro-USB cable is used to interface the phone to the rest of the board. Using a cable instead of a connector allows the use of any size phone in the device. Having the PCB only large enough to fit the electrical components on it requires a separate mounting mechanism for the phone, which complicates the assembly of the device.
-
-\subsubsection{Heat Dissipation}
-%@TODO Move all justifications here to the justification section
-Multiple alternatives were explored for dissipating heat built up in the enclosure, including drilling holes into the enclosure, putting fans in the enclosure to control airflow in and out of the enclosure, and using a heat sink. Using a heat sink was chosen as the best design alternative for heat dissipation. Drilling holes in the enclosure can allow water, insects and dust to enter the enclosure. A wire mesh over the holes could be used to keep insects out of the enclosure, but water and dust could still get into the enclosure and damage the electronics. Running fans in the device creates a sound in a similar frequency range to the chainsaw noise the device is trying to detect. This can cause false detection of a chainsaw by the RFCx server. A heat sink also requires a hole to be drilled into the enclosure for the heat sink to reach outside of the enclosure. This opening is sealed with caulk or by other methods to prevent water, insects and dust from entering the enclosure. The battery cover on the phone is removed and thermal paste is used between the phone battery and the PBC, and between the PCB and the heat sink. This allows heat to dissipate out of the enclosure and help keep the phone attached to the PCB and the PCB attached to the heat sink. Vias in the PCB help heat to transfer more readily through the board instead of trying to transfer the heat through the fiberglass the board is made of.
-
 \subsection{Hardware Implementation} \label{sect:hardwareimp}
-\subsubsection{Heat Sink}
+\subsubsection{Heatsink} \label{sect:heatsinkimplementation}
 
-A heatsink, as described in Section \ref{sect:hardwaredesign} is shown in Figure \ref{fig:???}.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heatsink may pass through. The opening will be sealed with foam or rubber insulation. Thermal calculations for the heatsink are shown in Appendix \ref{fig:???}.
-
-%@TODO Insert heatsink drawings here
+A heatsink, as described in Section \ref{sect:heat_just} is shown in Figure \ref{fig:heatsink}.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heatsink may pass through. The opening will be sealed with foam or rubber insulation. Thermal calculations for the heatsink are shown in Appendix \ref{fig:???}.
+%@TODO Reference thermal calcs correctly
+%@TODO Make drawing
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Heatsink}
+	\caption{Heatsink attached to PCB and protruding through the enclosure}
+	\label{fig:heatsink}
+\end{figure}
 
 \newpage
 \subsection{Software Design} \label{sect:softwaredes}
@@ -560,10 +584,10 @@ void wakeFromSleep() {
 
 An ATMega328P microcontroller will be used to take measurements from the sensors. The temperature (and possibly humidity) measurements are sent digitally via $I^2 C$ to the microcontroller. On the same $I^2 C$ bus is the ADS1015, which has four single-ended analog inputs for reading the input current, input voltage, output current, and output voltage. This data will be sent to the phone using the standard AVR UART serial library.
 
-The data, once sent to the phone, will be monitored by the RFCx Sentinel app. This app is written in Java in Android Studio, and uses the open-source usb-serial-for-android library. The app opens a connection upon discovering a compatible device (FTDI is compatible), and allows the user to view a streamlined interface with relevant data, as well as a tab for the raw hex dump of incoming serial data. The data may or may not be transmitted along with audio data to the RFCx server for real-time monitoring.
+The data, once sent to the phone, will be monitored by the RFCx Sentinel app. This app is written in Java in Android Studio, and uses the open-source usb-serial-for-android library. The app opens a connection upon discovering a compatible device (FTDI is compatible), and allows the user to view a streamlined interface with relevant data, as well as a tab for the raw hex dump of incoming serial data.
 
 \section{Verification} \label{sect:verification}
-This section outlines the steps that are planned to verify that the hardware and software operate in the intended manner. 
+This section outlines the steps that are planned to verify that the hardware and software operate in the intended manner.
 \subsection{Hardware Verification} \label{sect:hardwareverification}
 To verify the power consumption of the devices in \ref{HWa}. the voltage applied and current drawn by the both the enhanced device and the current device will be measured over the course of 1 hour during a realistic usage scenario. The average power will be verified to not exceed 90\% of the existing device’s usage.
 
@@ -853,7 +877,7 @@ Using the LTC6800
   V_{out} &= 3.3V \\
   Gain &= 1+\frac{R_2}{R_1} = 80.5
 \end{align}
-Choose resistors to be $R_2=200k\Omega$ and $R_1=2.55k\Omega$. 
+Choose resistors to be $R_2=200k\Omega$ and $R_1=2.55k\Omega$.
 
 \subsection{SPV1040 Calculations}\label{app:spvcalcs}
 \textbf{Component Values} \\
@@ -934,7 +958,7 @@ The values for the components were recommended by the data sheet.
   C_{in} &= 22\mu F \\
   C_{out} &= 68\mu F
 \end{align*}
-The diode was recommended to be a Schottky with $I_f$ higher than the load current, 500mA. The reverse voltage must be higher than the output voltage and it must be able to switch fast. 
+The diode was recommended to be a Schottky with $I_f$ higher than the load current, 500mA. The reverse voltage must be higher than the output voltage and it must be able to switch fast.
 
 \newpage
 \section{Data Sheet Snippets} \label{sect:appendixE}
