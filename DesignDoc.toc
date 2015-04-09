@@ -42,13 +42,13 @@
 \contentsline {section}{\numberline {8}Project Budget and Schedule}{24}{section.8}
 \contentsline {subsection}{\numberline {8.1}Budget}{24}{subsection.8.1}
 \contentsline {section}{\numberline {9}Schedule}{24}{section.9}
-\contentsline {section}{Appendicies}{25}{section*.24}
+\contentsline {section}{Appendices}{25}{section*.24}
 \contentsline {section}{\numberline {A}Electrical Schematics and Simulations}{26}{appendix.A}
-\contentsline {section}{\numberline {B}Bill Of Materials}{35}{appendix.B}
-\contentsline {section}{\numberline {C}Mechanical Drawings}{37}{appendix.C}
-\contentsline {section}{\numberline {D}Calculations}{38}{appendix.D}
-\contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calculations}{38}{subsection.D.1}
-\contentsline {subsection}{\numberline {D.2}Current and Voltage Sensing}{39}{subsection.D.2}
-\contentsline {subsection}{\numberline {D.3}SPV1040 Calculations}{39}{subsection.D.3}
-\contentsline {section}{\numberline {E}Data Sheet Snippets}{40}{appendix.E}
-\contentsline {section}{\numberline {F}Source Code}{53}{appendix.F}
+\contentsline {section}{\numberline {B}Bill Of Materials}{36}{appendix.B}
+\contentsline {section}{\numberline {C}Mechanical Drawings}{38}{appendix.C}
+\contentsline {section}{\numberline {D}Calculations}{39}{appendix.D}
+\contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calculations}{39}{subsection.D.1}
+\contentsline {subsection}{\numberline {D.2}Current and Voltage Sensing}{40}{subsection.D.2}
+\contentsline {subsection}{\numberline {D.3}SPV1040 Calculations}{40}{subsection.D.3}
+\contentsline {section}{\numberline {E}Data Sheet Snippets}{41}{appendix.E}
+\contentsline {section}{\numberline {F}Source Code}{54}{appendix.F}
