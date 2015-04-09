@@ -430,7 +430,7 @@ The calculations for the component selection for the battery management circuitr
 \subsubsection{Voltage Regulation}
 
 A diode-ORed power path management circuit was used to switch the power source that feeds the 3.3V and 5V regulation circuitry. This circuit is shown in figure \ref{fig:dored}.
-%@TODO Jesse: Describe this design in greater detail
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{DiodeOR}
@@ -820,6 +820,7 @@ The data sheet recommended that $R_{comp2}$ be $10k\Omega$ and that $V_{sns}$ be
 \textbf{NTC Calculations}
 The BC2384-ND $47k\Omega$ NTC Thermistor was used
 $RT_2$ was calculated because only the upper bound is of interest
+The upper bound temperature was set to $50^{\circ}C$
 \begin{align}
   \label{eq:ntc}
   R_{TH} &= 18k\Omega \mbox{ (Property of the NTC)}\\
