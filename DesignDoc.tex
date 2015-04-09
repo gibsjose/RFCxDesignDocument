@@ -15,7 +15,7 @@
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{graphicx}
 \usepackage{mathtools}
-\usepackage{caption}
+\usepackage[justification=centering]{caption}
 \usepackage{amssymb}
 \usepackage[pdftex, pdfborderstyle={/S/U/W 0}]{hyperref} % this disables the boxes around links]
 \usepackage{float}
@@ -26,6 +26,7 @@
 \usepackage{caption}
 \numberwithin{figure}{section}
 \usepackage{amsmath}
+
 \numberwithin{equation}{section}
 % lstlisting
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -134,6 +135,7 @@ Rain forest, Recycling, RFCx, Rainforest Connection, cellphone, Android, logging
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{\ASSNMT}
+\rhead{\leftmark}
 \rfoot{Page \thepage}
 % No paragraph indents
 \setlength{\parindent}{0cm}
@@ -386,7 +388,7 @@ With this configuration, a configurable output voltage of 5.2V, the maximum of t
 
 \subsubsection{Solar Charging}
 
-A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered.
+A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. The 
 
 \subsubsection{Battery Management}
 
@@ -483,8 +485,6 @@ Three other microcontrollers were considered. Two ARM M0+ low power micro contro
 
 A temperature sensor (LM75BD, \ref{fig:lm75dat}) and a humidity/temperature sensor(HIH6130, \ref{fig:hihdat}) will be included on the board. Both of these interfaces are supplied but not intended to be populated at the same time. The purpose for providing a choice is because the available I2C humidity sensors seem to be around the \$15 range. This is a little expensive to include on every device but the end user may want to include the humidity sensor on some of the devices and only sense temperature. The schematic connections of the two ICs is shown in Figure \ref{fig:tandh}. 
 
-%@TODO Jesse: Describe the design of the circuit and interaface with MCU, etc. Reference the ranges of the devices and that they fit within our required range
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.4\textwidth]{temphumid}
@@ -549,6 +549,7 @@ The data, once sent to the phone, is be monitored by the RFCx Sentinel app. This
 
 
 \section{Verification} \label{sect:verification}
+This section outlines the steps that are planned to verify that the hardware and software operate in the intended manner. 
 \subsection{Hardware Verification} \label{sect:hardwareverification}
 To verify the power consumption of the devices in \ref{HWa}. the voltage applied and current drawn by the both the enhanced device and the current device will be measured over the course of 1 hour during a realistic usage scenario. The average power will be verified to not exceed 90\% of the existing device’s usage.
 
@@ -596,10 +597,12 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
 
 
 \newpage
-\section*{Appendices}
+\vspace*{\fill}
+\section*{\centering{Appendices}}
 %@TODO Joe: Looks strange with just the work 'Appendices' on a blank page...
 %@JOE: This was done so that in the contents there is a clear starting for where the Appendices start. Otherwise it looks weird because the sections are listed as "A Electrical Schematics". I thought it was clearer if it went "Appendicies\n A Electrical Schematics" 
 \addcontentsline{toc}{section}{Appendicies}
+\vspace*{\fill}
 \newpage
 \appendix
 \section{Electrical Schematics} \label{sect:appendixA}
@@ -806,6 +809,23 @@ If 1A is drawn under worst case scenario and a sense resistor of $10m\Omega$ is 
   &=
 \end{align}
 
+\subsection{SPV1040 Calculations}
+\textbf{Component Values}
+\begin{align}
+  \label{eq:vals}
+  F_{SW}&=70k-130k,typ:100k \\
+  V_{IN_RP_MAX}&=1V \\
+  I_{SC} &= 1A \\
+  T_{MPP} &= ~1ms
+\end{align}
+\textbf{Input Capacitor}
+\begin{align}
+  \label{eq:incap}
+  C_{IN}&\geq \frac{I_{SC}}{F_{SW}\cdot V_{IN_RP_MAX}} \\
+  &\geq \frac{1}{70k\cdot 1} \\
+  &\geq 14.3\mu F
+\end{align}
+\textbf{Input Voltage Sensing Capacitor}
 
 
 
