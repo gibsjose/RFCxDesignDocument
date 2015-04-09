@@ -393,7 +393,7 @@ With this configuration, a configurable output voltage of 5.2V, the maximum of t
 \subsubsection{Solar Charging}
 
 
-A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The circuit design for one of the MPPT ICs can be seen in figure \ref{fig:singlemppt}. 
+A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The circuit design for one of the MPPT ICs can be seen in figure \ref{fig:singlemppt}.
 
 \begin{figure}[H]
 	\centering
@@ -463,7 +463,7 @@ Here it can be seen that there is a very small drop in voltage when powered only
 %@TODO This stuff above too...
 
 \bigskip
-The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone. The values for the supporting circuitry were recommended by the data sheet. 
+The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone. The values for the supporting circuitry were recommended by the data sheet.
 
 %@TODO Jesse: Reference the calculations and the efficiency of the regulator, and compare with our projected 10% decrease in power (although we don't know what it actually consumes, I think topher did give us a number once in an skype chat that we documented. I wouldn't look too hard for it though)
 
@@ -571,9 +571,10 @@ void wakeFromSleep() {
 \end{lstlisting}
 
 \subsection{Software Implementation} \label{sect:softwareimp}
-An ATMega328P microcontroller is be used to take measurements from the sensors. The temperature (and possibly humidity) measurements are sent digitally via I2C to the microcontroller. On the same I2C bus is the ADS1015, which has four single-ended analog inputs for reading the input current, input voltage, output current, and output voltage. This data is be sent to the phone using the standard AVR UART serial library.
 
-The data, once sent to the phone, is be monitored by the RFCx Sentinel app. This app is written in Java in Android Studio, and uses the open-source usb-serial-for-android library. The app opens a connection upon discovering a compatible device (FTDI is compatible), and allows the user to view a streamlined interface with relevant data, as well as a tab for the raw hex dump of incoming serial data. The data may or may not be transmitted along with audio data to the RFCx server for real-time monitoring.
+An ATMega328P microcontroller will be used to take measurements from the sensors. The temperature (and possibly humidity) measurements are sent digitally via $I^2 C$ to the microcontroller. On the same $I^2 C$ bus is the ADS1015, which has four single-ended analog inputs for reading the input current, input voltage, output current, and output voltage. This data will be sent to the phone using the standard AVR UART serial library.
+
+The data, once sent to the phone, will be monitored by the RFCx Sentinel app. This app is written in Java in Android Studio, and uses the open-source usb-serial-for-android library. The app opens a connection upon discovering a compatible device (FTDI is compatible), and allows the user to view a streamlined interface with relevant data, as well as a tab for the raw hex dump of incoming serial data. The data may or may not be transmitted along with audio data to the RFCx server for real-time monitoring.
 
 \section{Verification} \label{sect:verification}
 This section outlines the steps that are planned to verify that the hardware and software operate in the intended manner. 
@@ -841,7 +842,7 @@ Using the LTC6800
   V_{out} &= 3.3V \\
   Gain &= 1+\frac{R_2}{R_1} = 80.5
 \end{align}
-Choose resistors to be $R_2=200k\Omega$ and $R_1=2.55k\Omega$. 
+Choose resistors to be $R_2=200k\Omega$ and $R_1=2.55k\Omega$.
 
 \subsection{SPV1040 Calculations}\label{app:spvcalcs}
 \textbf{Component Values} \\
@@ -922,7 +923,7 @@ The values for the components were recommended by the data sheet.
   C_{in} &= 22\mu F \\
   C_{out} &= 68\mu F
 \end{align*}
-The diode was recommended to be a Schottky with $I_f$ higher than the load current, 500mA. The reverse voltage must be higher than the output voltage and it must be able to switch fast. 
+The diode was recommended to be a Schottky with $I_f$ higher than the load current, 500mA. The reverse voltage must be higher than the output voltage and it must be able to switch fast.
 
 \newpage
 \section{Data Sheet Snippets} \label{sect:appendixE}
