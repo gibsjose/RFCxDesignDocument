@@ -595,8 +595,14 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
 
 
 \newpage
+<<<<<<< HEAD
 \vspace*{\fill}
 \section*{\centering{Appendices}}
+%@TODO Joe: Looks strange with just the work 'Appendices' on a blank page...
+%@JOE: This was done so that in the contents there is a clear starting for where the Appendices start. Otherwise it looks weird because the sections are listed as "A Electrical Schematics". I thought it was clearer if it went "Appendicies\n A Electrical Schematics" 
+=======
+\section*{Appendices}
+>>>>>>> a11a613b6c0e66bbeb56877308f2c8259d3619f5
 \addcontentsline{toc}{section}{Appendicies}
 \vspace*{\fill}
 \newpage
