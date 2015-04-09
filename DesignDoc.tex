@@ -392,7 +392,9 @@ With this configuration, a configurable output voltage of 5.2V, the maximum of t
 \subsubsection{Solar Charging}
 
 
-A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. 
+A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. The time constant of the resistor and capacitor on the \textit{MPPT SET} pin of the SPV1040 IC must be less than or equal to the maximum power point tracking time ($T_{MPPT} \cong 1ms$). It is recommended that the resistor be set to $1k\Omega$. This means that the capacitor must be less than $10\mu F$. The inductor selected was based on the maximum input voltage and current produced by the solar petals. The inductor value was calculated to being greater than or equal to $8.5\mu H$. The saturation current for the inductor must also be greater than 1.8A, which is the limit of the SPV1040. The output voltage capacitor was chosen based on the short circuit current of the solar petals and the maximum voltage ripple. The output voltage capacitor must be greater than $142\mu F$ so $150 \mu F$ was chosen. This was calculated with a maximum output ripple voltage of 0.01V. 
+
+There are two resistors that divide the output of the SPV1040 and provide feedback to the controller. These resistors were calculated to be $76.8k\Omega$ and $24.3k\Omega$. This divides the desired maximum output voltage of 5.2V to 1.25 at the voltage sensing pin. The capacitor on the $V_{CTRL}$ pin of the SPV1040 is needed to reject noise sensed by the pin. This was calculated to be around $45.2\mu F$. 
 
 
 \subsubsection{Battery Management}
@@ -811,14 +813,21 @@ If 1A is drawn under worst case scenario and a sense resistor of $10m\Omega$ is 
 \end{align}
 
 \subsection{SPV1040 Calculations}
-\textbf{Component Values}
-\begin{align}
-  \label{eq:vals}
+\textbf{Component Values} \\
+These are constraints or known values for the calculations
+\begin{align*}
   F_{SW}&=70k-130k,typ:100k \\
   V_{IN_RP_MAX}&=1V \\
   I_{SC} &= 1A \\
-  T_{MPP} &= ~1ms
-\end{align}
+  T_{MPP} &= ~1ms \mbox{ (tracking time)} \\
+  R_{MPPTset} &= 1k\Omega \\
+  I_{MP} &= 0.44A\mbox{ (current at maximum power point)} \\
+  I_{SC} &= 0.5A\mbox{ (short circuit current)} \\
+  V_{MP} &= 3.0V\mbox{ (Voltage at maximum power point) }\\
+  V_{OC} &= 3.4V\mbox{ (Open Circuit voltage)} \\
+  V_{out_rp_max} &=  0.01 \mbox{ (Maximum output voltage ripple} \\
+  V_{OUT_MAX} &= 5.2V \mbox{ (Desired Maximum output voltage)}
+\end{align*}
 \textbf{Input Capacitor}
 \begin{align}
   \label{eq:incap}
@@ -827,7 +836,39 @@ If 1A is drawn under worst case scenario and a sense resistor of $10m\Omega$ is 
   &\geq 14.3\mu F
 \end{align}
 \textbf{Input Voltage Sensing Capacitor}
-
+\begin{align}
+  \label{eq:vincap}
+  C_{MPPTset}&\leq T_{MPP} \cdot \frac{1}{R_{MPPTset}} \\
+  C_{MPPTset}&\leq 10\mu F
+\end{align}
+\textbf{Inductor Selection}
+\begin{align}
+  \label{eq:spvind}
+  I_{Lrms} &\cong I_{MP}\leq I_{SC} \\
+  I_{peak} &= I_{Lrms} + \frac{9e-6 \cdot V_{MP}}{2\cdot L} \\
+  I_{Lpeak} &\leq 1.8 \mbox{ Limitation of SPV1040} \\
+  L &\geq \frac{1}{2} \frac{9e-6\cdot V_{MP}}{2-I_{Lrms}} = \frac{1}{2}\frac{9e-6\cdot V_{MP}}{2-I_{MP}}\\
+  L&\geq 8.5 \mu H
+\end{align}
+\textbf{Output Voltage Capacitor}
+\begin{align}
+  \label{eq:outcap}
+  Cout &\geq \frac{I_{SC}}{F_{SW}\cdot V_{out_rp_max}} \\
+  Cout &\geq 142\mu F
+\end{align}
+\textbf{Output Voltage Partitioning}
+\begin{align}
+  \label{eq:outputvpart}
+  \frac{R_{VctrlTOP}}{R_{VctrlBOT}} &= \frac{V_{OUT_MAX}}{1.25}-1 \\
+  R_{VctrlTOP} &= 76.8k\Omega \\
+  R_{VctrlBOT} &= 24.3k\Omega
+\end{align}
+\textbf{Output Voltage Sense Capacitor}
+\begin{align}
+  \label{eq:outsensecap}
+  C_{Vctrl} &\cong 10\cdot \frac{1}{F_{SW}}\cdot \frac{1}{R_{VctrlTOP}/R_{VctrlBOT}} \\
+  C_{Vctrl} &\cong 45.2 \mu F
+\end{align}
 
 
 \newpage
