@@ -11,3 +11,5 @@ auto/
 #Ignore temp files
 *~
 
+#Ignore PDF
+DesignDoc.pdf
