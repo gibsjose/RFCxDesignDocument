@@ -472,7 +472,6 @@ A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.
 	\label{fig:sm722}
 \end{figure}
 
-
 \subsubsection{Input and Output Current and Voltage Sensing}
 
 The ADS1015 is a 12-bit ADC that can communicate over $I^2 C$ with the microcontroller. This ADC will operate in single shot mode and then go back to sleep. The ADS1015 uses a $\delta\sigma$ ADC and can perform conversions at rates up to 3300 samples per second. The microcontroller will initiate a conversion over $I^2 C$ and be able to send the diagnostic to the phone for further processing. A code snippet can be seen below in Section \ref{sect:softwaredes}.
@@ -517,7 +516,6 @@ The dimensions of the chosen PCB size is shown in Figure \ref{fig:pcbdimensions}
 	\label{fig:pcbdimensions}
 \end{figure}
 
-
 \subsubsection{Connectors}
 
 The USB connection consists of a standard USB Micro A connector, soldered directly onto the board and is secured to the board as a strain-relief mechanism, which is shown in Figure \ref{fig:usbcable}. A standard 3.5mm audio cable is used to connect the microphone. The existing standard GSM antenna adapter is used to interface with the phone’s onboard GSM module.
@@ -543,7 +541,27 @@ The use of X2Y TDMA filtering capacitors will be tested to reduce the noise prod
 
 In addition, a heatsink will be attached to a large ground plane on one side of the board, and the phone will be attached to the same ground plane, to provide some shielding.
 
+\subsubsection{Enclosure}
+
+A new prototype enclosure is not a hard requirement, but is an essential part of prototyping the entire device, especially given the changes being made to the components inside the enclosure. The designed enclosure is shown in Figure \ref{fig:enclosurefront} and Figure \ref{fig:enclosureback} below.
+
+%@TODO Make drawings (front and back)
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{EnclosureFront}
+	\caption{Front View of the Enclosure}
+	\label{fig:enclosurefront}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{EnclosureBack}
+	\caption{Back View of the Enclosure}
+	\label{fig:enclosureback}
+\end{figure}
+
 \subsection{Hardware Implementation} \label{sect:hardwareimp}
+
 \subsubsection{Heatsink} \label{sect:heatsinkimplementation}
 
 A heatsink, as described in Section \ref{sect:heat_just} is shown in Figure \ref{fig:heatsink}.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heatsink may pass through. The opening will be sealed with foam or rubber insulation. Thermal calculations for the heatsink are shown in Appendix \ref{fig:???}.
