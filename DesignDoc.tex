@@ -322,7 +322,7 @@ This configuration offers many benefits. First, the panels on a single petal can
 In addition, this configuration localizes the power tracking to an individual petal. Rather than maximizing the entire array, localizing to each petal allows for some petals to be in direct sunlight while others are in shade and each MPPT will react accoringly.
 
 \bigskip
-Furthermore, this configuration could be easily adapted to using less MPPTs if needed (to reduce cost, for example). To use two MPPTs, for example, instead of four, two of the ICs would simply not be populated and pairs of petals would be connected in parallel externally and connected to the two populated MPPTs. This is shown in Figure \ref{fig:mppt_config_3}.
+Furthermore, this configuration could be easily adapted to using less MPPTs if needed (to reduce cost, for example). To use two MPPTs, for example, instead of four, two of the ICs would simply not be populated and pairs of petals would be connected in parallel externally and connected to the two populated MPPTs. This is shown in Figure \ref{fig:mppt_config3}.
 
 \bigskip
 Finally, as required by the SPV1040, the input voltage will always be much less than the output in this configuration. The input voltage will be either 1.5V (parallel panels) or 3.0V (series), well below the 5.2V output.
@@ -462,12 +462,12 @@ Here it can be seen that there is a very small drop in voltage when powered only
 %@TODO This stuff above too...
 
 \bigskip
-The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone.
+The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone. The values for the supporting circuitry were recommended by the data sheet. 
 
 %@TODO Jesse: Reference the calculations and the efficiency of the regulator, and compare with our projected 10% decrease in power (although we don't know what it actually consumes, I think topher did give us a number once in an skype chat that we documented. I wouldn't look too hard for it though)
 
 \bigskip
-The calculations for the surrounding components can be seen in Appendix \ref{app:lm61calcs}. The layout of the 5V boost regulator can be seen in figure \ref{fig:ps5}.
+The layout of the 5V boost regulator can be seen in figure \ref{fig:ps5}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{PS5V}
@@ -517,7 +517,7 @@ The USB connection consists of a standard USB Micro A connector, soldered direct
 
 \subsubsection{GSM Interference}
 
-The use of X2Y TDMA filtering capacitors will be tested to reduce the noise produced by the stopping and starting of GSM packets, which is in the audible range at ~217Hz. A pass-through 3.5mm microphone interface will be included to test the X2Y capacitors. The pass through circuit can be seen in figure \ref{fig:x2y}.
+The use of X2Y TDMA filtering capacitors will be tested to reduce the noise produced by the stopping and starting of GSM packets, which is in the audible range at ~217Hz. X2Y capacitors are made by Johanson Diaelectric and is a four terminal capacitor. These capacitors are a 2 terminal MLC capacitor with electrode sets on either end and a third set in the middle. This makes a three node capacitive circuit that has two closely matched, low inductance capacitors in a single package. Johanson Dialectric tests showed a nearly flat response for a GSM handset that fed an amplifier. A pass-through 3.5mm microphone interface will be included to test the X2Y capacitors. The pass through circuit can be seen in figure \ref{fig:x2y}.
 
 \begin{figure}[H]
 	\centering
