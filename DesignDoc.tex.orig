@@ -143,7 +143,6 @@ Rain forest, Recycling, RFCx, Rainforest Connection, cellphone, Android, logging
 \newpage
 \tableofcontents
 \newpage
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BACKGROUND %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{RFCx Background} \label{sect:background}
 Rainforest Connection (RFCx) is a non-profit organization that is dedicated to stopping illegal logging and deforestation in rainforests throughout the world. The destruction of tropical rainforests is a leading cause of carbon dioxide emission, and much of it is caused by illegal activities. RFCx combats illegal logging with devices using re-purposed cell-phones strategically placed in trees in remote areas. A picture of the entire device is shown below in Figure \ref{fig:device}.
 
@@ -165,7 +164,6 @@ These devices listen and record audio streams at all times, using their data con
 \end{figure}
 \newpage
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INTRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Project Introduction} \label{sect:intro}
 RFCx Project Necromancer is primarily comprised of enhancements to the existing system in the areas of power consumption, power efficiency, temperature concerns, and overall modularity of components. The devices currently consist of an Android phone, Radioshack enclosure, off-the-shelf external microhpone and antenna, RFCx solar petals, two dual-cell Lithium-Ion batteries, and  various off-the-shelf PCBs and individual electrical components comprising the power regulation and solar and battery management control. The external microphone, antenna, solar petals, batteries (Appendix \ref{fig:batdat}), and Android phone will remain the same. A view inside of the device is shown in Figure \ref{fig:device_inside}.
 
@@ -215,7 +213,6 @@ On the phone, an app called RFCx Sentinel monitors the incoming diagnostics, dis
 %   \label{fig:devdesign}
 % \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% REQUIREMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Requirements and Functional Specifications} \label{sect:requirementsandspec}
 This section is organized by external and internal interfaces, with subsections in each for both hardware and software requirements.
 
@@ -271,9 +268,10 @@ To verify \ref{HW3}, simple packets will be sent from the microcontroller to the
 \item \label{SW4}There shall be a header on the PCB to program to reprogram the microcontroller.
 \end{enumerate}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% JUSTIFICATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Component Justification} \label{sect:justification}
 This section describes each component of the PCB in detail and gives justifications for their selection and a discussion of alternative choices that were considered. Two main concerns for every component is packaging and power consumption. There should be no component that the end user can not fix to the PCB without common soldering equipment. Power consumption is a major concern as the device is meant to be located in a remote area and powered by batteries and solar power.
+
+%@TODO Add references to the datasheets for the list as well as all references inside the justifications
 
 \bigskip
 The following is a list of the main ICs that comprise the PCB and are outlined in this section:
@@ -372,7 +370,6 @@ The LMR61428(Appendix \ref{fig:lmrdat}) Step-Up Voltage regulator was chosen bec
 \subsection{Current Sensing} \label{sect:cur_just}
 The LTC6800 precision instrumentation amplifier (Appendix \ref{fig:ltc6800dat}) was chosen to perform current sensing. This instrumentation amplifier operates rail-to-rail on the input and output, which provides a larger window to sense the voltage across the sense resistor. A sense resistor value of 0.010$\Omega$ was chosen to provide minimal power dissipation. Although very small, since the leakage current into the opamp is also extremely small (on the order of 1nA), the trace resistance, which is approximately 0.035$\Omega$, is not a concern. The LTC6800 also draws very little current. Under no load the LTC6800 draws a maximum of 1.3mA.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DESIGN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{System Design} \label{sect:sysarch}
 \subsection{Hardware Design} \label{sect:hardwaredesign}
 
@@ -391,14 +388,11 @@ With this configuration, a configurable output voltage of 5.2V, the maximum of t
 
 \subsubsection{Solar Charging}
 
-
-A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. 
-
+A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. The 
 
 \subsubsection{Battery Management}
 
 The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with resistor \textit{R24}. Only the lower temperature bound is set here because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R10} and \textit{R22}. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
-%@TODO Nice! This one is perfect! All the design paragraphs should be like this one.
 
 \begin{figure}[H]
 	\centering
@@ -406,7 +400,6 @@ The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure 
 	\caption{Battery Management Circuitry}
 	\label{fig:batman}
 \end{figure}
-
 The calculations for the component selection for the battery management circuitry is included in Appendix \ref{sect:bqcalcs}.
 
 \subsubsection{Voltage Regulation}
@@ -452,6 +445,8 @@ It can be seen that as the panel voltage is rising, there is a considerable dip 
 Here it can be seen that there is a very small drop in voltage when powered only from battery and a reasonable drop when powered from the solar panel. This is the desired behavior.
 %@TODO This stuff above too...
 
+%@Joe: Why do you think it needs to be in the appendix. It is referenced in the body of the explanation. The reader would have to flip like 50 pages just to see what I am talking about. If there was some raw data I could see it being moved but this is relevant. What do you think?
+
 \bigskip
 The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone.
 
@@ -471,7 +466,7 @@ A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.
 
 \subsubsection{Input and Output Current and Voltage Sensing}
 
-The ADS1015 is a 12-bit ADC that can communicate over I2C with the microcontroller. This ADC will operate in single shot mode and then go back to sleep. The ADS1015 uses a $\delta\sigma$ ADC and can perform conversions at rates up to 3300 samples per second. The microcontroller will initiate a conversion over I2C and be able to send the diagnostic to the phone for further processing. A code snippet can be seen below in Section \ref{sect:softwaredes}.
+The ADS1015 is a 12-bit ADC that can communicate over I2C with the microcontroller. This ADC will operate in single shot mode and then go back to sleep. The ADS1015 uses a $\delta\sigma$ ADC and can perform conversions at rates up to 3300 samples per second. The microcontroller will initiate a conversion over I2C and be able to send the diagnostic to the phone for further processing.
 
 The LTC6800 instrumentation amplifier is used to sense the voltage across a known sense resistor. The input current sense circuit is configured to have a gain of around 80.5. The sense resistor has been selected to be 0.01$\Omega$. With this configuration the ADC will be able to sense the current with a resolution of 1mA/bit. The calculations for this section can be seen in Appendix \ref{fig:calc???}. The configuration of the current sense amplifier can be seen in Figure \ref{fig:AV} below. The input and output voltage are sensed with simple resistor dividers that are fed to the ADC.
 \begin{figure}[H]
@@ -600,8 +595,14 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
 
 
 \newpage
+<<<<<<< HEAD
 \vspace*{\fill}
 \section*{\centering{Appendices}}
+%@TODO Joe: Looks strange with just the work 'Appendices' on a blank page...
+%@JOE: This was done so that in the contents there is a clear starting for where the Appendices start. Otherwise it looks weird because the sections are listed as "A Electrical Schematics". I thought it was clearer if it went "Appendicies\n A Electrical Schematics" 
+=======
+\section*{Appendices}
+>>>>>>> a11a613b6c0e66bbeb56877308f2c8259d3619f5
 \addcontentsline{toc}{section}{Appendicies}
 \vspace*{\fill}
 \newpage

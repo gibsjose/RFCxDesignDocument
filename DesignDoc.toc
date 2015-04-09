@@ -49,5 +49,6 @@
 \contentsline {section}{\numberline {D}Calculations}{40}{appendix.D}
 \contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calculations}{40}{subsection.D.1}
 \contentsline {subsection}{\numberline {D.2}Current and Voltage Sensing}{41}{subsection.D.2}
+\contentsline {subsection}{\numberline {D.3}SPV1040 Calculations}{41}{subsection.D.3}
 \contentsline {section}{\numberline {E}Data Sheet Snippets}{42}{appendix.E}
 \contentsline {section}{\numberline {F}Source Code}{55}{appendix.F}
