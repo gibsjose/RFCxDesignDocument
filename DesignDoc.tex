@@ -280,9 +280,9 @@ The following is a list of the main ICs that comprise the PCB and are outlined i
 \begin{description}[font=$\bullet$\scshape\bfseries]
 \item[Atmel ATMega328P]: 8-bit AVR microcontroller (Appendix \ref{fig:atmeldat})
 \item[SPV1040 Max Point Power Tracker]: Solar power controller and lithium-ion battery charger (Appendix \ref{fig:spvdat})
-\item[ADS1015]: External 4-input 12-bit Analog-to-Digital Converter, I2C communication (Appendix \ref{fig:adsdat})
-\item[LM75BD]: Ultra Low Power Temperature Sensor,$\pm 2^{\circ}C$, I2C communication (Appendix \ref{fig:lm75dat})
-\item[(Optional) HIH6130]: 14-bit resolution Humidity and Temperature Sensor with accuracy of $\pm4$\% Relative Humidity and $\pm 1^{\circ}C$, I2C communication (Appendix \ref{fig:hihdat})
+\item[ADS1015]: External 4-input 12-bit Analog-to-Digital Converter, $I^2 C$ communication (Appendix \ref{fig:adsdat})
+\item[LM75BD]: Ultra Low Power Temperature Sensor,$\pm 2^{\circ}C$, $I^2 C$ communication (Appendix \ref{fig:lm75dat})
+\item[(Optional) HIH6130]: 14-bit resolution Humidity and Temperature Sensor with accuracy of $\pm5$\% Relative Humidity and $\pm 1^{\circ}C$, $I^2 C$ communication (Appendix \ref{fig:hihdat})
 \item[FT230X]: FTDI USB-UART interface for USB serial communication (Appendix \ref{fig:ftdidat})
 \item[BQ2057CTS]: Linear Battery Charge Management IC (Appendix \ref{fig:bq2057dat})
 \item[LM61428]: Simple Switcher Boost Controller IC (Appendix \ref{fig:lmrdat})
@@ -295,13 +295,19 @@ The following is a list of the main ICs that comprise the PCB and are outlined i
 The ATmega328P microcontroller (Appendix \ref{fig:atmeldat}) was chosen as the microcontroller for the PCB. Many aspects were considered when choosing a microcontroller, including power consumption, available interfaces, availability of code samples, community support, ease of programming, and package size.
 
 \bigskip
-To this end, the ATmega328P is a logical choice; it is the microcontroller used by the popular Arduino platform, which means there are a multitude of code samples to reference for most any project. In addition, the 328P has a pico-power deep sleep mode, which consumes under 0.1$\mu$A of current. Unlike many options, the 328P has an easy to solder TQFP package. It is also is easily programmed by the use of an ICSP interface and does not require expensive hardware programmers or debuggers.
+To this end, the ATmega328P is a logical choice; it is the microcontroller used by the popular Arduino platform, which means there are a multitude of code samples to reference for most any project. In addition, the 328P has a \textit{picopower} deep sleep mode, which consumes under 0.1$\mu$A of current. Unlike many options, the 328P has an easy to solder TQFP package. It is also is easily programmed by the use of an ICSP interface and does not require expensive hardware programmers or debuggers, as is the case for the Freescale KL25Z, which was also considered but requires a JTAG programmer.
 
 \bigskip
-USB communication was another concern when choosing a microcontroller. Similar MCUs that included on-board USB interfaces were also considered, but none could be found that offered the simple package, deep sleep mode, and I2C communication. I2C communication is needed to communicate with the analog-to-digital converter and temperature/humidity sensors.
+Another microcontroller considered was the Texas Instruments 16-bit RISC MSP430. This microcontroller is the most expensive, draws the highest current in active and sleep modes, and requires an external tool to program.
+
+\bigskip
+USB communication was another concern when choosing a microcontroller. Similar MCUs that included on-board USB interfaces were also considered, but none could be found that offered the simple package, deep sleep mode, and $I^2 C$ communication. $I^2 C$ communication is needed to communicate with the analog-to-digital converter and temperature/humidity sensors.
+
+\bigskip
+
 
 \subsection{MPPT} \label{sect:mppt_just}
-The SPV1040 Max Point Power Tracker (MPPT) (Appendix \ref{fig:spvdat}) was chosen to perform the solar charge management. A driving factor in choosing the SPV1040 was that RFCx had already established a supplier and had many on-hand to ship us for prototyping. In addition, it has the advantage of being simpler to use than similar chips, like the Solar Magic SM72442, in that no I2C communication is necessary to set and configure registers to perform the same function. Finally, the currently used MCP73871 chip (currently on an off-the-shelf Adafruit board) fails in both the physical package being difficult to assemble by hand (QFN package) when used alone, and being meant for only single-cell Lithium-Ion batteries. In addition, the MCP73871 does not use a true MPPT algorithm, but rather an approximation.
+The SPV1040 Max Point Power Tracker (MPPT) (Appendix \ref{fig:spvdat}) was chosen to perform the solar charge management. A driving factor in choosing the SPV1040 was that RFCx had already established a supplier and had many on-hand to ship us for prototyping. In addition, it has the advantage of being simpler to use than similar chips, like the Solar Magic SM72442, in that no $I^2 C$ communication is necessary to set and configure registers to perform the same function. Finally, the currently used MCP73871 chip (currently on an off-the-shelf Adafruit board) fails in both the physical package being difficult to assemble by hand (QFN package) when used alone, and being meant for only single-cell Lithium-Ion batteries. In addition, the MCP73871 does not use a true MPPT algorithm, but rather an approximation.
 
 \subsection{MPPT Configuration} \label{sect:mppt_config_just}
 The MPPT configuration makes a large difference in many aspects of the selection of other components. First, each MPPT can only handle 1.8A of current. Also, the input voltage of each MPPT must be much less than the desired output voltage for them to function properly. Depending on the configuration, the number of MPPT ICs can vary from 1 to 8, increasing cost, and the voltage and current characterstics vary depending on whether they are connected in series or in parallel.
@@ -347,15 +353,19 @@ The second alternate configuration, in Figure \ref{fig:mppt_config3}, is really 
 \end{figure}
 
 \subsection{ADC} \label{sect:adc_just}
-The ADS1015 external ADC (Appendix \ref{fig:adsdat}) was chosen to perform analog-to-digital conversions for the power sensing. The ATmega328P does not have a strong internal ADC, being only 10-bit resolution, and the ADS1015 is easy to communicate with via I2C. In addition, I2C supports multiple devices in parallel, so only two of the ATmega328P's six analog pins are used. This frees the other four for future use. The ADS1015 consumes less than 150$\mu$A, has 12-bit resolution, and supports four single-ended analog inputs, which will be used to monitor input current, input voltage, output current, and output voltage on the PCB.
+The ADS1015 external ADC (Appendix \ref{fig:adsdat}) was chosen to perform analog-to-digital conversions for the power sensing. The ATmega328P does not have a strong internal ADC, being only 10-bit resolution, and the ADS1015 is easy to communicate with via $I^2 C$. In addition, $I^2 C$ supports multiple devices in parallel, so only two of the ATmega328P's six analog pins are used. This frees the other four for future use. The ADS1015 consumes less than 150$\mu$A, has 12-bit resolution, and supports four single-ended analog inputs, which will be used to monitor input current, input voltage, output current, and output voltage on the PCB.
 
 \subsection{Temperature and Humidity Sensor} \label{sect:temp_just}
 The LM75BD (Appendix \ref{fig:lm75dat}) was chosen as the temperature sensor.  The LM75 is a super low power temperature sensor with an accuracy of $\pm2^{\circ}C$. It uses less than 300uA during peak transmission, and costs under \$1.
 
 \bigskip
-An alternative sensor prodiving both temperature and humidity measurements, the HIH6130 (Appendix \ref{fig:hihdat}), was also considered. Also using I2C and also being low-power, the only real drawback is the price, at nearly \$14. For this reason the LM75BD was chosen, but the footprint for the HIH6130 will be included but unpopulated on the board as an option to the end user.
+An alternative sensor prodiving both temperature and humidity measurements, the HIH6130 (Appendix \ref{fig:hihdat}), was also considered. Also using $I^2 C$ and also being low-power, the only real drawback is the price, at nearly \$14. For this reason the LM75BD was chosen, but the footprint for the HIH6130 will be included but unpopulated on the board as an option to the end user.
 
-Other lower-cost humidity and temperature sensors were investigated, such as the DHT11 and DHT22. The DHT11 is affordable, at around \$5, but has a limited range of 0-50$^{\circ}C$. The DHT22 has the range required and is accurate, but costs almost as much as as the HIH6130 at around \$9. Both the DHT11 and DHT22 are not I2C, but rather use the one-wire-interface which requires elaborate timing to get the correct data, and take up another pin on the microcontroller. In addition, Adafruit and Amazon were the only places that stock the DHT22, neither of which offer the reliability or quantity of sources like Digikey or Mouser.
+\bigskip
+Other lower-cost humidity and temperature sensors were investigated, such as the DHT11 and DHT22. The DHT11 is affordable, at around \$5, but has a limited range of 0-50$^{\circ}C$. The DHT22 has the range required and is accurate, but costs almost as much as as the HIH6130 at around \$9. Both the DHT11 and DHT22 are not $I^2 C$, but rather use the one-wire-interface which requires elaborate timing to get the correct data, and take up another pin on the microcontroller. In addition, Adafruit and Amazon were the only places that stock the DHT22, neither of which offer the reliability or quantity of sources like Digikey or Mouser.
+
+\bigskip
+The LM75BD is accurate within $\pm3^{\circ}C$ from $-25$ to $+100^{\circ}C$ and within $\pm2^{\circ}C$ from $-55$ to $+125^{\circ}C$. The HIH6130 can operate in the temperature range of $-25^{\circ}C$ to $85^{\circ}C$ and from 10\% to 90\% Relative Humidity (RH) with an accuracy of $\pm1^{\circ}C$ and $\pm5$\% RH.
 
 \subsection{FTDI} \label{sect:ftdi_just}
 The FT230X FTDI chip (Appendix \ref{fig:ftdidat}) was chosen for the UART to USB interface between the microcontroller and the Android phone. FTDI is widely used and supported, and, unlike similar devices like the Arduino's CDCACM, does not require another microcontroller to be added, configured, and flashed with software. In addition, the RFCx Sentinel application, which uses the open source usb-serial-for-android library, readily supports FTDI. Serial USB communication has already been achieve using an ATmega328P MCU, a similar FTDI chip, and the Sentinel app.
@@ -367,7 +377,10 @@ Battery management is important for the ability to reclaim and potentially fix a
 To manage the power selection between the solar panels and the batteries, a power path management solution was required. This was required because while the batteries are being charged the rest of the circuit should not draw from them. If the rest of the circuit draws from them while they are being charged, the battery charge management IC could get confused and damage the batteries by over charging or under charging. A diode-ORed configuration, in which power sources are ORed together via a near ideal diode($0.02V_f$), selects the source with the higher voltage. The LTC4412 (Appendix \ref{fig:ltc4412dat}) was chosen to perform this power path management. The ideal diodes are implemented externally with a FZT788B P-Channel MOSFET (Appendix \ref{fig:ftzdat}). This IC also has a very low quiescent current, below $1.15\mu A$.
 
 \subsection{Power Regulation} \label{sect:reg_just}
-The LMR61428(Appendix \ref{fig:lmrdat}) Step-Up Voltage regulator was chosen because of its price, package, and performance. It is important for all of the ICs on this board to be in a package that the end user can assemble with without the aid of more advanced PCB assembly equipment such as solder paste/stencils and ovens. This means that they can not be in packages where there are pins underneath or too small to place with tweazers. The operation requirements for the LMR61428 where with in the worst case behavior for the feeding circuitry. Some of the other buck/boost controllers required a much higher input voltage when the load current was around 500mA. The LMR61428 requires less than 2V, which is possible even when drawing from the batteries. Since this is design is for a remote device powered from batteries and solar power, quiecent current is a concern as well. The LM61428 only draws 80mA when in the operating mode.
+The LMR61428(Appendix \ref{fig:lmrdat}) Step-Up Voltage regulator was chosen because of its price, package, and performance. It is important for all of the ICs on this board to be in a package that the end user can assemble with without the aid of more advanced PCB assembly equipment such as solder paste/stencils and ovens. Also, some of the other buck/boost controllers required a much higher input voltage when the load current was around 500mA. The LMR61428 requires less than 2V, which is possible even when drawing from the batteries. Since this is design is for a remote device powered from batteries and solar power, quiecent current is a concern as well. The LM61428 only draws 80mA during operation.
+
+\bigskip
+The Texas Instruments SM72238 Micropower Fixed 3.3V LDO was chosen to regulate the 3.3V line because it has a very low dropout voltage of around 380mV at the max current draw of 100mA.
 
 \subsection{Current Sensing} \label{sect:cur_just}
 The LTC6800 precision instrumentation amplifier (Appendix \ref{fig:ltc6800dat}) was chosen to perform current sensing. This instrumentation amplifier operates rail-to-rail on the input and output, which provides a larger window to sense the voltage across the sense resistor. A sense resistor value of 0.010$\Omega$ was chosen to provide minimal power dissipation. Although very small, since the leakage current into the opamp is also extremely small (on the order of 1nA), the trace resistance, which is approximately 0.035$\Omega$, is not a concern. The LTC6800 also draws very little current. Under no load the LTC6800 draws a maximum of 1.3mA.
@@ -382,12 +395,12 @@ The system is powered from eight solar cells that have been manufactured by RFCx
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{MPPTblocks}
+	\includegraphics[width=0.8\textwidth]{MPPTblocks}
 	\caption{MPPT and Solar Panel Interface}
 	\label{fig:mpptsol}
 \end{figure}
 
-With this configuration, a configurable output voltage of 5.2V, the maximum of the SPV1040, will be obtained at an average of about 1.15A, yeilding an input power of about 6W.
+With this configuration a configurable output voltage of 5.2V, the maximum of the SPV1040, will be obtained at an average of about 1.15A, yeilding an input power of about 6W.
 
 \subsubsection{Solar Charging}
 
@@ -397,6 +410,7 @@ A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current a
 There are two resistors that divide the output of the SPV1040 and provide feedback to the controller. These resistors were calculated to be $76.8k\Omega$ and $24.3k\Omega$. This divides the desired maximum output voltage of 5.2V to 1.25 at the voltage sensing pin. The capacitor on the $V_{CTRL}$ pin of the SPV1040 is needed to reject noise sensed by the pin. This was calculated to be around $45.2\mu F$. 
 
 
+
 \subsubsection{Battery Management}
 
 The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with resistor \textit{R24}. Only the lower temperature bound is set here because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R10} and \textit{R22}. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
@@ -404,7 +418,7 @@ The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{BatteryManage}
+	\includegraphics[width=0.8\textwidth]{BatteryManage}
 	\caption{Battery Management Circuitry}
 	\label{fig:batman}
 \end{figure}
@@ -417,42 +431,12 @@ A diode-ORed power path management circuit was used to switch the power source t
 %@TODO Jesse: Describe this design in greater detail
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{DiodeOR}
+	\includegraphics[width=0.8\textwidth]{DiodeOR}
 	\caption{Diode Ored Circuit}
 	\label{fig:dored}
 \end{figure}
 
 This circuit provides power path switching in under 100 $\mu$s, and there is virtually no dip in the output voltage during the switch. A dip of approximately 500mV was observed when using a transistor alone to simply switch between the two sources, as shown in the simulation figure in Appendix \ref{fig:doredsimres1}. With the diode-ORed topology, the switch is clean, as seen in the simulation figure in Appendix \ref{fig:doredsimres2}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.6\textwidth]{DiodeORSIM}
-	\caption{Simulation of Diode Ored Circuit}
-	\label{fig:doredsim}
-\end{figure}
-
-%@TODO Jesse: Move these and all descriptions of the simulation to the appendix
-
-The two circuits were simulated with LTSpice. The same diode and transistor were used in each simulation. A load of 550mA was used because this is more than the calculated worst case current draw from the circuit.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.6\textwidth]{DiodeORres1}
-	\caption{Simulation Result of Old Diode Ored Circuit}
-	\label{fig:doredsimres1}
-\end{figure}
-
-%@TODO Jesse: Move this description  and the one following the figure to the appendix also, as the results are summarized above
-It can be seen that as the panel voltage is rising, there is a considerable dip to around 3.0V. If this occured, the 3.3V linear drop out regulator would not be able to regulate properly and the 3.3V line would be deactivated. The diode-ored controller topology simulation result can be seen in figure \ref{fig:doredsimres2}.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.6\textwidth]{DiodeORres2}
-	\caption{Simulation Result of Current Diode Ored Circuit}
-	\label{fig:doredsimres2}
-\end{figure}
-
-Here it can be seen that there is a very small drop in voltage when powered only from battery and a reasonable drop when powered from the solar panel. This is the desired behavior.
-%@TODO This stuff above too...
 
 \bigskip
 The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone.
@@ -463,73 +447,86 @@ The LM61428 is a step-up voltage regulator that is configured to boost the input
 The calculations for the surrounding components can be seen in Appendix \ref{fig:calc???}. The layout of the 5V boost regulator can be seen in the following figure.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{PS5V}
+	\includegraphics[width=0.8\textwidth]{PS5V}
 	\caption{5V Voltage Regulation}
 	\label{fig:ps5}
 \end{figure}
 
-%@TODO Jesse: Move the 'it was chosen because...' stuff to the justification section. Only talk about design here. Talk about the surrounding circuitry and the interface with the top level, etc.
-A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.3V line. This was chosen over a switching regulator because the minimum voltage of 3.7 and the output voltage of 3.3V were too close together, causing the duty cycle calculations to come out to negative or not meet certain regulator’s requirements. The SM72238 has very low dropout, which is in range for the need of this application. The only external components required by the LDO are two low ESR 1uF capacitors on the input and output.
+\bigskip
+A Texas Instruments SM72238 Micropower fixed 3.3V LDO is used to regulate the 3.3V line. The only external components required by the LDO are two low ESR 1uF capacitors on the input and output, as shown in Figure \ref{fig:ps3}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{PS3V}
+	\caption{3.3V Voltage Regulation}
+	\label{fig:ps3}
+\end{figure}
+
 
 \subsubsection{Input and Output Current and Voltage Sensing}
 
-The ADS1015 is a 12-bit ADC that can communicate over I2C with the microcontroller. This ADC will operate in single shot mode and then go back to sleep. The ADS1015 uses a $\delta\sigma$ ADC and can perform conversions at rates up to 3300 samples per second. The microcontroller will initiate a conversion over I2C and be able to send the diagnostic to the phone for further processing. A code snippet can be seen below in Section \ref{sect:softwaredes}.
+The ADS1015 is a 12-bit ADC that can communicate over $I^2 C$ with the microcontroller. This ADC will operate in single shot mode and then go back to sleep. The ADS1015 uses a $\delta\sigma$ ADC and can perform conversions at rates up to 3300 samples per second. The microcontroller will initiate a conversion over $I^2 C$ and be able to send the diagnostic to the phone for further processing. A code snippet can be seen below in Section \ref{sect:softwaredes}.
 
 The LTC6800 instrumentation amplifier is used to sense the voltage across a known sense resistor. The input current sense circuit is configured to have a gain of around 80.5. The sense resistor has been selected to be 0.01$\Omega$. With this configuration the ADC will be able to sense the current with a resolution of 1mA/bit. The calculations for this section can be seen in Appendix \ref{fig:calc???}. The configuration of the current sense amplifier can be seen in Figure \ref{fig:AV} below. The input and output voltage are sensed with simple resistor dividers that are fed to the ADC.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{AtoV}
+	\includegraphics[width=0.8\textwidth]{AtoV}
 	\caption{Current Sense Amplifier}
 	\label{fig:AV}
 \end{figure}
 
 \subsubsection{Microcontroller}
 
-%@TODO Joe: Move the details of the other MCU part numbers to the justification section and delete the rest of this paragraph
-Three other microcontrollers were considered. Two ARM M0+ low power micro controllers were considered. The Atmel ATSAM ARM M0+ was not chosen because it drew more current than the 328P and was decided to be over kill for this application. Some nice features were that it had a built in USB module and required no external tools to program it. The Freescale KL25Z was also decided to be overkill for this application and was not chosen because the programming interface of the end user would have been difficult as it required a JTAG programmer. The other microcontroller was a Texas Instruments 16-bit RISC MSP430. This microcontroller was the most expensive, drew the highest current in active and sleep modes, and requires an external tool to program. The parametric search on Atmle's website was used to search for a microcontroller that had built in USB capabilities. There were only a few microcontrollers listed that were offered in flat packages and had built in USB and I2C modules. However, none of the microcontrollers had the \textit{picopower} capability, which was seen to be important for this project. The ATmega328P was chosen for microcontroller between the sensors and the phone. The ATmega328P does require an external tool to program but it does have low power sleep modes, it is cheap, its is simple, and it is well documented not only by Atmel but by a very large community. It is felt that this would benefit the end user the most in the future. The only supporting circuitry for the ATmega328P is the 6-pin in-circuit serial programming (ICSP) port, a 32kHz external crystal, and external pull up resistors on the I2C communication lines. The 32kHz crystal is included for the real time clock. The real time clock is used so that the ATmega328P microcontroller can go into a sleep mode and wake up later to conserve power usage. The ATmega328P also requires an FTDI IC to communicate with the phone over USB.
+The only supporting circuitry for the ATmega328P is the 6-pin in-circuit serial programming (ICSP) port, a 32kHz external crystal, and external pull up resistors on the $I^2 C$ communication lines. The 32kHz crystal is included for the real time clock. The real time clock is used so that the ATmega328P microcontroller can go into a sleep mode and wake up later to conserve power usage. The ATmega328P also requires an FTDI IC to communicate with the phone over USB. The microcontroller and surrounding circuitry is shown below in Figure \ref{fig:mcu}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Microcontroller}
+	\caption{Microcontroller}
+	\label{fig:mcu}
+\end{figure}
 
 \subsubsection{Temperature and Humidity}
 
-A temperature sensor (LM75BD, \ref{fig:lm75dat}) and a humidity/temperature sensor(HIH6130, \ref{fig:hihdat}) will be included on the board. Both of these interfaces are supplied but not intended to be populated at the same time. The purpose for providing a choice is because the available I2C humidity sensors seem to be around the \$15 range. This is a little expensive to include on every device but the end user may want to include the humidity sensor on some of the devices and only sense temperature. The schematic connections of the two ICs is shown in Figure \ref{fig:tandh}.
+Both the temperature sensor (LM75BD, Appendix \ref{fig:lm75dat}) and humidity/temperature sensor(HIH6130, Appendix \ref{fig:hihdat}) require minimum supporting circuitry to operate due to their internal clocks, internal analog-to-digital converters, and internal memory. The LM75, however, still requires a resistor network to set the $I^2 C$ address bits associated with the chip. As seen below in Figure \ref{fig:tandh}, resistors R51 to R56 are used to set the address bits. For each input, either the pull-up or pull-down resistor will be populated and the other will be populated with a 0$\Omega$ resistor to set the bit to either a logic 1 or 0.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{temphumid}
+	\includegraphics[width=0.8\textwidth]{temphumid}
 	\caption{Temperature and Humidity Sensors}
 	\label{fig:tandh}
 \end{figure}
-
-The LM75BD can sense temperature with a resolution of $0.125^{\circ}C$ and up to $+125^{\circ}C$. This resolution and temperature operating range is well within the environmental conditions that the device is intended to operate in.
-The HIH6130 is a I2C capable humidity and temperature sensor can operate in the temperature range of $-25^{\circ}C$ to $85^{\circ}C$ and humidity in the range $\pm5 \%RH$. These ranges and limits are also within the ranges foreseen in the intended rain forest environment.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@TODO This is as far as I got... %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Connectors}
 
 The USB connection consists of a standard USB Micro A connector, soldered directly onto the board and is secured to the board as a strain-relief mechanism. A standard 3.5mm audio cable is used to connect the microphone. The existing standard GSM antenna adapter is used to interface with the phone’s onboard GSM module.
 
+%@TODO Drawing here?
+
 \subsubsection{GSM Interference}
 
-The use of X2Y TDMA filtering capacitors will be tested to reduce the noise produced by the stopping and starting of GSM packets, which is in the audible range at ~217Hz. A pass-through 3.5mm microphone interface will be included to test the X2Y capacitors. In addition, a large heatsink will be attached to a large ground plane on one side of the board, and the phone will be attached to the same ground plane, which should help with some shielding.
+The use of X2Y TDMA filtering capacitors will be tested to reduce the noise produced by the stopping and starting of GSM packets, which is in the audible range at ~217Hz. A pass-through 3.5mm microphone interface will be included to test the X2Y capacitors. In addition, the heatsink and large ground plane to which the phone is attached should also provide shielding.
 
 \subsubsection{PCB Size}
-
+%@TODO Move all justifications here to the justification section
 Two size options were proposed for the PCB, including having only enough space for the components and having a long open space on the PCB for attaching the phone. Having a long PBC with space for the phone was chosen to simplify the assembly process for the device. The length of the open space is long enough to accommodate large phones, and variable length mounting holes in the PCB allow for any size phone to be securely mounted to the PCB using snap-fit mounting screws. A micro-USB cable is used to interface the phone to the rest of the board. Using a cable instead of a connector allows the use of any size phone in the device. Having the PCB only large enough to fit the electrical components on it requires a separate mounting mechanism for the phone, which complicates the assembly of the device.
 
 \subsubsection{Heat Dissipation}
-
+%@TODO Move all justifications here to the justification section
 Multiple alternatives were explored for dissipating heat built up in the enclosure, including drilling holes into the enclosure, putting fans in the enclosure to control airflow in and out of the enclosure, and using a heat sink. Using a heat sink was chosen as the best design alternative for heat dissipation. Drilling holes in the enclosure can allow water, insects and dust to enter the enclosure. A wire mesh over the holes could be used to keep insects out of the enclosure, but water and dust could still get into the enclosure and damage the electronics. Running fans in the device creates a sound in a similar frequency range to the chainsaw noise the device is trying to detect. This can cause false detection of a chainsaw by the RFCx server. A heat sink also requires a hole to be drilled into the enclosure for the heat sink to reach outside of the enclosure. This opening is sealed with caulk or by other methods to prevent water, insects and dust from entering the enclosure. The battery cover on the phone is removed and thermal paste is used between the phone battery and the PBC, and between the PCB and the heat sink. This allows heat to dissipate out of the enclosure and help keep the phone attached to the PCB and the PCB attached to the heat sink. Vias in the PCB help heat to transfer more readily through the board instead of trying to transfer the heat through the fiberglass the board is made of.
 
 \subsection{Hardware Implementation} \label{sect:hardwareimp}
 \subsubsection{Heat Sink}
 
-A heat sink, as described in Section \ref{sect:hardwaredesign} is shown in Figure 1.4.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heat sink may pass through.  The shape of the heat sink will be optimized for reduced interior air temperature through heat transfer calculations.
+A heatsink, as described in Section \ref{sect:hardwaredesign} is shown in Figure \ref{fig:???}.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heatsink may pass through. The opening will be sealed with foam or rubber insulation. Thermal calculations for the heatsink are shown in Appendix \ref{fig:???}.
 
+%@TODO Insert heatsink drawings here
+
+\newpage
 \subsection{Software Design} \label{sect:softwaredes}
 The software used in the design will consists of C and C++ code running on the ATMega328P microcontroller, as well as a companion app (RFCx Sentinel) written in Java, running on the Android phone.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{SoftwareUMLV2}
+	\includegraphics[width=0.8\textwidth]{SoftwareUMLV2}
 	\caption{Software UML Diagram}
 	\label{fig:swuml}
 \end{figure}
@@ -549,12 +546,12 @@ void wakeFromSleep() {
 \end{lstlisting}
 
 \subsection{Software Implementation} \label{sect:softwareimp}
-An ATMega328P microcontroller is be used to take measurements from the sensors. The temperature (and possibly humidity) measurements are sent digitally via I2C to the microcontroller. On the same I2C bus is the ADS1015, which has four single-ended analog inputs for reading the input current, input voltage, output current, and output voltage. This data is be sent to the phone using the standard AVR UART serial library.
+An ATMega328P microcontroller is be used to take measurements from the sensors. The temperature (and possibly humidity) measurements are sent digitally via $I^2 C$ to the microcontroller. On the same $I^2 C$ bus is the ADS1015, which has four single-ended analog inputs for reading the input current, input voltage, output current, and output voltage. This data is be sent to the phone using the standard AVR UART serial library.
 
 The data, once sent to the phone, is be monitored by the RFCx Sentinel app. This app is written in Java in Android Studio, and uses the open-source usb-serial-for-android library. The app opens a connection upon discovering a compatible device (FTDI is compatible), and allows the user to view a streamlined interface with relevant data, as well as a tab for the raw hex dump of incoming serial data. The data may or may not be transmitted along with audio data to the RFCx server for real-time monitoring.
 
 \section{Verification} \label{sect:verification}
-This section outlines the steps that are planned to verify that the hardware and software operate in the intended manner. 
+This section outlines the steps that are planned to verify that the hardware and software operate in the intended manner.
 \subsection{Hardware Verification} \label{sect:hardwareverification}
 To verify the power consumption of the devices in \ref{HWa}. the voltage applied and current drawn by the both the enhanced device and the current device will be measured over the course of 1 hour during a realistic usage scenario. The average power will be verified to not exceed 90\% of the existing device’s usage.
 
@@ -604,11 +601,11 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
 \newpage
 \vspace*{\fill}
 \section*{\centering{Appendices}}
-\addcontentsline{toc}{section}{Appendicies}
+\addcontentsline{toc}{section}{Appendices}
 \vspace*{\fill}
 \newpage
 \appendix
-\section{Electrical Schematics} \label{sect:appendixA}
+\section{Electrical Schematics and Simulations} \label{sect:appendixA}
 % \makeatletter
 % \@addtoreset{figure}{section}
 % \makeatother
@@ -618,85 +615,108 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=1,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{Top Level Schematic}
 	\label{fig:schemp1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=2,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{ATmega328P Microcontroller}
 	\label{fig:schemp2}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=3,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{SPV1040 Max Point Power Tracker (MPPT)}
 	\label{fig:schemp3}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=4,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{ADS1015 External Analog-to-Digital Converter and Instrumentation Amplifiers}
 	\label{fig:schemp4}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=5,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{BQ2057CTS Battery Management Controllers}
 	\label{fig:schemp5}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=6,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{LMR61428 5V Regulator and SM72442 3.3V Regulator}
 	\label{fig:schemp6}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=7,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{Android Phone Interface: FT230X FTDI Serial to USB and Filtered Microphone Pass-through}
 	\label{fig:schemp7}
 \end{figure}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[page=8,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
-	\label{fig:schemp8}
-\end{figure}
+%@TODO These are just repeats of the MPPT schematic (since there are four... Either remove them from the RFCxSchematics.pdf document and the temp/humidity sensor will be on page 8, or keep them commented out like they are now.)
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[page=9,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
-	\label{fig:schemp9}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[page=10,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
-	\label{fig:schemp10}
-\end{figure}
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[page=8,width=0.9\textwidth]{RFCxSchematics.pdf}
+% 	\caption{MPPT}
+% 	\label{fig:schemp8}
+% \end{figure}
+%
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[page=9,width=0.9\textwidth]{RFCxSchematics.pdf}
+% 	\caption{}
+% 	\label{fig:schemp9}
+% \end{figure}
+%
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[page=10,width=0.9\textwidth]{RFCxSchematics.pdf}
+% 	\caption{}
+% 	\label{fig:schemp10}
+% \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=11,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{LM75BD Temperature Sensor and HIH6130 Temperature and Humidity Sensor}
 	\label{fig:schemp11}
 \end{figure}
 
+\newpage
+\textbf{Power Path Simulations}
+
+The two different power path management circuits were simulated with LTSpice. The two different circuits can be seen below in Figure \ref{fig:doredsim}. On the left is the FET and diode topology. On the right is the chosen Diode-ORing topology. The same diode and transistor were used in each simulation. A load of 550mA was used because this is more than the calculated worst case current draw from the circuit.
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[page=1,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
-	\label{fig:schemp1}
+	\includegraphics[width=0.8\textwidth]{DiodeORSIM}
+	\caption{Two Power Path Management Circuits. Left: FET amd diode topology. Right: Diode-ORed topology}
+	\label{fig:doredsim}
+\end{figure}
+
+In the simulation for the FET and diode topology, in Figure \ref{fig:doredsimres1}, it can be seen that as the panel voltage is rising, there is a considerable 500mV dip from 3.5V to around 3.0V. If this occured, the 3.3V linear drop out regulator would not be able to regulate properly and the 3.3V line would be deactivated.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{DiodeORres1}
+	\caption{Simulation Result of FET and Diode Topology}
+	\label{fig:doredsimres1}
+\end{figure}
+
+Conversely, in Figure \ref{fig:doredsimres2} the Diode-ORed topology simulation shows an extremely small drop in voltage when powered from only the batteries and a reasonable drop when powered from the solar panel. This is the desired behavior.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{DiodeORres2}
+	\caption{Simulation Result of Current Diode-ORed Topology}
+	\label{fig:doredsimres2}
 \end{figure}
 
 \newpage
