@@ -467,7 +467,7 @@ The LM61428 is a step-up voltage regulator that is configured to boost the input
 %@TODO Jesse: Reference the calculations and the efficiency of the regulator, and compare with our projected 10% decrease in power (although we don't know what it actually consumes, I think topher did give us a number once in an skype chat that we documented. I wouldn't look too hard for it though)
 
 \bigskip
-The calculations for the surrounding components can be seen in Appendix \ref{fig:calc???}. The layout of the 5V boost regulator can be seen in the following figure.
+The calculations for the surrounding components can be seen in Appendix \ref{app:lm61calcs}. The layout of the 5V boost regulator can be seen in figure \ref{fig:ps5}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{PS5V}
@@ -493,11 +493,11 @@ The LTC6800 instrumentation amplifier is used to sense the voltage across a know
 \subsubsection{Microcontroller}
 
 %@TODO Joe: Move the details of the other MCU part numbers to the justification section and delete the rest of this paragraph
-Three other microcontrollers were considered. Two ARM M0+ low power micro controllers were considered. The Atmel ATSAM ARM M0+ was not chosen because it drew more current than the 328P and was decided to be over kill for this application. Some nice features were that it had a built in USB module and required no external tools to program it. The Freescale KL25Z was also decided to be overkill for this application and was not chosen because the programming interface of the end user would have been difficult as it required a JTAG programmer. The other microcontroller was a Texas Instruments 16-bit RISC MSP430. This microcontroller was the most expensive, drew the highest current in active and sleep modes, and requires an external tool to program. The parametric search on Atmle's website was used to search for a microcontroller that had built in USB capabilities. There were only a few microcontrollers listed that were offered in flat packages and had built in USB and I2C modules. However, none of the microcontrollers had the \textit{picopower} capability, which was seen to be important for this project. The ATmega328P was chosen for microcontroller between the sensors and the phone. The ATmega328P does require an external tool to program but it does have low power sleep modes, it is cheap, its is simple, and it is well documented not only by Atmel but by a very large community. It is felt that this would benefit the end user the most in the future. The only supporting circuitry for the ATmega328P is the 6-pin in-circuit serial programming (ICSP) port, a 32kHz external crystal, and external pull up resistors on the I2C communication lines. The 32kHz crystal is included for the real time clock. The real time clock is used so that the ATmega328P microcontroller can go into a sleep mode and wake up later to conserve power usage. The ATmega328P also requires an FTDI IC to communicate with the phone over USB.
+Multiple microcontrollers were considered. Two ARM M0+ low power micro controllers were considered. The Atmel ATSAM ARM M0+ was not chosen because it drew more current than the 328P and was decided to be over kill for this application. It had some features such as a built in USB module and required no external tools to program it. The Freescale KL25Z was also decided to be overkill for this application and was not chosen because the programming interface of the end user would have been difficult as it required a JTAG programmer. The other microcontroller was a Texas Instruments 16-bit RISC MSP430. This microcontroller was the most expensive, drew the highest current in active and sleep modes, and requires an external tool to program. The parametric search on Atmle's website was used to search for a microcontroller that had built in USB capabilities. There were only a few microcontrollers listed that were offered in flat packages and had built in USB and I2C modules. However, none of the microcontrollers had the \textit{picopower} capability, which was seen to be important for this project. The ATmega328P was chosen for microcontroller between the sensors and the phone. The ATmega328P does require an external tool to program but it does have low power sleep modes, it is cheap, it is simple, and it is well documented not only by Atmel but by a very large community. It is felt that this would benefit the end user the most in the future. The only supporting circuitry for the ATmega328P is the 6-pin in-circuit serial programming (ICSP) port, a 32kHz external crystal, and external pull up resistors on the I2C communication lines. The 32kHz crystal is included for the real time clock. The real time clock is used so that the ATmega328P microcontroller can go into a sleep mode and wake up later to conserve power usage. The ATmega328P also requires an FTDI IC to communicate with the phone over USB.
 
 \subsubsection{Temperature and Humidity}
 
-A temperature sensor (LM75BD, \ref{fig:lm75dat}) and a humidity/temperature sensor(HIH6130, \ref{fig:hihdat}) will be included on the board. Both of these interfaces are supplied but not intended to be populated at the same time. The purpose for providing a choice is because the available I2C humidity sensors seem to be around the \$15 range. This is a little expensive to include on every device but the end user may want to include the humidity sensor on some of the devices and only sense temperature. The schematic connections of the two ICs is shown in Figure \ref{fig:tandh}.
+The footprints for a temperature sensor (LM75BD, \ref{fig:lm75dat}) and a humidity/temperature sensor(HIH6130, \ref{fig:hihdat}) will be included on the board. Both of these interfaces are supplied but not intended to be populated at the same time. The purpose for providing a choice is because the available I2C humidity sensors seem to be around the \$15 range. This is a little expensive to include on every device but the end user may want to include the humidity sensor on some of the devices and only sense temperature. The schematic connections of the two ICs is shown in Figure \ref{fig:tandh}.
 
 \begin{figure}[H]
 	\centering
@@ -517,7 +517,16 @@ The USB connection consists of a standard USB Micro A connector, soldered direct
 
 \subsubsection{GSM Interference}
 
-The use of X2Y TDMA filtering capacitors will be tested to reduce the noise produced by the stopping and starting of GSM packets, which is in the audible range at ~217Hz. A pass-through 3.5mm microphone interface will be included to test the X2Y capacitors. In addition, a large heatsink will be attached to a large ground plane on one side of the board, and the phone will be attached to the same ground plane, which should help with some shielding.
+The use of X2Y TDMA filtering capacitors will be tested to reduce the noise produced by the stopping and starting of GSM packets, which is in the audible range at ~217Hz. A pass-through 3.5mm microphone interface will be included to test the X2Y capacitors. The pass through circuit can be seen in figure \ref{fig:x2y}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{X2Yfiltercircuit}
+	\caption{Pass Through Microphone Filter Circuit}
+	\label{fig:x2y}
+\end{figure}
+
+ In addition, a large heatsink will be attached to a large ground plane on one side of the board, and the phone will be attached to the same ground plane, which should help with some shielding.
 
 \subsubsection{PCB Size}
 
@@ -575,7 +584,7 @@ To verify \ref{SWa}., audio will be recorded and compressed using multiple algor
 To verify \ref{HW3}, simple packets will be sent from the microcontroller to the phone. These packets can be verified with debug tools or simple programs on the microcontroller and the phone. A debug serial port may be included as a peripheral to the microcontroller to aid in debugging. Any analog values read by the microcontroller will be verified with shop equipment.
 
 \section{Validation} \label{sect:validation}
-\ref{HW2}, \ref{HWb}, and \ref{HWd} can be validated by inspecting the components on the PCB to ensure all required components are present on the board. Requirements \ref{HWg} and \ref{HWh} can be validated by handing the assembly instructions out to a sample group of people with varying skill levels and receiving feedback on the set of instructions from them. People with the ability to read other languages can be used if the documents have been translated from English into other languages.
+\ref{HW3}, \ref{HWb}, and \ref{HWd} can be validated by inspecting the components on the PCB to ensure all required components are present on the board. Requirements \ref{HWg} and \ref{HWh} can be validated by handing the assembly instructions out to a sample group of people with varying skill levels and receiving feedback on the set of instructions from them. People with the ability to read other languages can be used if the documents have been translated from English into other languages.
 
 \ref{HW4} can be validated by inspecting the total cost printed on the BOM for the enhanced device.
 
@@ -900,7 +909,14 @@ Must satisfy the following:
 \end{align*}
 The \textit{Diodes Incorporated }1N5819HW has a $V_F$ of 450mV and a non repetitive peak current of 25A.
 
-
+\subsection{LM61428 Calculations} \label{app:lm61calcs}
+The values for the components were recommended by the data sheet.
+\begin{align*}
+  L &= 6.8\mu H \\
+  C_{in} &= 22\mu F \\
+  C_{out} &= 68\mu F
+\end{align*}
+The diode was recommended to be a Schottky with $I_f$ higher than the load current, 500mA. The reverse voltage must be higher than the output voltage and it must be able to switch fast. 
 
 \newpage
 \section{Data Sheet Snippets} \label{sect:appendixE}
