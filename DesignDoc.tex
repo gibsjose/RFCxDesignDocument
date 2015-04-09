@@ -377,7 +377,10 @@ Battery management is important for the ability to reclaim and potentially fix a
 To manage the power selection between the solar panels and the batteries, a power path management solution was required. This was required because while the batteries are being charged the rest of the circuit should not draw from them. If the rest of the circuit draws from them while they are being charged, the battery charge management IC could get confused and damage the batteries by over charging or under charging. A diode-ORed configuration, in which power sources are ORed together via a near ideal diode($0.02V_f$), selects the source with the higher voltage. The LTC4412 (Appendix \ref{fig:ltc4412dat}) was chosen to perform this power path management. The ideal diodes are implemented externally with a FZT788B P-Channel MOSFET (Appendix \ref{fig:ftzdat}). This IC also has a very low quiescent current, below $1.15\mu A$.
 
 \subsection{Power Regulation} \label{sect:reg_just}
-The LMR61428(Appendix \ref{fig:lmrdat}) Step-Up Voltage regulator was chosen because of its price, package, and performance. It is important for all of the ICs on this board to be in a package that the end user can assemble with without the aid of more advanced PCB assembly equipment such as solder paste/stencils and ovens. This means that they can not be in packages where there are pins underneath or too small to place with tweazers. The operation requirements for the LMR61428 where with in the worst case behavior for the feeding circuitry. Some of the other buck/boost controllers required a much higher input voltage when the load current was around 500mA. The LMR61428 requires less than 2V, which is possible even when drawing from the batteries. Since this is design is for a remote device powered from batteries and solar power, quiecent current is a concern as well. The LM61428 only draws 80mA when in the operating mode.
+The LMR61428(Appendix \ref{fig:lmrdat}) Step-Up Voltage regulator was chosen because of its price, package, and performance. It is important for all of the ICs on this board to be in a package that the end user can assemble with without the aid of more advanced PCB assembly equipment such as solder paste/stencils and ovens. Also, some of the other buck/boost controllers required a much higher input voltage when the load current was around 500mA. The LMR61428 requires less than 2V, which is possible even when drawing from the batteries. Since this is design is for a remote device powered from batteries and solar power, quiecent current is a concern as well. The LM61428 only draws 80mA during operation.
+
+\bigskip
+The Texas Instruments SM72238 Micropower Fixed 3.3V LDO was chosen to regulate the 3.3V line because it has a very low dropout voltage of around 380mV at the max current draw of 100mA.
 
 \subsection{Current Sensing} \label{sect:cur_just}
 The LTC6800 precision instrumentation amplifier (Appendix \ref{fig:ltc6800dat}) was chosen to perform current sensing. This instrumentation amplifier operates rail-to-rail on the input and output, which provides a larger window to sense the voltage across the sense resistor. A sense resistor value of 0.010$\Omega$ was chosen to provide minimal power dissipation. Although very small, since the leakage current into the opamp is also extremely small (on the order of 1nA), the trace resistance, which is approximately 0.035$\Omega$, is not a concern. The LTC6800 also draws very little current. Under no load the LTC6800 draws a maximum of 1.3mA.
@@ -397,13 +400,11 @@ The system is powered from eight solar cells that have been manufactured by RFCx
 	\label{fig:mpptsol}
 \end{figure}
 
-With this configuration, a configurable output voltage of 5.2V, the maximum of the SPV1040, will be obtained at an average of about 1.15A, yeilding an input power of about 6W.
+With this configuration a configurable output voltage of 5.2V, the maximum of the SPV1040, will be obtained at an average of about 1.15A, yeilding an input power of about 6W.
 
 \subsubsection{Solar Charging}
 
-
 A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current and voltage of the output to achieve the maximum power. The SPV1040 will regulate the solar cell voltage up to 5.2V. From the MPPT the battery management circuitry, the 3.3V line, and the 5V line is powered. The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$.
-
 
 \subsubsection{Battery Management}
 
@@ -431,36 +432,6 @@ A diode-ORed power path management circuit was used to switch the power source t
 \end{figure}
 
 This circuit provides power path switching in under 100 $\mu$s, and there is virtually no dip in the output voltage during the switch. A dip of approximately 500mV was observed when using a transistor alone to simply switch between the two sources, as shown in the simulation figure in Appendix \ref{fig:doredsimres1}. With the diode-ORed topology, the switch is clean, as seen in the simulation figure in Appendix \ref{fig:doredsimres2}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{DiodeORSIM}
-	\caption{Simulation of Diode Ored Circuit}
-	\label{fig:doredsim}
-\end{figure}
-
-%@TODO Jesse: Move these and all descriptions of the simulation to the appendix
-
-The two circuits were simulated with LTSpice. The same diode and transistor were used in each simulation. A load of 550mA was used because this is more than the calculated worst case current draw from the circuit.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.6\textwidth]{DiodeORres1}
-	\caption{Simulation Result of Old Diode Ored Circuit}
-	\label{fig:doredsimres1}
-\end{figure}
-
-%@TODO Jesse: Move this description  and the one following the figure to the appendix also, as the results are summarized above
-It can be seen that as the panel voltage is rising, there is a considerable dip to around 3.0V. If this occured, the 3.3V linear drop out regulator would not be able to regulate properly and the 3.3V line would be deactivated. The diode-ored controller topology simulation result can be seen in figure \ref{fig:doredsimres2}.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{DiodeORres2}
-	\caption{Simulation Result of Current Diode Ored Circuit}
-	\label{fig:doredsimres2}
-\end{figure}
-
-Here it can be seen that there is a very small drop in voltage when powered only from battery and a reasonable drop when powered from the solar panel. This is the desired behavior.
-%@TODO This stuff above too...
 
 \bigskip
 The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone.
@@ -625,11 +596,11 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
 \newpage
 \vspace*{\fill}
 \section*{\centering{Appendices}}
-\addcontentsline{toc}{section}{Appendicies}
+\addcontentsline{toc}{section}{Appendices}
 \vspace*{\fill}
 \newpage
 \appendix
-\section{Electrical Schematics} \label{sect:appendixA}
+\section{Electrical Schematics and Simulations} \label{sect:appendixA}
 % \makeatletter
 % \@addtoreset{figure}{section}
 % \makeatother
@@ -639,85 +610,108 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=1,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{Top Level Schematic}
 	\label{fig:schemp1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=2,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{ATmega328P Microcontroller}
 	\label{fig:schemp2}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=3,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{SPV1040 Max Point Power Tracker (MPPT)}
 	\label{fig:schemp3}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=4,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{ADS1015 External Analog-to-Digital Converter and Instrumentation Amplifiers}
 	\label{fig:schemp4}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=5,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{BQ2057CTS Battery Management Controllers}
 	\label{fig:schemp5}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=6,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{LMR61428 5V Regulator and SM72442 3.3V Regulator}
 	\label{fig:schemp6}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=7,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{Android Phone Interface: FT230X FTDI Serial to USB and Filtered Microphone Pass-through}
 	\label{fig:schemp7}
 \end{figure}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[page=8,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
-	\label{fig:schemp8}
-\end{figure}
+%@TODO These are just repeats of the MPPT schematic (since there are four... Either remove them from the RFCxSchematics.pdf document and the temp/humidity sensor will be on page 8, or keep them commented out like they are now.)
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[page=9,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
-	\label{fig:schemp9}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[page=10,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
-	\label{fig:schemp10}
-\end{figure}
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[page=8,width=0.9\textwidth]{RFCxSchematics.pdf}
+% 	\caption{MPPT}
+% 	\label{fig:schemp8}
+% \end{figure}
+%
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[page=9,width=0.9\textwidth]{RFCxSchematics.pdf}
+% 	\caption{}
+% 	\label{fig:schemp9}
+% \end{figure}
+%
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[page=10,width=0.9\textwidth]{RFCxSchematics.pdf}
+% 	\caption{}
+% 	\label{fig:schemp10}
+% \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=11,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
+	\caption{LM75BD Temperature Sensor and HIH6130 Temperature and Humidity Sensor}
 	\label{fig:schemp11}
 \end{figure}
 
+\newpage
+\textbf{Power Path Simulations}
+
+The two different power path management circuits were simulated with LTSpice. The two different circuits can be seen below in Figure \ref{fig:doredsim}. On the left is the FET and diode topology. On the right is the chosen Diode-ORing topology. The same diode and transistor were used in each simulation. A load of 550mA was used because this is more than the calculated worst case current draw from the circuit.
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[page=1,width=0.9\textwidth]{RFCxSchematics.pdf}
-	\caption{}
-	\label{fig:schemp1}
+	\includegraphics[width=0.8\textwidth]{DiodeORSIM}
+	\caption{Two Power Path Management Circuits. Left: FET amd diode topology. Right: Diode-ORed topology}
+	\label{fig:doredsim}
+\end{figure}
+
+In the simulation for the FET and diode topology, in Figure \ref{fig:doredsimres1}, it can be seen that as the panel voltage is rising, there is a considerable 500mV dip from 3.5V to around 3.0V. If this occured, the 3.3V linear drop out regulator would not be able to regulate properly and the 3.3V line would be deactivated.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{DiodeORres1}
+	\caption{Simulation Result of FET and Diode Topology}
+	\label{fig:doredsimres1}
+\end{figure}
+
+Conversely, in Figure \ref{fig:doredsimres2} the Diode-ORed topology simulation shows an extremely small drop in voltage when powered from only the batteries and a reasonable drop when powered from the solar panel. This is the desired behavior.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{DiodeORres2}
+	\caption{Simulation Result of Current Diode-ORed Topology}
+	\label{fig:doredsimres2}
 \end{figure}
 
 \newpage
