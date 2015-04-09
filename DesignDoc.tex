@@ -160,7 +160,7 @@ These devices listen and record audio streams at all times, using their data con
 \begin{figure}[H]
   \centering
   \includegraphics[height=0.76\textwidth]{infographic}
-  \caption{Infographic from RFCx website (www.rfcx.org) showing the flow of data}
+  \caption{Infographic from RFCx website (\href{www.rfcx.org}{www.rfcx.org}) showing the flow of data}
   \label{fig:infographic}
 \end{figure}
 \newpage
@@ -273,7 +273,7 @@ To verify \ref{HW3}, simple packets will be sent from the microcontroller to the
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% JUSTIFICATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Component Justification} \label{sect:justification}
-This section describes each component of the PCB in detail and gives justifications for their selection and a discussion of alternative choices that were considered. Two main concerns for every component is packaging and power consumption. There should be no component that the end user can not fix to the PCB without common soldering equipment. Power consumption is a major concern as the device is meant to be located in a remote area and powered by batteries and solar power.
+This section describes each component of the PCB in detail and gives justifications for their selection and a discussion of alternative choices that were considered. Along with the individual requirements of each device, a driving factor in device selection was the physical package of the IC; there should be no component that the end user cannot afix to the PCB without common soldering equipment.
 
 \bigskip
 The following is a list of the main ICs that comprise the PCB and are outlined in this section:
@@ -368,7 +368,7 @@ The LM75BD is accurate within $\pm3^{\circ}C$ from $-25$ to $+100^{\circ}C$ and 
 The FT230X FTDI chip (Appendix \ref{fig:ftdidat}) was chosen for the UART to USB interface between the microcontroller and the Android phone. FTDI is widely used and supported, and, unlike similar devices like the Arduino's CDCACM, does not require another microcontroller to be added, configured, and flashed with software. In addition, the RFCx Sentinel application, which uses the open source usb-serial-for-android library, readily supports FTDI. Serial USB communication has already been achieved using an ATmega328P MCU, a similar FTDI chip, and the Sentinel app.
 
 \subsection{Battery Management} \label{sect:battery_just}
-Battery management is important for the ability to reclaim and potentially fix a damaged battery, and also to prevent potential fire hazards. Being in a hot climate and surrounded by ample fuel for a large-scale forest fire, battery management was chosen to be included in the design. The bq2057CTS battery charge management IC was thus chosen to control the charging of the Lithium-Ion batteries. It is designed for both single and dual-cell battery packs, and combines current and voltage regulation, charge status indication, and charge rate auto compensation.
+Battery management is important for the ability to reclaim and potentially fix a damaged battery, and also to prevent potential fire hazards. Being in a hot climate and surrounded by ample fuel for a large-scale forest fire, battery management was chosen to be included in the design. The bq2057CTS battery charge management IC (Appendix \ref{fig:bq2057dat}) was thus chosen to control the charging of the Lithium-Ion batteries. It is designed for both single and dual-cell battery packs, and combines current and voltage regulation, charge status indication, and charge rate auto compensation.
 
 \subsection{Power Path Management} \label{sect_pow_just}
 To manage the power selection between the solar panels and the batteries, a power path management solution was required. This was required because while the batteries are being charged the rest of the circuit should not draw from them. If the rest of the circuit draws from them while they are being charged, the battery charge management IC could get confused and damage the batteries by over charging or under charging. A diode-ORed configuration, in which power sources are ORed together via a near ideal diode($0.02V_f$), selects the source with the higher voltage. The LTC4412 (Appendix \ref{fig:ltc4412dat}) was chosen to perform this power path management. The ideal diodes are implemented externally with a FZT788B P-Channel MOSFET (Appendix \ref{fig:ftzdat}). This IC also has a very low quiescent current, below $1.15\mu A$.
@@ -416,8 +416,7 @@ A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current a
 
 \subsubsection{Battery Management}
 
-The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with resistor \textit{R24}. Only the lower temperature bound is set here because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R18} and \textit{R22}. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
-%@TODO Nice! This one is perfect! All the design paragraphs should be like this one.
+The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with the $49.9k\Omega$ resistor \textit{R24} as an upper bound of 50$^{\circ}C$. Only the upper temperature bound is set because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R18} and \textit{R22}. These values are outlined in the datasheet (Appendix \ref{fig:bq2057dat}) to set a proprietary charge compensation algorithm. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
 
 \begin{figure}[H]
 	\centering
@@ -442,9 +441,7 @@ A diode-ORed power path management circuit was used to switch the power source t
 This circuit provides power path switching in under 100 $\mu$s, and there is virtually no dip in the output voltage during the switch. A dip of approximately 500mV was observed when using a transistor alone to simply switch between the two sources, as shown in the simulation figure in Appendix \ref{fig:doredsimres1}. With the diode-ORed topology, the switch is clean, as seen in the simulation figure in Appendix \ref{fig:doredsimres2}.
 
 \bigskip
-The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone. The values for the supporting circuitry were recommended by the data sheet.
-
-%@TODO Jesse: Reference the calculations and the efficiency of the regulator, and compare with our projected 10% decrease in power (although we don't know what it actually consumes, I think topher did give us a number once in an skype chat that we documented. I wouldn't look too hard for it though)
+The LM61428 is a step-up voltage regulator that is configured to boost the input voltage to 5V at an output current of up to 1A. The output voltage of 5V is used to power the Android phone. The values for the supporting circuitry were exactly those recommended by the data sheet to boost up to 5V.
 
 \bigskip
 The layout of the 5V boost regulator can be seen in figure \ref{fig:ps5}.
@@ -516,7 +513,7 @@ The use of X2Y TDMA filtering capacitors will be tested to reduce the noise prod
 	\label{fig:x2y}
 \end{figure}
 
- In addition, a large heatsink will be attached to a large ground plane on one side of the board, and the phone will be attached to the same ground plane, which should help with some shielding.
+In addition, a heatsink will be attached to a large ground plane on one side of the board, and the phone will be attached to the same ground plane, to provide some shielding.
 
 \subsubsection{PCB Size}
 %@TODO Move all justifications here to the justification section
