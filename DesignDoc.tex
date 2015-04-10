@@ -1,3 +1,25 @@
+%@TODO Add mechanical drawings to appendix as well
+%@TODO Address Bossemeyer's concerns:
+%       - Voltage regulators in parallel need ballast resistors?
+%       - Make it clear that saving as many analog pins on the ATmega is
+%           benefit for future use. Also, the LM75BD is NOT any more expensive
+%           an analog device, so we should note that.
+%       - Battery management is far too complex to manage with the MCU alone...
+%       - Conclusion section to summarize requirements and goals and how design
+%           will meet them...
+%@TODO Make changes from my email response to Boss:
+% I will talk to Jesse about the need for ballast resistors on the MPPTs in parallel. I do recall doing a lab with ballast resistors, and we still have our 326 book so we will look into that.
+
+% While we don't (at least not right now) need the accuracy of the external ADC, a large benefit is that it does not take up any extra pins. Using I2C allows us to free up six analog pins for future use, while still giving us the functionality we need. This is in the document, but maybe not as clear as it should be.
+
+% In the future they may want more accurate temperature sensing (say, to provide sensitive temperature data to biologists or something), so this gives them that flexibility right up front, with no added costs and no extra pins on the MCU
+
+% Believe it or not, the I2C LM75BD is actually less than half as much as the analog LM35; The LM75BD is around $0.62, while the LM35 is $1.75, both on Digikey.
+
+% Battery management for Lithium-Ion batteries is far too complex for us to correctly implement with the ATmega. Not only that, but I would not want our code to be responsible for starting a fire or damaging devices in the field.
+
+% We will add a conclusion section
+
 \documentclass{article}
 % Commands
 \newcommand{\ASSNMT}{Project Necromancer}
@@ -104,7 +126,7 @@ Date Submitted: \DATE
 Software, electrical, and hardware enhancements to Rainforest Connection’s currently used device are proposed in this paper. The electrical enhancements include the addition of a new PCB that contains power regulation and battery charging circuitry, along with current, voltage, temperature, and humidity sensors. The software enhancements include sending sensor measurements to an Android cellphone. Sending measurements from the PCB to the phone will allow for diagnostic feedback that can be used for laboratory testing and verification as well as field statistics. The point of this project is not to entirely redesign the existing device but rather to provide modular enhancements and improvements to specific components.
 
 \bigskip
-Power consumption is a major concern and a key area for improvement on the existing device. We will use \textit{Max Point Power Tracking}(MPPT) ICs in the design of the power regulation and solar panel interface to ensure maximum efficiency from the solar panels. In addition we will use Lithium-Ion battery management ICs to ensure that the batteries are properly charge, properly discharge, and to prevent overheating. A switching power regulator will boost the voltage from either the batteries or the solar panel to charge the phone and a linear dropout regulator will provide 3.3V to the regulation and diagnostic circuitry on the PCB.
+Power consumption is a major concern and a key area for improvement on the existing device. We will use \textit{Max Point Power Tracking}(MPPT) ICs in the design of the power regulation and solar panel interface to ensure maximum efficiency from the solar panels. In addition we will use Lithium-Ion battery management ICs to ensure that the batteries are properly charged, properly discharged, and to prevent overheating. A switching power regulator will boost the voltage from either the batteries or the solar panel to charge the phone and a linear dropout regulator will provide 3.3V to the regulation and diagnostic circuitry on the PCB.
 
 \bigskip
 Temperature is another major concern. To mitigate the heat produced by the phone, the power circuitry, and the environment, a heatsink will be attached to the PCB with direct thermal contact with the phone. The heatsink will extend outside of the enclosure, transferring heat outside of the device enclosure.
@@ -155,7 +177,7 @@ Rainforest Connection (RFCx) is a non-profit organization that is dedicated to s
 \end{figure}
 \newpage
 
-These devices listen and record audio streams at all times, using their data connection to periodically send audio data to the RFCx server. On the server, digital signal processing algorithms are used to detect the sound of chainsaws and engines at a distance of up to $\frac{2}{3}$ of a mile. If a chainsaw is detected, a real-time alert is sent to pre-existing ground patrols, who can react to the situation and combat the threat. In addition to man-made sounds, the RFCx platform is also used to record the sounds of animals in the forest. These sounds can be used to gain information about certain species of animals and are open to anyone to use and analyze. Because of the sheer size of the area covered by a single human, it is impractical, if not impossible, to properly monitor the forests for illegal activities without the aid of technology. The flow of data, from audio collection to human intervention, is shown below in Figure \ref{fig:infographic}.
+These devices listen and record audio streams at all times, using their data connection to periodically send audio data to the RFCx server. On the server, digital signal processing algorithms are used to detect the sound of chainsaws and engines at a distance of up to $\frac{2}{3}$ of a mile. If a chainsaw is detected, a real-time alert is sent to pre-existing ground patrols, who can react to the situation and combat the threat. In addition to man-made sounds, the RFCx platform is also used to record the sounds of animals in the forest. These sounds can be used to gain information about certain species of animals and are open to anyone to use and analyze. Because of the sheer size of the area, it is impractical, if not impossible, for foot patrols to properly monitor the forests for illegal activities without the aid of technology. The flow of data, from audio collection to human intervention, is shown below in Figure \ref{fig:infographic}.
 
 \begin{figure}[H]
   \centering
@@ -206,14 +228,6 @@ On the phone, an app called RFCx Sentinel monitors the incoming diagnostics, dis
 	\label{fig:sentscrn}
 \end{figure}
 \newpage
-
-%@TODO Introduce and display this figure (although we really should use a different angle here...)
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.8\textwidth]{DeviceDesign}
-%   \caption{3D Rendering of Final Device Design: Shows the relative placement of the phone and PCB inside of the enclosure}
-%   \label{fig:devdesign}
-% \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% REQUIREMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Requirements and Functional Specifications} \label{sect:requirementsandspec}
@@ -268,7 +282,7 @@ To verify \ref{HW3}, simple packets will be sent from the microcontroller to the
 \item \label{SW1}The microcontroller software should be capable of bi-directional communication between itself and the Android phone.
 \item \label{SW2}The microcontroller software should be capable of communicating power usage diagnostics to the phone over the ADB protocol.
 \item \label{SW3}An Android companion application may be capable of reporting power diagnostics from the microcontroller for testing and debugging.
-\item \label{SW4}There shall be a header on the PCB to program to reprogram the microcontroller.
+\item \label{SW4}There shall be a header on the PCB to program the microcontroller.
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% JUSTIFICATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -319,7 +333,7 @@ The following figure (Figure \ref{fig:mppt_config2}) describes the chosen MPPT c
   \label{fig:mppt_config2}
 \end{figure}
 
-This configuration offers many benefits. First, the panels on a single petal can be either connected in series or in parallel. Since the SPV1040 can handle up to 1.8A, even when connected in parallel the petal will only produce a maximum of 1A. The input voltage to the MPPT can be either 1.5V (panels in parallel) or 3.0V (series), and the MPPT's internal boost regulator will still produce 5.2V. This allows for testing configurations where all petals have their panels connected in parallel, all in seriese, or a combination of both under different lighting conditions to see which performs the best without modifying the PCB in any way.
+This configuration offers many benefits. First, the panels on a single petal can be either connected in series or in parallel. Since the SPV1040 can handle up to 1.8A, even when connected in parallel the petal will only produce a maximum of 1A. The input voltage to the MPPT can be either 1.5V (panels in parallel) or 3.0V (series), and the MPPT's internal boost regulator will still produce 5.2V. This allows for testing configurations where all petals have their panels connected in parallel, all in series, or a combination of both under different lighting conditions to see which performs the best without modifying the PCB in any way.
 
 \bigskip
 In addition, this configuration localizes the power tracking to an individual petal. Rather than maximizing the entire array, localizing to each petal allows for some petals to be in direct sunlight while others are in shade and each MPPT will react accoringly.
@@ -377,7 +391,7 @@ To manage the power selection between the solar panels and the batteries, a powe
 The LMR61428(Appendix \ref{fig:lmrdat}) Step-Up Voltage regulator was chosen because of its price, package, and performance. It is important for all of the ICs on this board to be in a package that the end user can assemble with without the aid of more advanced PCB assembly equipment such as solder paste/stencils and ovens. Also, some of the other buck/boost controllers required a much higher input voltage when the load current was around 500mA. The LMR61428 requires less than 2V, which is possible even when drawing from the batteries. Since this is design is for a remote device powered from batteries and solar power, quiecent current is a concern as well. The LM61428 only draws 80mA during operation.
 
 \bigskip
-The Texas Instruments SM72238 Micropower Fixed 3.3V LDO was chosen to regulate the 3.3V line because it has a very low dropout voltage of around 380mV at the max current draw of 100mA.
+The Texas Instruments SM72238 Micropower fixed 3.3V linear voltage regulator was chosen to regulate the 3.3V line because it has a very low dropout voltage of around 380mV at the max current draw of 100mA.
 
 \subsection{Current Sensing} \label{sect:cur_just}
 The LTC6800 precision instrumentation amplifier (Appendix \ref{fig:ltc6800dat}) was chosen to perform current sensing. This instrumentation amplifier operates rail-to-rail on the input and output, which provides a larger window to sense the voltage across the sense resistor. A sense resistor value of 0.010$\Omega$ was chosen to provide minimal power dissipation. Although very small, since the leakage current into the opamp is also extremely small (on the order of 1nA), the trace resistance, which is approximately 0.035$\Omega$, is not a concern. The LTC6800 also draws very little current. Under no load the LTC6800 draws a maximum of 1.3mA.
