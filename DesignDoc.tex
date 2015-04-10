@@ -314,7 +314,7 @@ The following figure (Figure \ref{fig:mppt_config2}) describes the chosen MPPT c
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{MPPTConfig2}
+  \includegraphics[width=1.0\textwidth]{MPPTConfig2}
   \caption{Four MPPTs are connected in parallel with the input being the series connection of each panel within a single petal}
   \label{fig:mppt_config2}
 \end{figure}
@@ -325,7 +325,7 @@ This configuration offers many benefits. First, the panels on a single petal can
 In addition, this configuration localizes the power tracking to an individual petal. Rather than maximizing the entire array, localizing to each petal allows for some petals to be in direct sunlight while others are in shade and each MPPT will react accoringly.
 
 \bigskip
-Furthermore, this configuration could be easily adapted to using less MPPTs if needed (to reduce cost, for example). To use two MPPTs, for example, instead of four, two of the ICs would simply not be populated and pairs of petals would be connected in parallel externally and connected to the two populated MPPTs. This is shown in Figure \ref{fig:mppt_config_3}.
+Furthermore, this configuration could be easily adapted to using less MPPTs if needed (to reduce cost, for example). To use two MPPTs, for example, instead of four, two of the ICs would simply not be populated and pairs of petals would be connected in parallel externally and connected to the two populated MPPTs. This is shown in Figure \ref{fig:mppt_config3}.
 
 \bigskip
 Finally, as required by the SPV1040, the input voltage will always be much less than the output in this configuration. The input voltage will be either 1.5V (parallel panels) or 3.0V (series), well below the 5.2V output.
@@ -335,7 +335,7 @@ Two other configurations that were considered are shown below. In the first alte
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{MPPTConfig1}
+  \includegraphics[width=1.0\textwidth]{MPPTConfig1}
   \caption{Two pairs of MPPTs are first connected in series, then in parallel, requiring the use of feedback diode protection and resulting in a higher than needed output voltage which must then be bucked down}
   \label{fig:mppt_config1}
 \end{figure}
@@ -344,7 +344,7 @@ The second alternate configuration, in Figure \ref{fig:mppt_config3}, is really 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{MPPTConfig3}
+  \includegraphics[width=1.0\textwidth]{MPPTConfig3}
   \caption{Chosen configuration but with two MPPTs instead of four. Results in less control but saves the cost of two ICs and the supporting circuitry of each}
   \label{fig:mppt_config3}
 \end{figure}
@@ -568,13 +568,22 @@ A new prototype enclosure is not a hard requirement, but is an essential part of
 
 \subsubsection{Heatsink} \label{sect:heatsinkimplementation}
 
-A heatsink, as described in Section \ref{sect:heat_just} is shown in Figure \ref{fig:heatsink}.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heatsink may pass through. The opening will be sealed with foam or rubber insulation. Thermal calculations for the heatsink are shown in Appendix \ref{fig:???}.
-%@TODO Reference thermal calcs correctly
+A heatsink, as described in Section \ref{sect:heat_just} is shown in Figure \ref{fig:heatsink}.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heatsink may pass through. The opening will be sealed with foam or rubber insulation.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Assembly4}
 	\caption{Heatsink attached to PCB and protruding through the enclosure}
 	\label{fig:heatsink}
+\end{figure}
+
+The open source thermal simulation tool \textit{Energy 2D} was used to simulate the benefits of a heatsink. The following image (Figure \ref{fig:thermal}) shows a simulation with an ambient temperature of 30$^{\circ}C$ and the phone (the white rectangle) starting at 125$^{\circ}C$ and dissipating into the enclosure (the grey box). In the simulation, the red areas are at around 30-40$^{\circ}C$ while the white areas are significantly hotter, at around 100-125$^{\circ}C$. The enclosure has the thermal properties of ABS plastic, while the heatsink has the thermal properties of aluminum. The simulation shows the heatsink dissipating heat outside of the enclosure, reducing the overall heat inside.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{thermal4}
+	\caption{An Energy 2D simulation: On the left: Phone in enclosure with no heatsink. On the right: Phone in enclosure and attached to heatsink}
+	\label{fig:thermal}
 \end{figure}
 
 \newpage
