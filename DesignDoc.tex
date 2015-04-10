@@ -506,27 +506,32 @@ Both the temperature sensor (LM75BD, Appendix \ref{fig:lm75dat}) and humidity/te
 \end{figure}
 
 \subsubsection{PCB} \label{sect:pcbdesign}
-The dimensions of the chosen PCB size is shown in Figure \ref{fig:pcbdimensions}. This size accomodates both the phone currently used, the Huawei Ideos U8180, with dimensions of \textit{4.09"} x \textit{2.16"} x \textit{0.54"}, as well as larger Android phones up to \textit{5"} x \textit{2.8"} x \textit{0.625"}.
+The dimensions of the chosen PCB size is shown in Figure \ref{fig:pcbdimensions}. This size accomodates both the phone currently used, the Huawei Ideos U8180, with dimensions of \textit{4.09"} x \textit{2.16"} x \textit{0.54"}, as well as larger Android phones up to \textit{5"} x \textit{2.8"} x \textit{0.625"}. The dimensions of the phone relative to the PCB is shown in Figure \ref{fig:pcbphone}.
 
-%@TODO Make drawing
-% \begin{figure}[H]
-% 	\centering
-% 	\includegraphics[width=0.8\textwidth]{PCBDimensions}
-% 	\caption{PCB Dimensions}
-% 	\label{fig:pcbdimensions}
-% \end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{PCB}
+	\caption{PCB Dimensions}
+	\label{fig:pcbdimensions}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{PhoneAndPCB}
+	\caption{PCB Dimensions}
+	\label{fig:pcbphone}
+\end{figure}
 
 \subsubsection{Connectors}
 
 The USB connection consists of a standard USB Micro A connector, soldered directly onto the board and is secured to the board as a strain-relief mechanism, which is shown in Figure \ref{fig:usbcable}. A standard 3.5mm audio cable is used to connect the microphone. The existing standard GSM antenna adapter is used to interface with the phone’s onboard GSM module.
 
-%@TODO Make drawing
-% \begin{figure}[H]
-% 	\centering
-% 	\includegraphics[width=0.8\textwidth]{USBCable}
-% 	\caption{USB Micro A Connector attached to the PCB with strain relief}
-% 	\label{fig:usbcable}
-% \end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Assembly1}
+	\caption{USB Micro A Connector attached to the PCB with strain relief: A small flexible cable}
+	\label{fig:usbcable}
+\end{figure}
 
 \subsubsection{GSM Interference}
 
@@ -545,17 +550,16 @@ In addition, a heatsink will be attached to a large ground plane on one side of 
 
 A new prototype enclosure is not a hard requirement, but is an essential part of prototyping the entire device, especially given the changes being made to the components inside the enclosure. The designed enclosure is shown in Figure \ref{fig:enclosurefront} and Figure \ref{fig:enclosureback} below.
 
-%@TODO Make drawings (front and back)
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{EnclosureFront}
+	\includegraphics[width=0.8\textwidth]{Assembly2}
 	\caption{Front View of the Enclosure}
 	\label{fig:enclosurefront}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{EnclosureBack}
+	\includegraphics[width=0.8\textwidth]{Assembly3}
 	\caption{Back View of the Enclosure}
 	\label{fig:enclosureback}
 \end{figure}
@@ -566,13 +570,12 @@ A new prototype enclosure is not a hard requirement, but is an essential part of
 
 A heatsink, as described in Section \ref{sect:heat_just} is shown in Figure \ref{fig:heatsink}.  The current design calls for a rectangular opening to be cut into the front face of the enclosure so that the heatsink may pass through. The opening will be sealed with foam or rubber insulation. Thermal calculations for the heatsink are shown in Appendix \ref{fig:???}.
 %@TODO Reference thermal calcs correctly
-%@TODO Make drawing
-% \begin{figure}[H]
-% 	\centering
-% 	\includegraphics[width=0.8\textwidth]{Heatsink}
-% 	\caption{Heatsink attached to PCB and protruding through the enclosure}
-% 	\label{fig:heatsink}
-% \end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Assembly4}
+	\caption{Heatsink attached to PCB and protruding through the enclosure}
+	\label{fig:heatsink}
+\end{figure}
 
 \newpage
 \subsection{Software Design} \label{sect:softwaredes}
@@ -667,7 +670,6 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
 % \makeatother
 % \renewcommand\thefigure{\current.\arabic{figure}}
 
-%@TODO Jesse/Joe: Add caption text for all schematics!
 \begin{figure}[H]
 	\centering
 	\includegraphics[page=1,width=0.9\textwidth]{RFCxSchematics.pdf}
