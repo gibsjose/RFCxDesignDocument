@@ -1,24 +1,7 @@
-%@TODO Add mechanical drawings to appendix as well
-%@TODO Address Bossemeyer's concerns:
-%       - Voltage regulators in parallel need ballast resistors?
-%       - Make it clear that saving as many analog pins on the ATmega is
-%           benefit for future use. Also, the LM75BD is NOT any more expensive
-%           an analog device, so we should note that.
-%       - Battery management is far too complex to manage with the MCU alone...
-%       - Conclusion section to summarize requirements and goals and how design
-%           will meet them...
-%@TODO Make changes from my email response to Boss:
-% I will talk to Jesse about the need for ballast resistors on the MPPTs in parallel. I do recall doing a lab with ballast resistors, and we still have our 326 book so we will look into that.
+%@TODO Make changes from Presentation:
+% Remove Schottky diode from the Battery Management schematic
 
-% While we don't (at least not right now) need the accuracy of the external ADC, a large benefit is that it does not take up any extra pins. Using I2C allows us to free up six analog pins for future use, while still giving us the functionality we need. This is in the document, but maybe not as clear as it should be.
-
-% In the future they may want more accurate temperature sensing (say, to provide sensitive temperature data to biologists or something), so this gives them that flexibility right up front, with no added costs and no extra pins on the MCU
-
-% Believe it or not, the I2C LM75BD is actually less than half as much as the analog LM35; The LM75BD is around $0.62, while the LM35 is $1.75, both on Digikey.
-
-% Battery management for Lithium-Ion batteries is far too complex for us to correctly implement with the ATmega. Not only that, but I would not want our code to be responsible for starting a fire or damaging devices in the field.
-
-% We will add a conclusion section
+% Add conclusion section
 
 \documentclass{article}
 % Commands
@@ -326,6 +309,9 @@ The MPPT configuration makes a large difference in many aspects of the selection
 \bigskip
 The following figure (Figure \ref{fig:mppt_config2}) describes the chosen MPPT configuration. In this configuration, each petal, which consists of two 1.5V panels, has its panels connected in series, giving an output of 3.0V, at 1.5W. This results in a current of 500mA for each MPPT, which is well below the maximum. Each petal (four total) is then connected to its own MPPT, which is set to boost to 5.2V. The MPPTs are then connected in parallel.
 
+\bigskip
+Connecting multiple regulators in parallel can sometimes cause problems if one source is outputting a slightly smaller or larger voltage than the others. In most cases, the use of ballast resistors solves this problem. The footprint for a ballast resistor was chosen to be included in series with the output of each MPPT. The footprint will be first populated with a 0$\Omega$ resistor, and the current will be monitored from each MPPT to ensure they are sharing the load correctly. If they are not, the footprint will be populated with a $25m\Omega$ ballast resistor, and the same test will be performed.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.0\textwidth]{MPPTConfig2}
@@ -364,7 +350,10 @@ The second alternate configuration, in Figure \ref{fig:mppt_config3}, is really 
 \end{figure}
 
 \subsection{ADC} \label{sect:adc_just}
-The ADS1015 external ADC (Appendix \ref{fig:adsdat}) was chosen to perform analog-to-digital conversions for the power sensing. The ATmega328P does not have a strong internal ADC, being only 10-bit resolution, and the ADS1015 is easy to communicate with via $I^2 C$. In addition, $I^2 C$ supports multiple devices in parallel, so only two of the ATmega328P's six analog pins are used. This frees the other four for future use. The ADS1015 consumes less than 150$\mu$A, has 12-bit resolution, and supports four single-ended analog inputs, which will be used to monitor input current, input voltage, output current, and output voltage on the PCB.
+The ADS1015 external ADC (Appendix \ref{fig:adsdat}) was chosen to perform analog-to-digital conversions for the power sensing. The ATmega328P does not have a strong internal ADC, being only 10-bit resolution, and the ADS1015 is easy to communicate with via $I^2 C$. The ADS1015 consumes less than 150$\mu$A, has 12-bit resolution, and supports four single-ended analog inputs, which will be used to monitor input current, input voltage, output current, and output voltage on the PCB.
+
+\bigskip
+$I^2 C$ supports multiple devices in parallel, so only two of the ATmega328P's six analog pins are used. This frees the other four for future use, which is a major advantage of using an external ADC.
 
 \subsection{Temperature and Humidity Sensor} \label{sect:temp_just}
 The LM75BD (Appendix \ref{fig:lm75dat}) was chosen as the temperature sensor.  The LM75 is a super low power temperature sensor with an accuracy of $\pm2^{\circ}C$. It uses less than 300uA during peak transmission, and costs under \$1.
@@ -376,6 +365,9 @@ An alternative sensor prodiving both temperature and humidity measurements, the 
 Other lower-cost humidity and temperature sensors were investigated, such as the DHT11 and DHT22. The DHT11 is affordable, at around \$5, but has a limited range of 0-50$^{\circ}C$. The DHT22 has the range required and is accurate, but costs almost as much as as the HIH6130 at around \$9. Both the DHT11 and DHT22 are not $I^2 C$, but rather use the one-wire-interface which requires elaborate timing to get the correct data, and take up another pin on the microcontroller. In addition, Adafruit and Amazon were the only places that stock the DHT22, neither of which offer the reliability or quantity of sources like Digikey or Mouser.
 
 \bigskip
+In addition to other $I^2 C$ temperature sensors, traditional analog sensors were also considered. The popular LM35 analog sensor, despite having less features than the LM75BD, costs over twice as much, at \$1.75.
+
+\bigskip
 The LM75BD is accurate within $\pm3^{\circ}C$ from $-25$ to $+100^{\circ}C$ and within $\pm2^{\circ}C$ from $-55$ to $+125^{\circ}C$. The HIH6130 can operate in the temperature range of $-25^{\circ}C$ to $85^{\circ}C$ and from 10\% to 90\% Relative Humidity (RH) with an accuracy of $\pm1^{\circ}C$ and $\pm5$\% RH.
 
 \subsection{FTDI} \label{sect:ftdi_just}
@@ -383,6 +375,9 @@ The FT230X FTDI chip (Appendix \ref{fig:ftdidat}) was chosen for the UART to USB
 
 \subsection{Battery Management} \label{sect:battery_just}
 Battery management is important for the ability to reclaim and potentially fix a damaged battery, and also to prevent potential fire hazards. Being in a hot climate and surrounded by ample fuel for a large-scale forest fire, battery management was chosen to be included in the design. The bq2057CTS battery charge management IC (Appendix \ref{fig:bq2057dat}) was thus chosen to control the charging of the Lithium-Ion batteries. It is designed for both single and dual-cell battery packs, and combines current and voltage regulation, charge status indication, and charge rate auto compensation.
+
+\bigskip
+Although battery management \textit{can} be done in software with the microcontroller, the amount of work required to do so is disproportional to any benefits you may gain. In fact, by performing battery management on the microcontroller, those writing the software take responsibility for any damage to the batteries, or even substantial damage such as a fire. This is in contrast to using an off-the-shelf, proven solution such as the bq2057CTS.
 
 \subsection{Power Path Management} \label{sect_pow_just}
 To manage the power selection between the solar panels and the batteries, a power path management solution was required. This was required because while the batteries are being charged the rest of the circuit should not draw from them. If the rest of the circuit draws from them while they are being charged, the battery charge management IC could get confused and damage the batteries by over charging or under charging. A diode-ORed configuration, in which power sources are ORed together via a near ideal diode($0.02V_f$), selects the source with the higher voltage. The LTC4412 (Appendix \ref{fig:ltc4412dat}) was chosen to perform this power path management. The ideal diodes are implemented externally with a FZT788B P-Channel MOSFET (Appendix \ref{fig:ftzdat}). This IC also has a very low quiescent current, below $1.15\mu A$.
@@ -436,6 +431,7 @@ A Max Point Power Tracker (MPPT) increases efficiency by adjusting the current a
 	\label{fig:singlemppt}
 \end{figure}
 
+\bigskip
 The input capacitor's purpose is to reduce voltage ripple. It was calculated that this capacitor must be greater than $14.3\mu F$. The time constant of the resistor and capacitor on the \textit{MPPT SET} pin of the SPV1040 IC must be less than or equal to the maximum power point tracking time ($T_{MPPT} \cong 1ms$). It is recommended that the resistor be set to $1k\Omega$. This means that the capacitor must be less than $10\mu F$. The inductor selected was based on the maximum input voltage and current produced by the solar petals. The inductor value was calculated to being greater than or equal to $8.5\mu H$. The saturation current for the inductor must also be greater than 1.8A, which is the limit of the SPV1040. The output voltage capacitor was chosen based on the short circuit current of the solar petals and the maximum voltage ripple. The output voltage capacitor must be greater than $142\mu F$ so $150 \mu F$ was chosen. This was calculated with a maximum output ripple voltage of 0.01V. There are two resistors that divide the output of the SPV1040 and provide feedback to the controller. These resistors were calculated to be $76.8k\Omega$ and $24.3k\Omega$. This divides the desired maximum output voltage of 5.2V to 1.25 at the voltage sensing pin. The capacitor on the $V_{CTRL}$ pin of the SPV1040 is needed to reject noise sensed by the pin. This was calculated to be around $45.2\mu F$. The voltage drop across the sense resistor is compared to the 50mV internal reference. The sense resistor is calculated to be around $27m\Omega$. Since there may be some noise from the switching, there is a filter on the sense pins, \textit{Ictrl\_+} and \textit{Ictrl\_-}. It is recomended that the inline resistors are $1k\Omega$ and the capacitor between the two is $1\mu F$. A Schottky diode is placed between the \textit{Lx} and \textit{Vout} pins of the SPV1040. The \textit{Diodes Incorporated} 1N5819HW Schottky diode meets the suggested criteria. It has a forward voltage drop of 450mV and a non repetitive peak current of 25A. The calculations for these components can be found in Appendix \ref{app:spvcalcs}.
 
 \subsubsection{Battery Management}
@@ -818,6 +814,54 @@ Conversely, in Figure \ref{fig:doredsimres2} the Diode-ORed topology simulation 
 
 \newpage
 \section{Mechanical Drawings} \label{sect:appendixC}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{PCB}
+	\caption{PCB Dimensions}
+	\label{fig:append_pcbdimensions}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{PhoneAndPCB}
+	\caption{PCB Dimensions}
+	\label{fig:append_pcbphone}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Assembly1}
+	\caption{USB Micro A Connector attached to the PCB with strain relief: A small flexible cable}
+	\label{fig:append_usbcable}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Assembly2}
+	\caption{Front View of the Enclosure}
+	\label{fig:append_enclosurefront}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Assembly3}
+	\caption{Back View of the Enclosure}
+	\label{fig:append_enclosureback}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Assembly4}
+	\caption{Heatsink attached to PCB and protruding through the enclosure}
+	\label{fig:append_heatsink}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{thermal4}
+	\caption{An Energy 2D simulation: On the left: Phone in enclosure with no heatsink. On the right: Phone in enclosure and attached to heatsink}
+	\label{fig:append_thermal}
+\end{figure}
 
 \newpage
 \section{Calculations} \label{sect:appendixD}
