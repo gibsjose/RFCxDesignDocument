@@ -67,6 +67,14 @@
     \newcommand{\section@cntformat}{\appendixname~\thesection\quad}
 }
 \makeatother
+% Sign and Date command
+\newcommand{\namesigdate}[2][5cm]{%
+  \begin{tabular}{@{}p{#1}@{}}
+    #2 \\[2\normalbaselineskip] \hrule \\[0pt]
+    {\small \textit{Signature}} \\[2\normalbaselineskip] \hrule \\[0pt]
+    {\small \textit{Date}}
+  \end{tabular}
+}
 
 
 \begin{document}
@@ -430,7 +438,7 @@ The input capacitor's purpose is to reduce voltage ripple. It was calculated tha
 
 \subsubsection{Battery Management}
 
-The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with the $49.9k\Omega$ resistor \textit{R24} as an upper bound of 50$^{\circ}C$. Only the upper temperature bound is set because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R18} and \textit{R22}. These values are outlined in the datasheet (Appendix \ref{fig:bq2057dat}) to set a proprietary charge compensation algorithm. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
+The two dual-cell Lithium-Ion batteries are each managed by a bq2057CTS. Figure \ref{fig:batman} shows the battery management circuitry for one of the 2-cell battery packs. This IC provides voltage and current regulation, battery conditioning, temperature monitoring, charge termination, charge status indication, as well as charge-rate compensation. The charging is started in the constant voltage phase and stops when the current falls bellow the current termination threshold. The bq2057 inhibits charging until the battery temperature is in the user defined range. This range is defined in this circuit with the $49.9k\Omega$ resistor \textit{R24} as an upper bound of 50$^{\circ}C$. The PNP BJT pass transistor controls voltage and current regulation as well as providing protection from backfed current. Only the upper temperature bound is set because the device is not intended for cold environments. The charge rate compensation is set by resistors \textit{R18} and \textit{R22}. These values are outlined in the datasheet (Appendix \ref{fig:bq2057dat}) to set a proprietary charge compensation algorithm. The automatic charge compensation helps to charge the batteries faster and compensate for the battery pack's internal impedance.
 
 \begin{figure}[H]
 	\centering
@@ -668,6 +676,15 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
   \label{fig:gantt}
 \end{figure}
 \end{landscape}
+
+\newpage
+\section{Sponsor Sign-off}
+On behalf of Rainforest Connection(RFCx), the undersigned  approves the functional requirements and design contained in this document that specify the project deliverables and functionality.
+
+\bigskip
+
+\bigskip
+\noindent \namesigdate{Topher White} \hfill \namesigdate{Dave Grenell}
 
 
 \newpage
