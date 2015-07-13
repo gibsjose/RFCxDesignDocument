@@ -26,6 +26,7 @@
 \usepackage{caption}
 \numberwithin{figure}{section}
 \usepackage{amsmath}
+\usepackage[normalem]{ulem}
 
 \numberwithin{equation}{section}
 % lstlisting
@@ -145,66 +146,87 @@ This document serves as a checklist for both verification and validation of the 
 \newpage
 
 \section{Verification} \label{sect:verification}
-This section outlines the steps that are planned to verify that the hardware and software operate in the intended manner.
+This section outlines the steps that are planned to verify that the hardware and software meet the specifications. Items with a \sout{strikethrough} formatting have been removed from the original specifications at the request of the sponsor.
+
 \subsection{Hardware Verification} \label{sect:hardwareverification}
-To verify the power consumption of the devices in \ref{HWa}. the voltage applied and current drawn by the both the enhanced device and the current device will be measured over the course of 1 hour during a realistic usage scenario. The average power will be verified to not exceed 90\% of the existing device’s usage.
+To verify the power consumption of the devices the voltage applied and current drawn by the both the enhanced device and the current device will be measured over the course of 1 hour during a realistic usage scenario. The average power will be verified to not exceed 90\% of the existing device’s usage.
 
-To verify \ref{HWf}. a visual inspection by volunteers will qualify camouflage schemes. A successful inspection will be one in which more than 80\% of the volunteers are unable to find the device within a 2 minute inspection window.
+\bigskip
 
-To verify \ref{HWg}. a sample group of people with varying skill levels will be asked to provide feedback the on assembly process.
+\sout{To verify the camouflage requirement a visual inspection by volunteers will qualify camouflage schemes. A successful inspection will be one in which more than 80\% of the volunteers are unable to find the device within a 2 minute inspection window.}
+
+\bigskip
+
+\sout{To verify the ease of assembly, a sample group of people with varying skill levels will be asked to provide feedback the on assembly process.}
 
 \subsection{Software Verification} \label{sect:softwareverification}
-To verify \ref{SWa}., audio will be recorded and compressed using multiple algorithms including the current algorithm. An infographic hosted on RFCx’s website, shown in Figure 2 illustrates the flow of data that is collected from the phone and analyzed on the server.
+\sout{To verify audio compression, audio will be recorded and compressed using multiple algorithms including the current algorithm.}
 
-To verify \ref{HW3}, simple packets will be sent from the microcontroller to the phone. These packets can be verified with debug tools or simple programs on the microcontroller and the phone. A debug serial port may be included as a peripheral to the microcontroller to aid in debugging. Any analog values read by the microcontroller will be verified with shop equipment.
+\bigskip
+To verify data collection from the microcontroller, simple packets will be sent from the microcontroller to the phone. These packets can be verified with debug tools or simple programs on the microcontroller and the phone. A debug serial port may be included as a peripheral to the microcontroller to aid in debugging. Any analog values read by the microcontroller will be verified with shop equipment.
 
 \newpage
 
 \section{Validation} \label{sect:validation}
-\ref{HW3}, \ref{HWb}, and \ref{HWd} can be validated by inspecting the components on the PCB to ensure all required components are present on the board. Requirements \ref{HWg} and \ref{HWh} can be validated by handing the assembly instructions out to a sample group of people with varying skill levels and receiving feedback on the set of instructions from them. People with the ability to read other languages can be used if the documents have been translated from English into other languages.
+This section outlines the steps that are planned to validate that the end product meets the needs of the sponsor. Items with a \sout{strikethrough} formatting have been removed from the original specifications at the request of the sponsor.
 
-\ref{HW4} can be validated by inspecting the total cost printed on the BOM for the enhanced device.
+\bigskip
 
-\ref{HW1}, \ref{HWa}, and \ref{HW3} can be validated by current and voltage measurements taken in the lab using a DMM. The power calculations made based on those measurements can be compared to similar calculations based on measurements taken from the current device. SPICE simulation data and values displayed on the RFCx Sentinel app will be compared to the actual power consumption of the new device.
+The existence of a microcontroller, USB connection, and \sout{GSM shielding} can be validated by inspecting the components on the PCB to ensure all required components are present on the board.
 
-\ref{SW1}, \ref{SW2}, \ref{SW3}, and \ref{HW3} can be validated by comparing the values reported in the RFCx Sentinel app to the calculated power consumption of the enhanced device.
+\bigskip
 
-\ref{HWc} can be validated by changing the scale factor in the microcontroller program, reprogramming the microcontroller from the PCB header and comparing the values displayed on the RFCx Sentinel app to the previous displayed values. The new values displayed on the RFCx Sentinel app should reflect the change to the scale factor in the microcontroller program.
+\sout{Assembly requirements can be validated by handing the assembly instructions out to a sample group of people with varying skill levels and receiving feedback on the set of instructions from them. People with the ability to read other languages can be used if the documents have been translated from English into other languages.}
 
-\ref{HWc}, \ref{SW3}, and \ref{SWa} can be validated during a field test. The enhance device can be mounted at eye level in a tree and turned on to allow the device to start sending audio data to the RFCx server. Requirement \ref{HWf} can be validated by having a volunteer outside of the project search for the device in a wooded area without knowing what it looks like to see if it sticks out. A chainsaw can be turned on 0.25 miles from the device to trigger an alert and validate that the enhanced device can communicate with the RFCx server. The size of the audio recording sent to the RFCx server after employing the audio compression algorithm can be compared to the size of audio data sent to the RFCx server by the current device to determine the audio compression ratio of this algorithm. Both audio recordings can be played back to determine the level of audio interference created by GSM transmission.
+\bigskip
+
+The monetary cost of the device remaining below 125\% of the existing device can be validated by inspecting the total cost printed on the BOM for the enhanced device.
+
+\bigskip
+
+A 10\% power efficiency increase can be validated by current and voltage measurements taken in the lab using a DMM.
+
+\bigskip
+
+The microcontroller communication can be validated by sending known data from the microcontroller to the phone and observing the values.
+
+\bigskip
+
+\sout{The microphone and antenna requirements can be validated by changing the scale factor in the microcontroller program, reprogramming the microcontroller from the PCB header and comparing the values displayed on the RFCx Sentinel app to the previous displayed values. The new values displayed on the RFCx Sentinel app should reflect the change to the scale factor in the microcontroller program.}
+
+\bigskip
+
+\sout{Atenna, microphone, and compression requirements can be validated during a field test. The enhance device can be mounted at eye level in a tree and turned on to allow the device to start sending audio data to the RFCx server.}
+
+\bigskip
+
+\sout{The camouflage requirement can be validated by having a volunteer outside of the project search for the device in a wooded area without knowing what it looks like to see if it sticks out.}
+
+\bigskip
+
+\sout{A chainsaw can be turned on 0.25 miles from the device to trigger an alert and validate that the enhanced device can communicate with the RFCx server. The size of the audio recording sent to the RFCx server after employing the audio compression algorithm can be compared to the size of audio data sent to the RFCx server by the current device to determine the audio compression ratio of this algorithm. Both audio recordings can be played back to determine the level of audio interference created by GSM transmission.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VERIFICATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Verification Checklist} \label{sect:verification_chk}
-Verification description...
+The following verification items must be checked off:
 
-\begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{Requirement \thesubsubsection.\arabic*.}, itemindent=0em]
-\item \label{SW1}The microcontroller software should be capable of bi-directional communication between itself and the Android phone.
-\item \label{SW2}The microcontroller software should be capable of communicating power usage diagnostics to the phone over the ADB protocol.
-\item \label{SW3}An Android companion application may be capable of reporting power diagnostics from the microcontroller for testing and debugging.
-\item \label{SW4}There shall be a header on the PCB to program the microcontroller.
+\begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{\CheckBox{} Item \thesubsubsection.\arabic*.}, itemindent=0em]
+    \item \label{ver1}The power usage of the new design does not exceed 90\% of the existing design
+    \item \label{ver2}The microcontroller is capable of sending data packets to an Android phone
 \end{enumerate}
 
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VALIDATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Validation Checklist} \label{sect:validation_chk}
-Validation description...
+The following validation items must be checked off:
 
-\bigskip
-The following is a list of the main ICs that comprise the PCB and are outlined in this section:
-\begin{description}[font=$\bullet$\scshape\bfseries]
-\item[Atmel ATMega328P]: 8-bit AVR microcontroller (Appendix \ref{fig:atmeldat})
-\item[SPV1040 Max Point Power Tracker]: Solar power controller and lithium-ion battery charger (Appendix \ref{fig:spvdat})
-\item[ADS1015]: External 4-input 12-bit Analog-to-Digital Converter, $I^2 C$ communication (Appendix \ref{fig:adsdat})
-\item[LM75BD]: Ultra Low Power Temperature Sensor,$\pm 2^{\circ}C$, $I^2 C$ communication (Appendix \ref{fig:lm75dat})
-\item[(Optional) HIH6130]: 14-bit resolution Humidity and Temperature Sensor with accuracy of $\pm5$\% Relative Humidity and $\pm 1^{\circ}C$, $I^2 C$ communication (Appendix \ref{fig:hihdat})
-\item[FT230X]: FTDI USB-UART interface for USB serial communication (Appendix \ref{fig:ftdidat})
-\item[BQ2057CTS]: Linear Battery Charge Management IC (Appendix \ref{fig:bq2057dat})
-\item[LM61428]: Simple Switcher Boost Controller IC (Appendix \ref{fig:lmrdat})
-\item[SM72238]: Micropower Fixed 3.3V LDO (Appendix \ref{fig:sm72dat})
-\item[LTC6800]: Rail-To-Rail Input and Output Instrumentation Amplifier (Appendix \ref{fig:ltc6800dat})
-\item[LTC4412]: Low loss powerpath controller (Appendix \ref{fig:ltc4412dat})
-\end{description}
+\begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{\CheckBox{} Item \thesubsubsection.\arabic*.}, itemindent=0em]
+    \item \label{val1}The board has a microcontroller and a USB connection to the phone for power and data
+    \item \label{val2}The power usage of the new design is more efficient than the existing design
+    \item \label{val3}The new device does not cost more than \$250
+    \item \label{val4}The microcontroller is capable of sending the correct data to an Android phone
+\end{enumerate}
 
 \newpage
 
