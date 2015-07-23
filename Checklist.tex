@@ -235,6 +235,12 @@ The following validation items must be checked off:
             \item See verification section for procedure.
         \end{enumerate}
     \item \label{val3}The new device does not cost more than \$250
+        \begin{enumerate}[label=\CheckBox{}]
+            \item The total dollar value on the Bill of Materials of all PCB parts will be totalled.
+            \item The total dollar value of the board manufacturing costs will be totalled and normalized to obtain the cost of a single board (divided by 3).
+            \item The total dollar value of mechanical components will be totalled.
+            \item These values will be added and verified to be under \$250. 
+        \end{enumerate}
     \item \label{val4}The microcontroller is capable of sending the correct data to an Android phone
         \begin{enumerate}[label=\CheckBox{}]
             \item The phone will run the ``Sentinel'' application, which displays sensor data from the board.
