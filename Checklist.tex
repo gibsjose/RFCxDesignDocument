@@ -1,0 +1,338 @@
+\documentclass{article}
+% Commands
+\newcommand{\ASSNMT}{Project Necromancer}
+\newcommand{\CLASS}{Verification and Validation Checklist}
+\newcommand{\Footer}{Grand Valley State University}
+
+\newcommand{\DATE}{July 2015}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{pdflscape}
+\usepackage{geometry}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage[justification=centering]{caption}
+\usepackage{amssymb}
+\usepackage[pdftex, pdfborderstyle={/S/U/W 0}]{hyperref} % this disables the boxes around links]
+\usepackage{float}
+\usepackage{listings}
+% \usepackage{color}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\numberwithin{figure}{section}
+\usepackage{amsmath}
+\usepackage[normalem]{ulem}
+
+\numberwithin{equation}{section}
+% lstlisting
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset
+{
+  frame=single,
+  frameround=tttt,
+  language=C,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  tabsize=3,
+  breaklines=true,
+  basicstyle={\small\ttfamily},
+  xleftmargin=\fboxsep,
+  xrightmargin=-\fboxsep,
+  numbers = left,
+  stepnumber = 5,
+  firstnumber = 1
+}
+
+% macro for appendix to be printed as "Appendix A {name of appendix}"
+% instead of "A {name of appendix}"
+% From: http://tex.stackexchange.com/questions/160839/having-appendix-a-instead-of-a-appendix
+\makeatletter
+%% The "\@seccntformat" command is an auxiliary command
+%% (see pp. 26f. of 'The LaTeX Companion,' 2nd. ed.)
+\def\@seccntformat#1{\@ifundefined{#1@cntformat}%
+   {\csname the#1\endcsname\quad}  % default
+   {\csname #1@cntformat\endcsname}% enable individual control
+}
+\let\oldappendix\appendix %% save current definition of \appendix
+\renewcommand\appendix{%
+    \oldappendix
+    \newcommand{\section@cntformat}{\appendixname~\thesection\quad}
+}
+\makeatother
+% Sign and Date command
+\newcommand{\namesigdate}[2][5cm]{%
+  \begin{tabular}{@{}p{#1}@{}}
+    #2 \\[2\normalbaselineskip] \hrule \\[0pt]
+    {\small \textit{Signature}} \\[2\normalbaselineskip] \hrule \\[0pt]
+    {\small \textit{Date}}
+  \end{tabular}
+}
+
+
+\begin{document}
+% =====----- Initial Set Up -----=====
+% Title Page
+\newgeometry{top=2cm,left=1cm,bottom=1cm,right=1cm}
+\begin{flushleft}
+\pagenumbering{gobble}
+
+\textsc{\LARGE \bfseries \ASSNMT}\\
+
+\textsc{\Large \CLASS}\\[0.2cm]
+\linethickness{0.5mm}
+{\color{ForestGreen}\line(1,0){350}} \\ [1.0cm]
+
+\begin{flushleft} \large
+\begin{tabular}{lll}
+  Sponsored By: & The Rainforest Connection (RFCx) \includegraphics[height=0.4cm]{rfcxlogo} & \\
+                &               & \\
+  Submitted By: & Joe Gibson    & \href{mailto:gibsjose@mail.gvsu.edu}{gibsjose@mail.gvsu.edu}\\
+              & David Adlof     & \href{mailto:adlofd@mail.gvsu.edu}{adlofd@mail.gvsu.edu}\\
+              & Kalee Stutzman  & \href{mailto:stutzmak@mail.gvsu.edu}{stutzmak@mail.gvsu.edu}\\
+              & Jesse Millwood  & \href{mailto:millwooj@mail.gvsu.edu}{millwooj@mail.gvsu.edu}\\
+\end{tabular}
+
+\bigskip
+
+\bigskip
+Date Submitted: \DATE
+\end{flushleft}
+
+\smallskip
+{\color{ForestGreen}\line(1,0){350}} \\ [1.0cm]
+
+% Fill in the rest of the cover page
+\vfill
+
+% Bottom of the page
+\begin{center}
+{\large \Footer}
+\end{center}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.1\textwidth]{small_gvsu}
+\end{figure}
+\end{flushleft}
+\restoregeometry
+\newpage
+% Define Page Geometry for rest of report
+{\newgeometry{left=0.8in, right=0.8in, top=1in, bottom=1in}
+% Page Numbers
+\pagenumbering{arabic}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\ASSNMT}
+\rhead{\leftmark}
+\rfoot{Page \thepage}
+% No paragraph indents
+\setlength{\parindent}{0cm}
+% =====----- Rest of Report -----=====
+\newpage
+\tableofcontents
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DESCRIPTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Description} \label{sect:description}
+This document serves as a checklist for both verification and validation of the RFCx Project Necromancer software and hardware specifications as outlined in the Design Document. Wherein any specifications changed or were removed, this document also describes the modifications.
+
+\newpage
+
+\section{Verification} \label{sect:verification}
+This section outlines the steps that are planned to verify that the hardware and software meet the specifications. Items with a \sout{strikethrough} formatting have been removed from the original specifications at the request of the sponsor.
+
+\subsection{Hardware Verification} \label{sect:hardwareverification}
+To verify the power consumption of the devices the voltage applied and current drawn by the both the enhanced device and the current device will be measured over the course of 1 hour during a realistic usage scenario. The average power will be verified to not exceed 90\% of the existing device’s usage.
+
+\bigskip
+
+\sout{To verify the camouflage requirement a visual inspection by volunteers will qualify camouflage schemes. A successful inspection will be one in which more than 80\% of the volunteers are unable to find the device within a 2 minute inspection window.}
+
+\bigskip
+
+\sout{To verify the ease of assembly, a sample group of people with varying skill levels will be asked to provide feedback the on assembly process.}
+
+\subsection{Software Verification} \label{sect:softwareverification}
+\sout{To verify audio compression, audio will be recorded and compressed using multiple algorithms including the current algorithm.}
+
+\bigskip
+To verify data collection from the microcontroller, simple packets will be sent from the microcontroller to the phone. These packets can be verified with debug tools or simple programs on the microcontroller and the phone. A debug serial port may be included as a peripheral to the microcontroller to aid in debugging. Any analog values read by the microcontroller will be verified with shop equipment.
+
+\newpage
+
+\section{Validation} \label{sect:validation}
+This section outlines the steps that are planned to validate that the end product meets the needs of the sponsor. Items with a \sout{strikethrough} formatting have been removed from the original specifications at the request of the sponsor.
+
+\bigskip
+
+The existence of a microcontroller, USB connection, and \sout{GSM shielding} can be validated by inspecting the components on the PCB to ensure all required components are present on the board.
+
+\bigskip
+
+\sout{Assembly requirements can be validated by handing the assembly instructions out to a sample group of people with varying skill levels and receiving feedback on the set of instructions from them. People with the ability to read other languages can be used if the documents have been translated from English into other languages.}
+
+\bigskip
+
+The monetary cost of the device remaining below 125\% of the existing device can be validated by inspecting the total cost printed on the BOM for the enhanced device.
+
+\bigskip
+
+A 10\% power efficiency increase can be validated by current and voltage measurements taken in the lab using a DMM.
+
+\bigskip
+
+The microcontroller communication can be validated by sending known data from the microcontroller to the phone and observing the values.
+
+\bigskip
+
+\sout{The microphone and antenna requirements can be validated by changing the scale factor in the microcontroller program, reprogramming the microcontroller from the PCB header and comparing the values displayed on the RFCx Sentinel app to the previous displayed values. The new values displayed on the RFCx Sentinel app should reflect the change to the scale factor in the microcontroller program.}
+
+\bigskip
+
+\sout{Atenna, microphone, and compression requirements can be validated during a field test. The enhance device can be mounted at eye level in a tree and turned on to allow the device to start sending audio data to the RFCx server.}
+
+\bigskip
+
+\sout{The camouflage requirement can be validated by having a volunteer outside of the project search for the device in a wooded area without knowing what it looks like to see if it sticks out.}
+
+\bigskip
+
+\sout{A chainsaw can be turned on 0.25 miles from the device to trigger an alert and validate that the enhanced device can communicate with the RFCx server. The size of the audio recording sent to the RFCx server after employing the audio compression algorithm can be compared to the size of audio data sent to the RFCx server by the current device to determine the audio compression ratio of this algorithm. Both audio recordings can be played back to determine the level of audio interference created by GSM transmission.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VERIFICATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Verification Checklist} \label{sect:verification_chk}
+The following verification items must be checked off:
+
+\begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{\CheckBox{} Item \thesubsubsection.\arabic*.}, itemindent=0em]
+    \item \label{ver1}The power usage of the new design does not exceed 90\% of the existing design
+        \begin{enumerate}[label=\CheckBox{}]
+            \item New Design: For 10 minutes, with the phone connected (not transmitting - test phones do not have data connection), \textbf{input voltage/current and output voltage/current} will be measured with a DMM. Measurements will be taken every 30 seconds and the values will be recorded and averaged.
+            \item Existing Design: The same scenario will be completed using the existing design, if reliable power efficiency data is not available for the existing design.
+        \end{enumerate}
+    \item \label{ver2}The microcontroller is capable of sending data packets to an Android phone
+\end{enumerate}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VALIDATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Validation Checklist} \label{sect:validation_chk}
+The following validation items must be checked off:
+
+\begin{enumerate}[align=left,leftmargin=*, labelindent= 0em, label=\textbf{\CheckBox{} Item \thesubsubsection.\arabic*.}, itemindent=0em]
+    \item \label{val1}The board has a microcontroller and a USB connection to the phone for power and data
+        \begin{enumerate}[label=\CheckBox{}]
+            \item The phone will be connected to the board at approximately 80\% charge, and the amount of time it takes to fully charge the phone will be recorded. There is no specific target charge time.
+        \end{enumerate}
+    \item \label{val2}The power usage of the new design is more efficient than the existing design
+        \begin{enumerate}[label=\CheckBox{}]
+            \item See verification section for procedure.
+        \end{enumerate}
+    \item \label{val3}The new device does not cost more than \$250
+        \begin{enumerate}[label=\CheckBox{}]
+            \item The total dollar value on the Bill of Materials of all PCB parts will be totalled.
+            \item The total dollar value of the board manufacturing costs will be totalled and normalized to obtain the cost of a single board (divided by 3).
+            \item The total dollar value of mechanical components will be totalled.
+            \item These values will be added and verified to be under \$250. 
+        \end{enumerate}
+    \item \label{val4}The microcontroller is capable of sending the correct data to an Android phone
+        \begin{enumerate}[label=\CheckBox{}]
+            \item The phone will run the ``Sentinel'' application, which displays sensor data from the board.
+            \item The following hard-coded values will be sent from the board to the phone:
+                \begin{itemize}
+                    \item Temperature = 25C
+                    \item Humidity = 50\%
+                \end{itemize}
+            \item The data appearing on the phone screen must match the hard-coded values for temperature and humidity.
+            \item As a backup plan, in case the FT230X chip will not communicate with the Android phone, an Arduino using the same chip and the FT232R chip will be used to demonstrate data transfer capabilities. In this scenario, the board using the FT230X chip \emph{will} be hooked up to a computer to demonstrate that it can also send serial data.
+        \end{enumerate}
+    \item \label{val5}The MPPT board and the solar panels are capable of charging the batteries.
+        \begin{enumerate}[label=\CheckBox{}]
+            \item A battery with less than full charge will be connected and the current and voltage drawn during charging will be monitored and recorded every 1 minute until the battery is charged.
+        \end{enumerate}
+    \item \label{val6}The MPPT board is capable of providing a 4.6V output from the solar panels.
+    \begin{enumerate}[label=\CheckBox{}]
+        \item The indiviudal solar panel input voltages to the MPPT board (four panel inputs) will be recorded
+        \item The single output voltage from the MPPT board will be verified to be 4.6V $\pm$100mV
+    \end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\section{Sponsor Sign-off} \label{sect:signoff}
+On behalf of Rainforest Connection (RFCx), the undersigned approves the checklist of verification and validation items and the functional requirements and design contained in the design document that specify the project deliverables and functionality.
+
+\bigskip
+
+\bigskip
+\noindent \namesigdate{Topher White} \hfill \namesigdate{Dave Grenell}
+
+\newpage
+
+\textbf{REMINDER:} Attach data collected from measurements to this document.
+
+\end{document}
+
+% ======== For Reference =============
+% H parameter for the figure environment
+% keeps it from floating
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{FIG2_1b}
+	\caption{Convolution of Identical Unit Step Sequences}
+	\label{fig:21b}
+\end{figure}
+% To turn off caption numbering place this:
+%\captionsetup[figure]{labelformat=empty}
+% Before the figure, To turn back on:
+%captionsetup[figure]{labelformat=default}
+\begin{equation}
+	\begin{array}{rcl}
+
+	y[n] &=& 0.5x[n]+x[n-1]+2x[n-2]\\
+	y[n] &=& 0.8y[n-1]+2x[n]\\
+	y[n]-0.8y[n-1] &=& 2x[n-1]
+	\end{array}
+\end{equation}
+
+\begin{subequations}
+	\begin{align}
+		h[n] &= 2\delta[n+1]-2\delta[n-1]\\
+		x[n] &= \delta[n] + \delta[n-2]
+	\end{align}
+\end{subequations}
+
+% Resize used to make table width of text, may be omitted
+\begin{table}[h]
+\resizebox{\textwidth}{!}{
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Case & $Z_c$          & $l$           & $c$       \\ \hline
+1    & $110.9 \Omega$ & 0.593 $\mu H$ & 0.048 nF  \\ \hline
+2    & $171.3 \Omega$ & 0.803 $\mu H$  & 27.408 pF \\ \hline
+3    & $327.3 \Omega$ & 1.102 $\mu H$  & 10.294 pF \\ \hline
+\end{tabular}}
+\caption{Calculated Parameters}
+\label{tbl:calcd}
+\end{table}
+
+% Code Snippet:
+\begin{lstlisting}[language=C,label=lala,caption=this thing]
+  code snippet
+\end{lstlisting}
+
+% bulleted list
+\begin{itemize}
+\item this is an item
+\end{itemize}
+
+\renewcommand*\contentsname{ }
+\tableofcontents
+\listoffigures

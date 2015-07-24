@@ -164,7 +164,7 @@ Rainforest Connection (RFCx) is a non-profit organization that is dedicated to s
 \end{figure}
 \newpage
 
-These devices listen and record audio streams at all times, using their data connection to periodically send audio data to the RFCx server. On the server, digital signal processing algorithms are used to detect the sound of chainsaws and engines at a distance of up to $\frac{2}{3}$ of a mile. If a chainsaw is detected, a real-time alert is sent to pre-existing ground patrols, who can react to the situation and combat the threat. In addition to man-made sounds, the RFCx platform is also used to record the sounds of animals in the forest. These sounds can be used to gain information about certain species of animals and are open to anyone to use and analyze. Because of the sheer size of the area, it is impractical, if not impossible, for foot patrols to properly monitor the forests for illegal activities without the aid of technology. The flow of data, from audio collection to human intervention, is shown below in Figure \ref{fig:infographic}.
+These devices record and analyze audio, using their data connection to periodically send audio data to the RFCx server. Digital signal processing algorithms are used to detect the sound of chainsaws and engines at a distance of up to $\frac{2}{3}$ of a mile. If a chainsaw is detected, an alert is sent to pre-existing ground patrols, who can react to the situation and combat the threat. In addition to man-made sounds, the RFCx platform is also used to record the sounds of animals in the forest. These sounds can be used to gain information about certain species of animals and are open to anyone to use and analyze. Because of the sheer size of the area, it is impractical, if not impossible, for foot patrols to properly monitor the forests for illegal activities without the aid of technology. The flow of data, from audio collection to human intervention, is shown below in Figure \ref{fig:infographic}.
 
 \begin{figure}[H]
   \centering
@@ -656,6 +656,30 @@ To verify \ref{HW3}, simple packets will be sent from the microcontroller to the
 
 \ref{HWc}, \ref{SW3}, and \ref{SWa} can be validated during a field test. The enhance device can be mounted at eye level in a tree and turned on to allow the device to start sending audio data to the RFCx server. Requirement \ref{HWf} can be validated by having a volunteer outside of the project search for the device in a wooded area without knowing what it looks like to see if it sticks out. A chainsaw can be turned on 0.25 miles from the device to trigger an alert and validate that the enhanced device can communicate with the RFCx server. The size of the audio recording sent to the RFCx server after employing the audio compression algorithm can be compared to the size of audio data sent to the RFCx server by the current device to determine the audio compression ratio of this algorithm. Both audio recordings can be played back to determine the level of audio interference created by GSM transmission.
 
+\section{Conclusion}\label{conclusion}
+This section describes the conclusion of the project including modifications performed on the hardware and software sides. These modifications include two revisions of the PCB, substantial additions to the microcontroller software, and changes to the enclosure, panel frame, and mounting hardware.
+
+\subsection{PCB Modifications}
+\subsubsection{1st Revision}\label{conclusion-pcb-rev1}
+\paragraph{Design}
+\paragraph{Issues}
+\paragraph{Solutions}
+\subsubsection{2nd Revision}\label{conclusion-pcb-rev2}
+\paragraph{Design}
+\paragraph{Issues}
+\paragraph{Solutions}
+\subsubsection{Future 3rd Revision}\label{conclusion-pcb-rev3}
+\paragraph{Design}
+
+\subsection{Software Modifications}\label{conclusion-software}
+\subsubsection{Microcontroller Software}\label{conclusion-mcu-software}
+
+\subsection{Enclosure Modifications}\label{conclusion-enclosure}
+\subsubsection{Enclosure Selection}\label{conclusion-enc-selection}
+\subsubsection{}
+
+\subsection{Results of Verification and Validation}\label{conclusion-vv}
+
 \section{Project Budget and Schedule} \label{sect:budgetandschedule}
 \subsection{Budget} \label{sect:budget}
 This project will require minor funding for manufacturing and populating the PCB, and the materials to construct a new enclosure, as well as general testing and component costs. As RFCx is a non-profit organization working solely on grant money, this budget is not expected to be covered by them.
@@ -665,6 +689,8 @@ This project will require minor funding for manufacturing and populating the PCB
 \item \$200 = 1 x \$200 for general needs
 \item Estimated Total: \$920
 \end{itemize}
+
+RFCx
 
 \begin{landscape}
 \subsection{Schedule} \label{sect:schedule}
