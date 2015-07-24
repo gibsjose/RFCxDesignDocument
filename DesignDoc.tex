@@ -675,13 +675,14 @@ Several issues became apparent during assembly and construction of this revision
 \begin{itemize}
 \item Monolithic design meant that a problem on the board could render the whole board useless
 \item Position of certain components interfered physically
-\item An external pullup resistor on the RESET pin was mistakenly omitted.
+\item An external pullup resistor on the RESET pin of the microcontroller was mistakenly omitted.
+\item Footprint for the HIH humidity sensor is too big
 \end{itemize}
 \paragraph{Solutions}
 The monolithic board issue was resolved by breaking the board into two separate boards. One board contained the MPPT circuitry and the other board contained the regulation circuitry for the 3.3V and 5V rails, the microcontroller, environment sensors, and the usb interface. This way, the funtionality of the main board can be retained while the power source can be changed. The two boards were made smaller so that they can fit into a multitude of enclosures and be positioned in different ways. Parts that were mistakenly omitted were included for the design of the second revision. 
 \subsubsection{2nd Revision}\label{conclusion-pcb-rev2}
 \paragraph{Design}
-The second revision of the board focused on modularity and compactability so that the enclosures that it fit in are not as constrained as the first revision. A 3D rendering of the second revision of the board can be seen in figure \ref{fig:b21} and \ref{fig:b22}
+The second revision of the board focused on modularity and compactability so that the enclosures that it fit in are not as constrained as the first revision. A 3D rendering of the second revision of the board can be seen in figure \ref{fig:b21} and \ref{fig:b22}. An LED was also added to the board to aid in rudimentary debugging. 
 
 \begin{figure}[H]
 	\centering
@@ -698,10 +699,17 @@ The second revision of the board focused on modularity and compactability so tha
 \end{figure}
 
 \paragraph{Issues}
+The second revision of the board was not without issues. Certain subsystems were difficult to test on the first revision of the board, leading to untested systems moving through to the second revision of the board. Some of the issues include:
+\begin{itemize}
+\item Swapped D+ and D- signals on the usb Interface
+\item FTDI needs a voltage sense divider
+\item Footprint on external ADC is wrong, the address pin is unconnected
+\end{itemize}
 \paragraph{Solutions}
+For a short term fix, the signals that were routed wrong were soldered with wire on the board so that tests could be carried out. For the third revision of the board, these issues will be fixed. 
 \subsubsection{Future 3rd Revision}\label{conclusion-pcb-rev3}
 \paragraph{Design}
-
+The next revision of the board will have the routing fixes that made it to revision 2. This revision of the board design is meant to be a version that can be field tested. 
 \subsection{Software Modifications}\label{conclusion-software}
 \subsubsection{Microcontroller Software}\label{conclusion-mcu-software}
 
