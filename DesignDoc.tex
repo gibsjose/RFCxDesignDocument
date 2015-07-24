@@ -4,7 +4,7 @@
 \newcommand{\CLASS}{Design Document}
 \newcommand{\Footer}{Grand Valley State University}
 
-\newcommand{\DATE}{April 2015}
+\newcommand{\DATE}{July 2015}
 
 % Packages
 \usepackage[utf8]{inputenc}
@@ -662,10 +662,41 @@ This section describes the conclusion of the project including modifications per
 \subsection{PCB Modifications}
 \subsubsection{1st Revision}\label{conclusion-pcb-rev1}
 \paragraph{Design}
+The first revision of the board was designed for a specific case in mind and was monolithic. A 3D rendering of the board can be seen in figure \ref{fig:b1}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{RFCxrev1_top}
+	\caption{First revision of PCB design}
+	\label{fig:b1}
+\end{figure}
+
 \paragraph{Issues}
+Several issues became apparent during assembly and construction of this revision of the design. 
+\begin{itemize}
+\item Monolithic design meant that a problem on the board could render the whole board useless
+\item Position of certain components interfered physically
+\item An external pullup resistor on the RESET pin was mistakenly omitted.
+\end{itemize}
 \paragraph{Solutions}
+The monolithic board issue was resolved by breaking the board into two separate boards. One board contained the MPPT circuitry and the other board contained the regulation circuitry for the 3.3V and 5V rails, the microcontroller, environment sensors, and the usb interface. This way, the funtionality of the main board can be retained while the power source can be changed. The two boards were made smaller so that they can fit into a multitude of enclosures and be positioned in different ways. Parts that were mistakenly omitted were included for the design of the second revision. 
 \subsubsection{2nd Revision}\label{conclusion-pcb-rev2}
 \paragraph{Design}
+The second revision of the board focused on modularity and compactability so that the enclosures that it fit in are not as constrained as the first revision. A 3D rendering of the second revision of the board can be seen in figure \ref{fig:b21} and \ref{fig:b22}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Mainboard_top}
+	\caption{Main Board of Revision 2}
+	\label{fig:b21}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{MPPTboard_top}
+	\caption{MPPT Board of Revision 2}
+	\label{fig:b22}
+\end{figure}
+
 \paragraph{Issues}
 \paragraph{Solutions}
 \subsubsection{Future 3rd Revision}\label{conclusion-pcb-rev3}

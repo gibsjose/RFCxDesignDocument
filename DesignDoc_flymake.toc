@@ -41,18 +41,36 @@
 \contentsline {subsection}{\numberline {6.1}Hardware Verification}{31}{subsection.6.1}
 \contentsline {subsection}{\numberline {6.2}Software Verification}{31}{subsection.6.2}
 \contentsline {section}{\numberline {7}Validation}{31}{section.7}
-\contentsline {section}{\numberline {8}Project Budget and Schedule}{32}{section.8}
-\contentsline {subsection}{\numberline {8.1}Budget}{32}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}Schedule}{33}{subsection.8.2}
-\contentsline {section}{\numberline {9}Sponsor Sign-off}{34}{section.9}
-\contentsline {section}{Appendices}{35}{section*.33}
-\contentsline {section}{\numberline {A}Electrical Schematics and Simulations}{36}{appendix.A}
-\contentsline {section}{\numberline {B}Bill Of Materials}{46}{appendix.B}
-\contentsline {section}{\numberline {C}Mechanical Drawings}{48}{appendix.C}
-\contentsline {section}{\numberline {D}Calculations}{54}{appendix.D}
-\contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calculations}{54}{subsection.D.1}
-\contentsline {subsection}{\numberline {D.2}Current and Voltage Sensing}{55}{subsection.D.2}
-\contentsline {subsection}{\numberline {D.3}SPV1040 Calculations}{56}{subsection.D.3}
-\contentsline {subsection}{\numberline {D.4}LM61428 Calculations}{57}{subsection.D.4}
-\contentsline {section}{\numberline {E}Data Sheet Snippets}{58}{appendix.E}
-\contentsline {section}{\numberline {F}Source Code}{71}{appendix.F}
+\contentsline {section}{\numberline {8}Conclusion}{32}{section.8}
+\contentsline {subsection}{\numberline {8.1}PCB Modifications}{32}{subsection.8.1}
+\contentsline {subsubsection}{\numberline {8.1.1}1st Revision}{32}{subsubsection.8.1.1}
+\contentsline {paragraph}{Design}{32}{section*.32}
+\contentsline {paragraph}{Issues}{32}{section*.34}
+\contentsline {paragraph}{Solutions}{32}{section*.35}
+\contentsline {subsubsection}{\numberline {8.1.2}2nd Revision}{33}{subsubsection.8.1.2}
+\contentsline {paragraph}{Design}{33}{section*.36}
+\contentsline {paragraph}{Issues}{33}{section*.39}
+\contentsline {paragraph}{Solutions}{33}{section*.40}
+\contentsline {subsubsection}{\numberline {8.1.3}Future 3rd Revision}{33}{subsubsection.8.1.3}
+\contentsline {paragraph}{Design}{33}{section*.41}
+\contentsline {subsection}{\numberline {8.2}Software Modifications}{34}{subsection.8.2}
+\contentsline {subsubsection}{\numberline {8.2.1}Microcontroller Software}{34}{subsubsection.8.2.1}
+\contentsline {subsection}{\numberline {8.3}Enclosure Modifications}{34}{subsection.8.3}
+\contentsline {subsubsection}{\numberline {8.3.1}Enclosure Selection}{34}{subsubsection.8.3.1}
+\contentsline {subsubsection}{\numberline {8.3.2}}{34}{subsubsection.8.3.2}
+\contentsline {subsection}{\numberline {8.4}Results of Verification and Validation}{34}{subsection.8.4}
+\contentsline {section}{\numberline {9}Project Budget and Schedule}{34}{section.9}
+\contentsline {subsection}{\numberline {9.1}Budget}{34}{subsection.9.1}
+\contentsline {subsection}{\numberline {9.2}Schedule}{35}{subsection.9.2}
+\contentsline {section}{\numberline {10}Sponsor Sign-off}{36}{section.10}
+\contentsline {section}{Appendices}{37}{section*.43}
+\contentsline {section}{\numberline {A}Electrical Schematics and Simulations}{38}{appendix.A}
+\contentsline {section}{\numberline {B}Bill Of Materials}{48}{appendix.B}
+\contentsline {section}{\numberline {C}Mechanical Drawings}{50}{appendix.C}
+\contentsline {section}{\numberline {D}Calculations}{56}{appendix.D}
+\contentsline {subsection}{\numberline {D.1}bq2057CTS Battery Management Calculations}{56}{subsection.D.1}
+\contentsline {subsection}{\numberline {D.2}Current and Voltage Sensing}{57}{subsection.D.2}
+\contentsline {subsection}{\numberline {D.3}SPV1040 Calculations}{58}{subsection.D.3}
+\contentsline {subsection}{\numberline {D.4}LM61428 Calculations}{59}{subsection.D.4}
+\contentsline {section}{\numberline {E}Data Sheet Snippets}{60}{appendix.E}
+\contentsline {section}{\numberline {F}Source Code}{73}{appendix.F}
