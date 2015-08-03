@@ -709,6 +709,7 @@ The second revision of the board focused on modularity and compactability so tha
 The second revision of the board was not without issues. Certain subsystems were difficult to test on the first revision of the board, leading to untested systems moving through to the second revision of the board. Some of the issues include:
 \begin{itemize}
 \item Swapped D+ and D- signals on the usb Interface
+\item The FT230X, the USART to USB chip, is not fully supported by Android devices. The FT232R will be used on future boards
 \item FTDI needs a voltage sense divider
 \item Footprint on external ADC is wrong, the address pin is unconnected (must be pulled up to VCC)
 \item The output capacitor of the 5V regulator was rated at only 6.3V, which is not enough to cover voltage spikes
@@ -736,6 +737,71 @@ The microcontroller software underwent substanital changes, and was basically co
 The enclosure and mounting hardware were also modified. A new enclosure was chosen to be a smaller fit and also to include a weather-sealed rubber gasket on the lid. The new enclosure is shown in \ref{sect:appendixC} under \ref{fig:append_new_case}. The new assemblies are shown in the same appendix under \ref{fig:append_panel_assembly} and \ref{fig:append_panel_case_assembly}.
 
 \subsection{Results of Verification and Validation}\label{conclusion-vv}
+The results of the verification and validation signoff are as below. Following each list is a description of the items in that section, where applicable.
+
+\subsubsection{Fully Completed}\label{vv-completed}
+\begin{enumerate}[align=left,leftmargin=*,labelindent=0em,label=\textbf{Item \thesubsubsection.\arabic*.},itemindent=0em]
+    \item \label{comp1} The board has a microcontroller and a USB connection to the phone for power and data
+    \item \label{comp2} The phone can be charged from the board via the USB connector
+    \item \label{comp3} The new device does not cost more than \$250
+    \item \label{comp4} The input voltage to the main board is capable of charging the batteries
+    \item \label{comp5} The Diode-ORing circuit is capable of switching between the input voltage and the batteries without an interruption in power
+\end{enumerate}
+
+\paragraph{\ref{comp1} and \ref{comp2}}
+The board does include a USB connection that supports both power and data. A phone was charged using the USB connector on the board.
+
+\paragraph{\ref{comp3}}
+The new device costs \$%@TODO, as shown in the following breakdown of parts:
+
+%@TODO INSERT BOMs and PRICE LISTS!!!
+
+\paragraph{\ref{comp4}}
+The input voltage is capable of charging the batteries using the BQ2057 battery charge controllers. The batteries were charged from just 3.2V (extremely low) to fully charged in approximately 3.5 hours. %@TODO
+
+\paragraph{\ref{comp5}}
+The diode-ORing circuit was able to properly switch between the two voltage sources with no interruption. The switching can be seen below, where channel 1 (yellow) is the gate of the switching transistor for the Diode-ORing chip and channel 2 (blue) is the output voltage. It can be seen that when the input voltage exceeded the battery voltage, the output voltage followed the input. The DMM shows the battery voltage.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{diode_or_screenshot}
+	\caption{Screenshot of Diode-ORing Switching}
+	\label{fig:diode_or_screenshot}
+\end{figure}
+
+\subsubsection{Partially Completed}\label{vv-part-completed}
+\begin{enumerate}[align=left,leftmargin=*,labelindent=0em,label=\textbf{Item \thesubsubsection.\arabic*.},itemindent=0em]
+    \item \label{part1} The microcontroller is capable of sending the correct data to an Android phone
+    \item \label{part2} The power usage of the new design is more efficient than the existing design
+\end{enumerate}
+
+\paragraph{\ref{part1}}
+The microcontroller is fully capable of communication with either a phone or a computer, but the chosen USART to USB chip, the FT230X FTDI chip, is not compatible with Android phones. The FT230X can communicate with a computer with no issues whatsoever, but to communicate with a phone the FT232R, another chip from FTDI must be used. The FT232R was tested on a breakout board with the microcontroller and it was able to communicate with the phone. The reason this is listed as ``partial'' is because the FT232R chip is currently not the chip on the board. It will be the chip for the third revision.
+
+\paragraph{\ref{part2}}
+Due to the incompleted \ref{not1}, the power efficiency could not be measured. However, the efficiency of the regulators on the board are close to 90\%. The efficiency of hte 5V and 3.3V LDO are very high, but the system efficiency cannot be measured because the efficiency of the MPPT stage is completely unknown.
+
+\subsubsection{Not Completed}\label{vv-not-completed}
+\begin{enumerate}[align=left,leftmargin=*,labelindent=0em,label=\textbf{Item \thesubsubsection.\arabic*.},itemindent=0em]
+    \item \label{not1} The MPPT board is capable of providing a 4.6V output from the solar panels
+\end{enumerate}
+
+\paragraph{\ref{not1}}
+The MPPT board does \textbf{not} provide the correct output. The problem is that the MPPT chip that was selected, the SPV1040, is not the correct chip for this purpose. The SPV1040 is not a real boost regulator chip, and it is far too touchy in terms of component selection. The screenshot below shows an individual MPPT functioning, but this functionality is brief. The screenshot shows the switching of the input inductor as the light profile changes.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{mppt_screenshot}
+	\caption{MPPT Functionality Screenshot}
+	\label{fig:mppt_screenshot}
+\end{figure}
+
+Although the MPPT circuit is sometimes functional, the device requires a rock-solid MPPT chip which will work every time. To that end, the following MPPT chips may present a better alternative to the SPV1040:
+\begin{enumerate}
+    \item MPT612: \href{http://www.mouser.com/pdfdocs/Solar-NXP-MPT612.pdf}{http://www.mouser.com/pdfdocs/Solar-NXP-MPT612.pdf}, which is a programmable MPPT with flexible input and output voltages and minimal components required
+    \item SPV1020: \href{http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/CD00275733.pdf}{http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/CD00275733.pdf}, which is a similar chip to the SPV1040 but is more advanced in that it allows for distributed MPPT amongst panels, although it does require more external components
+    \item A microcontroller-based design, as described in \href{http://ww1.microchip.com/downloads/en/AppNotes/00001521A.pdf}{http://ww1.microchip.com/downloads/en/AppNotes/00001521A.pdf}, which is far more flexible and reliable but requires software and some more components.
+\end{enumerate}
 
 \section{Project Budget and Schedule} \label{sect:budgetandschedule}
 \subsection{Budget} \label{sect:budget}
@@ -755,7 +821,7 @@ The schedule in Figure \ref{fig:gantt} is the proposed schedule for all phases o
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.85, trim=0cm 12cm 0cm 0cm, clip=true]{Schedule.pdf}
+  \includegraphics[scale=0.85, trim=0cm 5cm 0cm 0cm, clip=true]{Schedule.pdf}
   \caption{Gantt Chart for Schedule}
   \label{fig:gantt}
 \end{figure}
