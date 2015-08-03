@@ -239,7 +239,7 @@ The following validation items must be checked off:
             \item The total dollar value on the Bill of Materials of all PCB parts will be totalled.
             \item The total dollar value of the board manufacturing costs will be totalled and normalized to obtain the cost of a single board (divided by 3).
             \item The total dollar value of mechanical components will be totalled.
-            \item These values will be added and verified to be under \$250. 
+            \item These values will be added and verified to be under \$250.
         \end{enumerate}
     \item \label{val4}The microcontroller is capable of sending the correct data to an Android phone
         \begin{enumerate}[label=\CheckBox{}]
@@ -250,13 +250,22 @@ The following validation items must be checked off:
                     \item Humidity = 50\%
                 \end{itemize}
             \item The data appearing on the phone screen must match the hard-coded values for temperature and humidity.
-            \item As a backup plan, in case the FT230X chip will not communicate with the Android phone, an Arduino using the same chip and the FT232R chip will be used to demonstrate data transfer capabilities. In this scenario, the board using the FT230X chip \emph{will} be hooked up to a computer to demonstrate that it can also send serial data.
+            \item As a backup plan, in case the FT230X chip will not communicate with the Android phone, an Arduino using the same chip and the FT232R chip will be used to demonstrate data transfer capabilities (using only the temperature sensor). In this scenario, the board using the FT230X chip \emph{will} be hooked up to a computer to demonstrate that it can also send serial data.
         \end{enumerate}
-    \item \label{val5}The MPPT board and the solar panels are capable of charging the batteries.
+    \item \label{val5}The input voltage to the main board is capable of charging the batteries.
         \begin{enumerate}[label=\CheckBox{}]
-            \item A battery with less than full charge will be connected and the current and voltage drawn during charging will be monitored and recorded every 1 minute until the battery is charged.
+            \item A battery with less than full charge will be connected to the board.
+            \item The voltage to the batteries must be 4.2V (the charging voltage).
+            \item The current drawn by the batteries will be monitored every 5 minutes and recorded until the battery is charged.
         \end{enumerate}
-    \item \label{val6}The MPPT board is capable of providing a 4.6V output from the solar panels.
+    \item \label{val6}The Diode-ORing circuit is capable of switching between the input voltage and the batteries without an interruption in power.
+        \begin{enumerate}[label=\CheckBox{}]
+            \item The batteries will be connected and a variable DC power supply will be connected to the input voltage terminal simulating the output from the MPPT board
+            \item The input voltage will start at 2.5V, and will slowly rise to ~5V, and then back to 2.5V
+            \item The gate of the transistor must switch from low to high when the input voltage reaches ~3.7V, and then back from high to low as the input voltage drops below ~3.7V.
+            \item The output voltage (directly before the regulation circuitry) must start at the battery voltage and then follow the input voltage whenever it exceeds the battery voltage. There should be no interruption in voltage.
+        \end{enumerate}
+    \item \label{val7}The MPPT board is capable of providing a 4.6V output from the solar panels.
     \begin{enumerate}[label=\CheckBox{}]
         \item The indiviudal solar panel input voltages to the MPPT board (four panel inputs) will be recorded
         \item The single output voltage from the MPPT board will be verified to be 4.6V $\pm$100mV

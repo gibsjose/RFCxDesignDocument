@@ -671,18 +671,24 @@ The first revision of the board was designed for a specific case in mind and was
 \end{figure}
 
 \paragraph{Issues}
-Several issues became apparent during assembly and construction of this revision of the design. 
+Several issues became apparent during assembly and construction of this revision of the design.
 \begin{itemize}
 \item Monolithic design meant that a problem on the board could render the whole board useless
 \item Position of certain components interfered physically
 \item An external pullup resistor on the RESET pin of the microcontroller was mistakenly omitted.
-\item Footprint for the HIH humidity sensor is too big
+\item Footprint for the HIH humidity sensor was too big
+\item Thermocouples were not long enough to reach the batteries
+\item There was no LED on the ATmega328P to use as a status LED or for debugging
+\item The sense resistor between the regulators and the power path management was too small
+\item The ADS1015 required a pullup resistor on the ALERT GPIO pin
+\item The capacitors on the XTAL were the wrong value, they should be around 6pF
+\item The output capacitor of the 3.3V regulator was not connected to GND on the schematic
 \end{itemize}
 \paragraph{Solutions}
-The monolithic board issue was resolved by breaking the board into two separate boards. One board contained the MPPT circuitry and the other board contained the regulation circuitry for the 3.3V and 5V rails, the microcontroller, environment sensors, and the usb interface. This way, the funtionality of the main board can be retained while the power source can be changed. The two boards were made smaller so that they can fit into a multitude of enclosures and be positioned in different ways. Parts that were mistakenly omitted were included for the design of the second revision. 
+The monolithic board issue was resolved by breaking the board into two separate boards. One board contained the MPPT circuitry and the other board contained the regulation circuitry for the 3.3V and 5V rails, the microcontroller, environment sensors, and the usb interface. This way, the funtionality of the main board can be retained while the power source can be changed. The two boards were made smaller so that they can fit into a multitude of enclosures and be positioned in different ways. Parts that were mistakenly omitted were included for the design of the second revision, and footprints and other issues were corrected.
 \subsubsection{2nd Revision}\label{conclusion-pcb-rev2}
 \paragraph{Design}
-The second revision of the board focused on modularity and compactability so that the enclosures that it fit in are not as constrained as the first revision. A 3D rendering of the second revision of the board can be seen in figure \ref{fig:b21} and \ref{fig:b22}. An LED was also added to the board to aid in rudimentary debugging. 
+The second revision of the board focused on modularity and compactability so that the enclosures that it fit in are not as constrained as the first revision. A 3D rendering of the second revision of the board can be seen in figure \ref{fig:b21} and \ref{fig:b22}. An LED was also added to the board to aid in rudimentary debugging.
 
 \begin{figure}[H]
 	\centering
@@ -703,19 +709,30 @@ The second revision of the board was not without issues. Certain subsystems were
 \begin{itemize}
 \item Swapped D+ and D- signals on the usb Interface
 \item FTDI needs a voltage sense divider
-\item Footprint on external ADC is wrong, the address pin is unconnected
+\item Footprint on external ADC is wrong, the address pin is unconnected (must be pulled up to VCC)
+\item The output capacitor of the 5V regulator was rated at only 6.3V, which is not enough to cover voltage spikes
+\item The GSM audio filtering board needs to be printed
+\item The X2Y capacitors have a footprint that is very difficult to solder
+\item The ICSP silkscreen should include a small tab where the connector has a tab so it is clear how to align it
+\item There are +/- signs missing on the silkscreen for the terminal header connectors
+\item The battery connector footprints are backwards
+\item R1 and R2 (the input/output sense resistors) should use the same footprint
+\item The main board terminal header label ``From Solar Panels'' should read ``From MPPT Board''
+\item 0$\Omega$ resistors should be used instead of wires to pull up/down the address pins on the LM75BD
+\item Some part labels are misleading or covered up by components
 \end{itemize}
 \paragraph{Solutions}
-For a short term fix, the signals that were routed wrong were soldered with wire on the board so that tests could be carried out. For the third revision of the board, these issues will be fixed. 
+For a short term fix, the signals that were routed wrong were soldered with wire on the board so that tests could be carried out. For the third revision of the board, these issues will be fixed.
 \subsubsection{Future 3rd Revision}\label{conclusion-pcb-rev3}
 \paragraph{Design}
-The next revision of the board will have the routing fixes that made it to revision 2. This revision of the board design is meant to be a version that can be field tested. 
+The next revision of the board will have the routing fixes that made it to revision 2. This revision of the board design is meant to be a version that can be field tested. All issues descibed in the section for the second revision will be fixed.
 \subsection{Software Modifications}\label{conclusion-software}
+The software modifications were almost exclusively done to the microcontroller software. The microcontroller software was taken from a very simple piece of code that generated random values and sent them over USART on the Arduino to a functional piece of microcontroller code running on the actual board that can read sensors and transmit them to the phone.
 \subsubsection{Microcontroller Software}\label{conclusion-mcu-software}
+The microcontroller software underwent substanital changes, and was basically completely rewritten. The code now includes functions to read the temperature from the LM75BD, read the temperature and humidity from the HIH6130, read the input and output voltages and currents from the ADS1015, and read the battery charging status from the BQ2057. The microcontroller code can be found in section \ref{sect:mcu-source}.
 
 \subsection{Enclosure Modifications}\label{conclusion-enclosure}
-\subsubsection{Enclosure Selection}\label{conclusion-enc-selection}
-\subsubsection{}
+The enclosure and mounting hardware were also modified. A new enclosure was chosen to be a smaller fit and also to include a weather-sealed rubber gasket on the lid. The new enclosure is shown in \ref{sect:appendixC} under \ref{fig:new_case}. The new assemblies are shown in the same appendix under \ref{fig:append_panel_assembly} and \ref{fig:append_panel_case_assembly}.
 
 \subsection{Results of Verification and Validation}\label{conclusion-vv}
 
@@ -891,6 +908,27 @@ Conversely, in Figure \ref{fig:doredsimres2} the Diode-ORed topology simulation 
 
 \newpage
 \section{Mechanical Drawings} \label{sect:appendixC}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{NewCase.pdf}
+	\caption{New Case}
+	\label{fig:append_new_case}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{NewAssembly}
+	\caption{Panel Assembly}
+	\label{fig:append_panel_assembly}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{NewAssembly2}
+	\caption{Panel and Case Assembly}
+	\label{fig:append_panel_case_assembly}
+\end{figure}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{PCB}
@@ -1233,6 +1271,1680 @@ This appendix contains the 1st sheet of the data sheets for the parts used in th
 \end{figure}
 \newpage
 \section{Source Code} \label{sect:appendixF}
+\subsection{Microcontroller Source Code}\label{sect:mcu-source}
+The microcontroller code is all open source and can be found at \href{https://github.com/rfcx/rfcx-microcontroller}{https://github.com/rfcx/rfcx-microcontroller}.
+\subsubsection{rfcx-mcu.c}\label{sect:rfcx-mcu.c}
+\begin{lstlisting}[language=C,label=lst:rfcx-mcu.c,caption=rfcx-mcu.c]
+    /**********************************************************
+    *	RFCx Microcontroller Software - Main
+    *
+    *	Kalee Stutzman 	(stutzmak@mail.gvsu.edu)
+    *	Joe Gibson		(gibsjose@mail.gvsu.edu)
+    *
+    *	08 July 2015
+    *
+    *   www.rfcx.org
+    **********************************************************/
+
+    #include "rfcx-mcu.h"
+
+    //Don't forget `volatile`!
+    volatile bool sensors = false;
+
+    //Timer 1 Compare Interrupt Vector (1s CTC Timer)
+    ISR(TIMER1_COMPA_vect) {
+    	//Blink LED
+    	PORTB ^= _BV(LED_PIN);
+
+    	//Initiate a sensor reading
+    	sensors = true;
+    }
+
+    int main(void) {
+    	//Sensor/battery structures
+    	batteries_t batteries;
+    	temp_data_t lm75;
+    	adc_data_t ads1015;
+    	humid_data_t hih6130;
+
+    	//Android Serial Structure
+    	android_serial_t android;
+
+    	char message[128];
+    #ifndef ARDUINO
+    	char humid_status[32];
+    	char battery_1_status[32];
+    	char battery_2_status[32];
+    	char tmp_str[6];
+    #endif//ARDUINO
+
+    	int ret = 0;
+
+    	memset(message, 0, 128);
+
+    	//Initialize USART at 9600 baud (UBRR defined in rfcx-mcu.h)
+    	usart_init(UBRR);
+
+    	//Initialization
+    #ifndef ARDUINO
+    	usart_send_string("Initializing...\r\n");
+    #endif
+    	ret = init();
+    #ifndef ARDUINO
+    	if(ret) {
+    		usart_send_string("<-- ERROR: Initialization failed -->\r\n");
+    	} else {
+    		usart_send_string("Initialization successful\r\n");
+    	}
+    #endif
+
+    	rfcx_temp_data_init(&lm75);
+    	rfcx_humid_data_init(&hih6130);
+    	rfcx_adc_data_init(&ads1015);
+    	rfcx_batteries_data_init(&batteries);
+
+    	//Main Loop
+    	while(true) {
+    		//Sensor Loop
+    		if(sensors) {
+    #ifdef ARDUINO
+    			rfcx_read_temp(&lm75);
+    			//rfcx_read_humid(&hih6130);
+    			//rfcx_read_adc(&ads1015);
+    			//rfcx_batteries_status(&batteries);
+
+    			rfcx_android_package(&android, &lm75, &hih6130, &ads1015, &batteries);
+    			rfcx_android_serialize(message, &android);
+
+    			usart_send_string(message);
+    #else//MAIN BOARD
+    			usart_send_string("\r\n-----------------------------\r\n");
+    			//Temperature Sensor
+    			rfcx_read_temp(&lm75);
+
+    			usart_send_string("LM75BD:\r\n");
+    			dtostrf((double)lm75.temperature, 5, 2, tmp_str);
+    			sprintf(message, "\tTemperature: %sC\r\n", tmp_str);
+    			usart_send_string(message);
+
+    			//Humidity Sensor
+    			rfcx_read_humid(&hih6130);
+
+    			usart_send_string("HIH6130:\r\n");
+    			dtostrf((double)hih6130.humidity, 5, 2, tmp_str);
+    			sprintf(message, "\tHumidity: %s%%\r\n", tmp_str);
+    			usart_send_string(message);
+
+    			dtostrf((double)hih6130.temperature, 5, 2, tmp_str);
+    			sprintf(message, "\tTemperature: %sC\r\n", tmp_str);
+    			usart_send_string(message);
+
+    			rfcx_humid_status_string(humid_status, hih6130.status);
+    			sprintf(message, "\tStatus: %s\r\n", humid_status);
+    			usart_send_string(message);
+
+    			//Voltage/Current ADC
+    			// rfcx_read_adc(&ads1015);
+    			//
+    			// dtostrf((double)ads1015.input_voltage, 5, 2, tmp_str);
+    			// sprintf(message, "Input Voltage: %sV\r\n", tmp_str);
+    			// usart_send_string(message);
+    			//
+    			// dtostrf((double)ads1015.output_voltage, 5, 2, tmp_str);
+    			// sprintf(message, "Output Voltage: %sV\r\n", tmp_str);
+    			// usart_send_string(message);
+    			//
+    			// dtostrf((double)ads1015.input_current, 5, 2, tmp_str);
+    			// sprintf(message, "Input Current: %smA\r\n", tmp_str);
+    			// usart_send_string(message);
+    			//
+    			// dtostrf((double)ads1015.output_current, 5, 2, tmp_str);
+    			// sprintf(message, "Output Current: %smA\r\n", tmp_str);
+    			// usart_send_string(message);
+
+    			//Battery Status
+    			rfcx_batteries_status(&batteries);
+
+    			usart_send_string("Batteries:\r\n");
+    			rfcx_battery_status_string(battery_1_status, batteries.battery_1.status);
+    			rfcx_battery_status_string(battery_2_status, batteries.battery_2.status);
+
+    			sprintf(message, 	"\tBattery 1 Status: %s\r\n"
+    								"\tBattery 2 Status: %s\r\n",
+    								battery_1_status,
+    								battery_2_status);
+    			usart_send_string(message);
+
+    			usart_send_string("-----------------------------\r\n");
+    #endif//ARDUINO
+    			sensors = false;
+    		}
+    	}
+
+    	return 0;
+    }
+
+    int init(void) {
+    	int ret = 0;
+
+    	//Clear interrupts
+    	cli();
+
+    	//Initialize ports
+    	port_init();
+
+    	//Initialize peripherals
+    	peripheral_init();
+
+    	//Initialize devices
+    	ret = device_init();
+
+    	//Enable interrupts
+    	sei();
+
+    	return ret;
+    }
+
+    int port_init(void) {
+    	//Initialize LED as output
+    	DDRB |= _BV(LED_DD);
+
+    	//Initialize battery inputs/outputs
+    	rfcx_batteries_init();
+
+    	return 0;
+    }
+
+    int timer1_init(void) {
+    	//Initialize Timer 1
+    	TCCR1A = 0;
+    	TCCR1B = 0;
+
+    	//Set CTC compare value (1 second)
+    	OCR1A = TIMER1_COUNT;
+
+    	//Enable CTC mode
+    	TCCR1B |= (1 << WGM12);
+
+    	//Enable 1024 prescaler
+    	TCCR1B |= (1 << CS10);
+    	TCCR1B |= (1 << CS12);
+
+    	//Enable Timer 1 output compare interrupt
+    	TIMSK1 |= (1 << OCIE1A);
+
+    	return 0;
+    }
+
+    int peripheral_init(void) {
+    	//Initialize Timer 1
+    	timer1_init();
+
+    	//Initialize I2C (TWI) peripheral as a whole
+    	rfcx_i2c_init();
+
+    	return 0;
+    }
+
+    int device_init(void) {
+    	int ret = 0;
+
+    	//Initialize external I2C temp sensor (LM75BD)
+    	ret = rfcx_temp_init();
+    	if(ret) {
+    #ifndef ARDUINO
+    		usart_send_string("<-- ERROR: Error initializing temp sensor -->\r\n");
+    #endif
+    		return ret;
+    	} else {
+    #ifndef ARDUINO
+    		usart_send_string("Successfully initialized temp sensor\r\n");
+    #endif
+    	}
+
+    	//Initialize external I2C ADC (ADS1015)
+    	// ret = rfcx_adc_init();
+    	// if(ret) {
+    	// 	 usart_send_string("<-- ERROR: Error initializing ADC -->\r\n");
+    	// } else {
+    	// 	 usart_send_string("Successfully initialized ADC\r\n");
+    	// }
+
+    	//Initialize external I2C humidity sensor (HIH6130)
+    	ret = rfcx_humid_init();
+    	if(ret) {
+    #ifndef ARDUINO
+    		usart_send_string("<-- ERROR: Error initializing humidity sensor -->\r\n");
+    #endif
+    		return ret;
+    	} else {
+    #ifndef ARDUINO
+    		usart_send_string("Successfully initialized humidity sensor\r\n");
+    #endif
+    	}
+
+    	return ret;
+    }
+\end{lstlisting}
+
+\subsubsection{rfcx-mcu.h}\label{sect:rfcx-mcu.h}
+\begin{lstlisting}[language=C,label=lst:rfcx-mcu.h,caption=rfcx-mcu.h]
+    /**********************************************************
+    *	RFCx Microcontroller Software - Main
+    *
+    *	Kalee Stutzman 	(stutzmak@mail.gvsu.edu)
+    *	Joe Gibson		(gibsjose@mail.gvsu.edu)
+    *
+    *	08 July 2015
+    *
+    *   www.rfcx.org
+    **********************************************************/
+
+    #ifndef RFCX_MCU_H
+    #define RFCX_MCU_H
+
+    //ARDUINO: DEBUG FOR USART ONLY: Comment out for normal operation
+    //#define ARDUINO
+
+    #include "rfcx-globals.h"   //Global definitions
+
+    #include <util/delay.h>
+    #include <avr/interrupt.h>
+    #include <avr/io.h>
+    #include <string.h>
+    #include <stdio.h>
+    #include <stdbool.h>
+
+    #include "rfcx-i2c.h"
+    #include "rfcx-battery.h"
+    #include "rfcx-android.h"
+    #include "utilities/delay.h"
+    #include "utilities/usart.h"
+
+    //USART Settings
+    #define FOSC F_CPU          //Clock Speed (Hz)
+    #define BAUD 9600           //Baud Rate
+    #define UBRR (((((FOSC * 10) / (16L * BAUD)) + 5) / 10) - 1)
+
+    //Timer Definitions
+    #define TIMER1_COUNT    ((FOSC / 1024) - 1)     //Timer 1 count value for CTC mode: 1 second, at 1024 prescaler
+
+    //Pin Definitions
+    #ifdef ARDUINO
+        #define LED_PIN     PB5
+        #define LED_DD      DDB5
+    #else
+        #define LED_PIN     PB2     //PB2 is the board LED, PB5 is the Arduino LED
+        #define LED_DD      DDB2
+    #endif
+
+    int init(void);
+    int port_init(void);
+    int timer1_init(void);
+    int peripheral_init(void);
+    int device_init(void);
+
+    #endif//RFCX_MCU_H
+\end{lstlisting}
+
+\subsubsection{rfcx-i2c.c}\label{sect:rfcx-i2c.c}
+\begin{lstlisting}[language=C,label=lst:rfcx-i2c.c,caption=rfcx-i2c.c]
+    /**********************************************************
+    *	RFCx Microcontroller Software - I2C
+    *
+    *	Kalee Stutzman 	(stutzmak@mail.gvsu.edu)
+    *	Joe Gibson		(gibsjose@mail.gvsu.edu)
+    *
+    *	08 July 2015
+    *
+    *   www.rfcx.org
+    **********************************************************/
+
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <math.h>
+
+    #include "rfcx-i2c.h"
+
+    //Initialize I2C peripheral
+    void rfcx_i2c_init(void) {
+        i2c_init();
+    }
+
+    //Initialize temperature sensor
+    int rfcx_temp_init() {
+        unsigned char value, value2;
+        value = 0x01;
+        value2 = 0x04;
+
+        int ret = 0;
+
+        char str[512];
+        memset(str, 0, 512);
+
+        unsigned char address;
+
+        address = TEMP_ADDR;
+
+        //sprintf(str, "Device address: 0x%02X\r\n", address);
+        //usart_send_string(str);
+
+        //Begin TWI communication
+        ret = i2c_start(address + I2C_WRITE);
+        if(ret) {
+            i2c_stop();
+            usart_send_string("<-- ERROR: Unable to start communication-->\r\n");
+            return ERROR;
+        }
+
+        //Set the pointer to the configuration register
+        ret = i2c_write(value);
+        if(ret) {
+            i2c_stop();
+            usart_send_string("<-- ERROR: Could not set pointer to LM75 config register -->\r\n");
+            return ERROR;
+        }
+
+        //Enable the temp sensor
+        ret = i2c_write(value2);
+        if(ret) {
+            i2c_stop();
+            usart_send_string("<-- ERROR: Could not enable LM75 -->\r\n");
+            return ERROR;
+        }
+
+        //Release bus
+        i2c_stop();
+
+        return OK;
+    }
+
+    //Initialize ADC
+    int rfcx_adc_init() {
+        unsigned char value, value2, value3;
+        value = 0x01;
+        value2 = 0x41;
+        value3 = 0xEF;
+
+        i2c_start_wait(ADC_ADDR);
+
+        //Set the pointer to the configuration register
+        i2c_write(value);
+
+        //Put the ADC in single conversion mode
+        i2c_write(value2);
+
+        //Set the data rate to 3300, disable the comparator
+        i2c_write(value3);
+
+        return OK;
+    }
+
+    //Initialize humidity sensor
+    int rfcx_humid_init(void) {
+        return OK;
+    }
+
+    //Shutdown (stop) I2C peripheral
+    //@TODO Does this function even make sense?
+    void rfcx_i2c_shutdown(void) {
+        i2c_stop();
+    }
+
+    void rfcx_temp_data_init(temp_data_t * data) {
+        memset(&(data->raw), 0, sizeof(temp_raw_t));
+        data->temperature = 0.0;
+    }
+
+    void rfcx_humid_data_init(humid_data_t * data) {
+        memset(&(data->raw), 0, sizeof(humid_raw_t));
+        data->humidity = 0.0;
+        data->temperature = 0.0;
+        data->status = HUMID_STATUS_NORMAL;
+    }
+
+    void rfcx_adc_data_init(adc_data_t * data) {
+        memset(&(data->raw), 0, sizeof(adc_raw_t));
+        data->input_voltage = 0.0;
+        data->input_current = 0.0;
+        data->output_voltage = 0.0;
+        data->output_current = 0.0;
+    }
+
+    //Shutdown temperature sensor:
+    // Set Temp Sensor control address to
+    // active high comparator mode, shutdown mode
+    void rfcx_temp_shutdown() {
+        unsigned char value, value2;
+        value = 0x01;
+        value2 = 0x05;
+
+        i2c_start_wait(TEMP_ADDR);
+
+        //Set the pointer to the configuration register
+        i2c_write(value);
+
+        //Put the temp sensor in shutdown mode
+        i2c_write(value2);
+        i2c_stop();
+    }
+
+    void rfcx_adc_shutdown(void) {
+        return;
+    }
+
+    void rfcx_humid_shutdown(void) {
+        return;
+    }
+
+    //Read Temperature data from the LM75B
+    int rfcx_read_temp(temp_data_t * data) {
+        int ret = 0;
+
+        //Write the pointer register in the sensor to point to the temp register
+        i2c_start_wait(TEMP_ADDR + I2C_WRITE);
+        ret = i2c_write(0x00);
+        if(ret) {
+            i2c_stop();
+            usart_send_string("<-- ERROR: Could not set pointer register to temp (0x00)-->\r\n");
+            return ERROR;
+        }
+
+        //Read both bytes for the temperature (msb first, then lsb)
+        ret = i2c_rep_start(TEMP_ADDR + I2C_READ);
+        if(ret) {
+            i2c_stop();
+            usart_send_string("<-- ERROR: Could not repeat start temp sensor-->\r\n");
+            return ERROR;
+        }
+
+        data->raw.msb = i2c_readAck();
+        data->raw.lsb = i2c_readNak();
+        i2c_stop();
+
+        //Convert data
+        convert_temp_data(data);
+
+        return OK;
+    }
+
+    int rfcx_read_adc(adc_data_t * data) {
+        //Perform all reads
+        rfcx_read_adc_pin(data, ADC_INPUT_VOLTAGE_PIN);
+        rfcx_read_adc_pin(data, ADC_OUTPUT_VOLTAGE_PIN);
+        rfcx_read_adc_pin(data, ADC_INPUT_CURRENT_PIN);
+        rfcx_read_adc_pin(data, ADC_OUTPUT_CURRENT_PIN);
+
+        //Convert data
+        convert_adc_data(data);
+
+        return OK;
+    }
+
+    int rfcx_read_adc_pin(adc_data_t * data, int pin) {
+        unsigned char value, value2, value3;
+        value = 0x01;
+
+        switch(pin) {
+            case ADC_INPUT_VOLTAGE_PIN:     //Pin AIN0 - Input voltage
+                value2 = 0xC1;
+                break;
+            case ADC_OUTPUT_VOLTAGE_PIN:    //Pin AIN1 - Output voltage
+                value2 = 0xD1;
+                break;
+            case ADC_INPUT_CURRENT_PIN:     //Pin AIN2 - Input current
+                value2 = 0xE1;
+                break;
+            case ADC_OUTPUT_CURRENT_PIN:    //Pin AIN3 - Output current
+                value2 = 0xF1;
+                break;
+            default:                        //Pin AIN0 - Input voltage
+                value2 = 0xC1;
+                break;
+        }
+
+        value3 = 0xEF;
+        i2c_start_wait(ADC_ADDR + I2C_WRITE);
+
+        //Set the pointer to the configuration register
+        i2c_write(value);
+
+        //Put the ADC in single conversion mode, read from AIN0
+        i2c_write(value2);
+
+        //Set the data rate to 3300, disable the comparator
+        i2c_write(value3);
+
+        value = 0x00;
+        i2c_rep_start(ADC_ADDR + I2C_WRITE);
+        //Set the pointer to the conversion register
+        i2c_write(value);
+        i2c_stop();
+
+        unsigned char msb, lsb;
+
+        //Read from the conversion register
+        i2c_rep_start(ADC_ADDR + I2C_READ);
+        msb = i2c_readAck();
+        lsb = i2c_readNak();
+
+        //Store correctly based on pin
+        switch(pin) {
+            case ADC_INPUT_VOLTAGE_PIN:
+                data->raw.input_voltage_msb = msb;
+                data->raw.input_voltage_lsb = lsb;
+                break;
+            case ADC_OUTPUT_VOLTAGE_PIN:
+                data->raw.output_voltage_msb = msb;
+                data->raw.output_voltage_lsb = lsb;
+                break;
+            case ADC_INPUT_CURRENT_PIN:
+                data->raw.input_current_msb = msb;
+                data->raw.input_current_lsb = lsb;
+                break;
+            case ADC_OUTPUT_CURRENT_PIN:
+                data->raw.output_current_msb = msb;
+                data->raw.output_current_lsb = lsb;
+                break;
+            default:
+                data->raw.input_voltage_msb = msb;
+                data->raw.input_voltage_lsb = lsb;
+                break;
+        }
+
+        return OK;
+    }
+
+    int rfcx_read_humid(humid_data_t * data) {
+        int ret= 0;
+
+        //Issue a 'Measurement Request' command
+        i2c_start_wait(HUMID_ADDR + I2C_WRITE);
+        i2c_stop();
+
+        //Delay ~37ms (datasheet specifies 36.65ms)
+        // NOTE:    This could be avoided if necessary, and we
+        //          will just always get the data from the
+        //          previous conversion.
+        delay_us(HUMID_CONV_TIME);
+
+        //Fetch humidity + temp data
+        ret = i2c_rep_start(HUMID_ADDR + I2C_READ);
+        if(ret) {
+            i2c_stop();
+            usart_send_string("<-- ERROR: Could not repeat start humidity sensor-->\r\n");
+            return ERROR;
+        }
+
+        data->raw.humid_msb = i2c_readAck();
+        data->raw.humid_lsb = i2c_readAck();
+        data->raw.temp_msb = i2c_readAck();
+        data->raw.temp_lsb = i2c_readNak();
+        i2c_stop();
+
+        //Status bits are two msb's of humid_msb
+        data->status = (data->raw.humid_msb & 0xC0) >> 6;
+
+        //Perform conversion
+        convert_humid_data(data);
+
+        return OK;
+    }
+
+
+    void convert_temp_data(temp_data_t * data) {
+        int tmp = 0;
+        float result = 0.0;
+
+        int msb = (int)data->raw.msb;
+        int lsb = (int)data->raw.lsb;
+
+        //Shift 'dem bits around
+        tmp = ((msb << 8) | (lsb & ~0x1F)) >> 5;
+
+        //Check sign of data
+        if((msb & 0x80) == 0x80) {
+            result = (float)(tmp) * 0.125;
+        }
+        else {
+            result = -1.0 * (float)(~tmp + 1) * 0.125;
+        }
+
+        data->temperature = result;
+    }
+
+    void convert_adc_data(adc_data_t * data) {
+        data->input_voltage = convert_adc_data_pin(data, ADC_INPUT_VOLTAGE_PIN);
+        //...
+    }
+
+    float convert_adc_data_pin(adc_data_t * data, int pin) {
+        //Perform conversion for individual pin
+        //Should be able to use pin nubmer as offset into the raw struct to make this easier
+
+        //2-byte conversion register
+        int tmp = 0;
+        int msb = 0; //Set to correct msb
+        int lsb = 0; //Set to correct lsb
+        float voltage = 0.0;
+
+        tmp = ((msb << 8) | lsb) >> 4;
+
+        voltage = ((float)tmp / (0x01 << 12)) * 3.3;
+
+        //Rerturn voltage
+        return voltage;
+
+        //@TODO RETURN VOLTAGE IF VOLTAGE, ELSE CONVERT TO CURRENT VIA ANOTHER FUNCTION
+    }
+
+    void convert_humid_data(humid_data_t * data) {
+        uint16_t tmp_humid = 0;
+        uint16_t tmp_temp = 0;
+
+        uint16_t humid_msb = (uint16_t)data->raw.humid_msb;
+        uint16_t humid_lsb = (uint16_t)data->raw.humid_lsb;
+        uint16_t temp_msb = (uint16_t)data->raw.temp_msb;
+        uint16_t temp_lsb = (uint16_t)data->raw.temp_lsb;
+
+        //Bit shifting
+        tmp_humid = ((humid_msb & ~0xC0) << 8) | humid_lsb;
+        tmp_temp = ((temp_msb << 8) | (temp_lsb & ~0x03)) >> 2;
+
+        data->humidity = ((float)tmp_humid / HUMID_COUNTS) * 100.0;
+        data->temperature = (((float)tmp_temp / TEMP_COUNTS) * 165.0) - 40.0;
+
+        return;
+    }
+
+    void rfcx_humid_status_string(char * str, unsigned char status) {
+        switch(status) {
+            case HUMID_STATUS_NORMAL:
+                sprintf(str, "Normal");
+                break;
+            case HUMID_STATUS_STALE:
+                sprintf(str, "STALE DATA");
+                break;
+            case HUMID_STATUS_COMMAND:
+                sprintf(str, "Command Mode");
+                break;
+            case HUMID_STATUS_DIAG:
+                sprintf(str, "Diagnostic Condition");
+                break;
+            default:
+                sprintf(str, "UNKNOWN");
+                break;
+        }
+    }
+\end{lstlisting}
+
+\subsubsection{rfcx-i2c.h}\label{sect:rfcx-i2c.h}
+\begin{lstlisting}[language=C,label=lst:rfcx-i2c.h,caption=rfcx-i2c.h]
+    /**********************************************************
+    *	RFCx Microcontroller Software - I2C
+    *
+    *	Kalee Stutzman 	(stutzmak@mail.gvsu.edu)
+    *	Joe Gibson		(gibsjose@mail.gvsu.edu)
+    *
+    *	08 July 2015
+    *
+    *   www.rfcx.org
+    **********************************************************/
+
+    #ifndef RFCX_I2C_H
+    #define RFCX_I2C_H
+
+    #include <avr/io.h>
+    #include <string.h>
+    #include "i2cmaster/i2cmaster.h"
+
+    #include "rfcx-globals.h"
+    #include "utilities/delay.h"
+    #include "utilities/usart.h"
+
+    //Simple Error Representation
+    #define OK      0
+    #define ERROR   1
+
+    //I2C Addresses
+    #define TEMP_ADDR   0x90    //1001CBA0, A = B = C = 0 (pulled up/down in hardware)
+    #define ADC_ADDR    0x92    //1001XX1X, ADDR connected to VCC
+    #define HUMID_ADDR  0x4E    //01001110, Pre-defined address (0x27 << 1)
+
+    //ADC Pins
+    #define ADC_INPUT_VOLTAGE_PIN   0x00
+    #define ADC_OUTPUT_VOLTAGE_PIN  0x01
+    #define ADC_INPUT_CURRENT_PIN   0x02
+    #define ADC_OUTPUT_CURRENT_PIN  0x03
+
+    //Humidity Sensor Status
+    #define HUMID_STATUS_NORMAL     0x00    //Normal operation
+    #define HUMID_STATUS_STALE      0x01    //Stale data
+    #define HUMID_STATUS_COMMAND    0x02    //Command mode
+    #define HUMID_STATUS_DIAG       0x03    //Diagnostic condition
+
+    //Humidity Sensor Conversion
+    #define HUMID_COUNTS            0x3FFF  //2^14 - 1 = 16383
+    #define TEMP_COUNTS             0x3FFF
+    #define HUMID_CONV_TIME         0x9088  //37000us -> 37ms (HIH6130 datasheet specifies 36.65ms conversion time)
+
+    //Data structure for LM75BD temp sensor
+    typedef struct temp_raw_t {
+        unsigned char msb;
+        unsigned char lsb;
+    }temp_raw_t;
+
+    typedef struct temp_data_t {
+        temp_raw_t raw;         //Raw bytes
+        float temperature;      //Temperature
+    }temp_data_t;
+
+    //Data structure for ADS1015 external ADC
+    typedef struct adc_raw_t {
+        unsigned char input_voltage_msb;
+        unsigned char input_voltage_lsb;
+        unsigned char output_voltage_msb;
+        unsigned char output_voltage_lsb;
+        unsigned char input_current_msb;
+        unsigned char input_current_lsb;
+        unsigned char output_current_msb;
+        unsigned char output_current_lsb;
+    }adc_raw_t;
+
+    typedef struct adc_data_t {
+        adc_raw_t raw;          //Raw bytes
+        float input_voltage;    //Input voltage
+        float output_voltage;   //Output voltage
+        float input_current;    //Input current
+        float output_current;   //Output current
+    }adc_data_t;
+
+    //Data structures for HIH6130 humidity + temp sensor
+    typedef struct humid_raw_t {
+        unsigned char humid_msb;
+        unsigned char humid_lsb;
+        unsigned char temp_msb;
+        unsigned char temp_lsb;
+    }humid_raw_t;
+
+    typedef struct humid_data_t {
+        humid_raw_t raw;        //Raw bytes
+        float humidity;         //Relative humidity
+        float temperature;      //Temperature
+        unsigned char status;   //Status
+    }humid_data_t;
+
+    //Initialization
+    void rfcx_i2c_init(void);
+    int rfcx_temp_init(void);
+    int rfcx_adc_init(void);
+    int rfcx_humid_init(void);
+
+    //Data Initialization
+    void rfcx_temp_data_init(temp_data_t *);
+    void rfcx_humid_data_init(humid_data_t *);
+    void rfcx_adc_data_init(adc_data_t *);
+
+    //Shutdown
+    void rfcx_i2c_shutdown(void);
+    void rfcx_temp_shutdown(void);
+    void rfcx_adc_shutdown(void);
+    void rfcx_humid_shutdown(void);
+
+    //Read
+    int rfcx_read_temp(temp_data_t *);
+    int rfcx_read_adc_pin(adc_data_t *, int);
+    int rfcx_read_adc(adc_data_t *);
+    int rfcx_read_humid(humid_data_t *);
+
+    //Static Conversion Helpers
+    void convert_temp_data(temp_data_t *);
+    void convert_adc_data(adc_data_t *);
+    float convert_adc_data_pin(adc_data_t *, int);
+    void convert_humid_data(humid_data_t *);
+
+    //String Conversion Helpers
+    void rfcx_humid_status_string(char *, unsigned char);
+
+    #endif//RFCX_I2C_H
+\end{lstlisting}
+
+\subsubsection{rfcx-battery.c}\label{sect:rfcx-battery.c}
+\begin{lstlisting}[language=C,label=lst:rfcx-battery.c,caption=rfcx-battery.c]
+    /**********************************************************
+    *	RFCx Microcontroller Software - Battery
+    *
+    *	Kalee Stutzman 	(stutzmak@mail.gvsu.edu)
+    *	Joe Gibson		(gibsjose@mail.gvsu.edu)
+    *
+    *	08 July 2015
+    *
+    *   www.rfcx.org
+    **********************************************************/
+
+    #include "rfcx-battery.h"
+
+    //Declare pins as inputs/outputs
+    void rfcx_batteries_init(void) {
+        //Inputs
+        DDRC &= ~_BV(BAT_1_INPUT_PIN);
+        DDRC &= ~_BV(BAT_2_INPUT_PIN);
+
+        //Outputs
+        DDRC |= _BV(BAT_1_OUTPUT_PIN);
+        DDRC |= _BV(BAT_2_OUTPUT_PIN);
+
+        //Initialize outputs low
+        PORTC &= ~_BV(BAT_1_OUTPUT_PIN);
+        PORTC &= ~_BV(BAT_2_OUTPUT_PIN);
+    }
+
+    void rfcx_batteries_data_init(batteries_t * batteries) {
+        batteries->battery_1.status = BAT_STATUS_ERROR;
+        batteries->battery_2.status = BAT_STATUS_ERROR;
+    }
+
+    void rfcx_batteries_status(batteries_t * batteries) {
+        batteries->battery_1.status = rfcx_battery_status(BATTERY_1);
+        batteries->battery_2.status = rfcx_battery_status(BATTERY_2);
+    }
+
+    unsigned char rfcx_battery_status(unsigned char id) {
+        bool first = 0x00;
+        bool second = 0x00;
+
+        unsigned char input_pin = 0x00;
+        unsigned char output_pin = 0x00;
+
+        //Battery 1
+        if(id == BATTERY_1) {
+            input_pin = BAT_1_INPUT_PIN;
+            output_pin = BAT_1_OUTPUT_PIN;
+        }
+
+        //Battery 2
+        else if(id == BATTERY_2){
+            input_pin = BAT_2_INPUT_PIN;
+            output_pin = BAT_2_OUTPUT_PIN;
+        }
+
+        //This should never happen...
+        else {
+            return BAT_STATUS_ERROR;
+        }
+
+        //Clear output pin LOW
+        PORTC &= ~_BV(output_pin);
+
+        //Read input pin initially
+        first = (bool)(PINC & _BV(input_pin));
+
+        //Set output pin HIGH
+        PORTC |= _BV(output_pin);
+
+        //Read again
+        second = (bool)(PINC & _BV(input_pin));
+
+        //Clear output again
+        PORTC &= ~_BV(output_pin);
+
+        //If input pin followed output (low -> high) it is in High Z mode (sleep mode/temp fault)
+        if((!first) && second) {
+            return SLEEP_MODE;
+        }
+
+        //Remained high both times (charging)
+        else if(first && second) {
+                return CHARGING;
+        }
+
+        //Remained low both times (charged)
+        else if(!(first && second)) {
+            return CHARGE_COMPLETE;
+        }
+
+        //Shouldn't ever get here
+        return BAT_STATUS_ERROR;
+    }
+
+    void rfcx_battery_status_string(char * str, unsigned char status) {
+    	switch(status) {
+    		case CHARGING:
+    			sprintf(str, "Charging");
+    			break;
+    		case CHARGE_COMPLETE:
+    			sprintf(str, "Charge Complete");
+    			break;
+    		case SLEEP_MODE:
+    			sprintf(str, "Sleep Mode");
+    			break;
+    		//@TODO How to identify between Sleep Mode and Temp Fault?
+    		// case TEMPERATURE_FAULT:
+    		// 	sprintf(str, "Temperature Fault");
+    		// 	break;
+    		case BAT_STATUS_ERROR:
+    			sprintf(str, "ERROR");
+    		default:
+    			sprintf(str, "UNKNOWN");
+    			break;
+    	}
+    }
+\end{lstlisting}
+
+\subsubsection{rfcx-battery.h}\label{sect:rfcx-battery.h}
+\begin{lstlisting}[language=C,label=lst:rfcx-battery.h,caption=rfcx-battery.h]
+    /**********************************************************
+    *	RFCx Microcontroller Software - Battery
+    *
+    *	Kalee Stutzman 	(stutzmak@mail.gvsu.edu)
+    *	Joe Gibson		(gibsjose@mail.gvsu.edu)
+    *
+    *	08 July 2015
+    *
+    *   www.rfcx.org
+    **********************************************************/
+
+    #ifndef RFCX_BATTERY_H
+    #define RFCX_BATTERY_H
+
+    #include <avr/io.h> //Pin definitions
+    #include <stdbool.h>
+    #include <stdio.h>
+
+    //Battery Identifiers
+    #define BATTERY_1           0x01
+    #define BATTERY_2           0x02
+
+    //Battery Status Pins
+    #define BAT_1_INPUT_PIN     PC0
+    #define BAT_1_OUTPUT_PIN    PC1
+    #define BAT_2_INPUT_PIN     PC2
+    #define BAT_2_OUTPUT_PIN    PC3
+
+    //Battery Charging Status
+    #define CHARGING            0x01    //HIGH
+    #define CHARGE_COMPLETE     0x00    //LOW
+    #define SLEEP_MODE          0x02    //HIGH_Z (Input = Output)
+    #define TEMPERATURE_FAULT   SLEEP_MODE    //Temperature fault and sleep mode share the same value for some reason...
+    #define BAT_STATUS_ERROR    0xE0    //Error indicator
+
+    typedef struct battery_t {
+        unsigned char status;
+    }battery_t;
+
+    typedef struct batteries_t {
+        battery_t battery_1;
+        battery_t battery_2;
+    }batteries_t;
+
+    void rfcx_batteries_init(void);
+    void rfcx_batteries_data_init(batteries_t *);
+    void rfcx_batteries_status(batteries_t *);
+    unsigned char rfcx_battery_status(unsigned char);
+    void rfcx_battery_status_string(char *, unsigned char);
+
+    #endif//RFCX_BATTERY_H
+\end{lstlisting}
+
+\subsubsection{rfcx-android.c}\label{sect:rfcx-android.c}
+\begin{lstlisting}[language=C,label=lst:rfcx-android.c,caption=rfcx-android.c]
+    /**********************************************************
+    *	RFCx Microcontroller Software - Android Serial Comm.
+    *
+    *	Kalee Stutzman 	(stutzmak@mail.gvsu.edu)
+    *	Joe Gibson		(gibsjose@mail.gvsu.edu)
+    *
+    *	08 July 2015
+    *
+    *   www.rfcx.org
+    **********************************************************/
+
+    #include "rfcx-android.h"
+
+    //Package all sensor structure pointers in a single android_serial_t structure
+    void rfcx_android_package(android_serial_t * android, temp_data_t * lm75, humid_data_t * hih6130, adc_data_t * ads1015, batteries_t * batteries) {
+        android->lm75 = lm75;
+        android->hih6130 = hih6130;
+        android->ads1015 = ads1015;
+        android->batteries = batteries;
+    }
+
+    //Serialize the data to the correct format expected by the Android application:
+    //
+    //The format is as follows (all comma separated)
+    //  ANDROID_BEGIN_FLAG (0x7B)
+    //  Input Voltage
+    //  Input Current
+    //  Output Voltage
+    //  Output Current
+    //  Temperature
+    //  Humidity
+    //  Humidity Sensor Status
+    //  Battery 1 Status
+    //  Battery 2 Status
+    //  ANDROID_END_FLAG (0x7E)
+    //
+    void rfcx_android_serialize(char * buffer, android_serial_t * android) {
+        char iv_str[6];
+        char ic_str[6];
+        char ov_str[6];
+        char oc_str[6];
+        char temp_str[6];
+        char humid_str[6];
+
+        //Convert from float to strings
+        dtostrf((double)android->ads1015->input_voltage, 5, 2, iv_str);
+        dtostrf((double)android->ads1015->input_current, 5, 2, ic_str);
+        dtostrf((double)android->ads1015->output_voltage, 5, 2, ov_str);
+        dtostrf((double)android->ads1015->output_current, 5, 2, oc_str);
+        dtostrf((double)android->lm75->temperature, 5, 2, temp_str);
+        dtostrf((double)android->hih6130->humidity, 5, 2, humid_str);
+
+        //Serialize in buffer
+        sprintf(buffer, "%lu,%s,%s,%s,%s,%s,%s,%lu,%lu,%lu,%lu\r\n",
+            (unsigned long)ANDROID_BEGIN_FLAG,
+            iv_str,
+            ic_str,
+            ov_str,
+            oc_str,
+            temp_str,
+            humid_str,
+            (unsigned long)android->hih6130->status,
+            (unsigned long)android->batteries->battery_1.status,
+            (unsigned long)android->batteries->battery_2.status,
+            (unsigned long)ANDROID_END_FLAG);
+    }
+\end{lstlisting}
+
+\subsubsection{rfcx-android.h}\label{sect:rfcx-android.h}
+\begin{lstlisting}[language=C,label=lst:rfcx-android.h,caption=rfcx-android.h]
+    /**********************************************************
+    *	RFCx Microcontroller Software - Android Serial Comm.
+    *
+    *	Kalee Stutzman 	(stutzmak@mail.gvsu.edu)
+    *	Joe Gibson		(gibsjose@mail.gvsu.edu)
+    *
+    *	08 July 2015
+    *
+    *   www.rfcx.org
+    **********************************************************/
+
+    #ifndef RFCX_ANDROID_H
+    #define RFCX_ANDROID_H
+
+    #include <stdio.h>
+    #include <string.h>
+
+    //Include for struct definitions
+    #include "rfcx-i2c.h"
+    #include "rfcx-battery.h"
+
+    //Packet Framing Bytes
+    #define ANDROID_BEGIN_FLAG  0x7B  //Marks the beginning of a packet  //0111 1011
+    #define ANDROID_END_FLAG    0x7E  //Marks the end of a packet        //0111 1110
+
+    typedef struct android_serial_t {
+        temp_data_t * lm75;
+        humid_data_t * hih6130;
+        adc_data_t * ads1015;
+        batteries_t * batteries;
+    }android_serial_t;
+
+    void rfcx_android_package(android_serial_t *, temp_data_t *, humid_data_t *, adc_data_t *, batteries_t *);
+    void rfcx_android_serialize(char *, android_serial_t *);
+
+    #endif//RFCX_ANDROID_H
+\end{lstlisting}
+
+\subsubsection{rfcx-globals.h}\label{sect:rfcx-globals.h}
+\begin{lstlisting}[language=C,label=lst:rfcx-globals.h,caption=rfcx-globals.h]
+    /**********************************************************
+    *	RFCx Microcontroller Software - Global Definitions
+    *
+    *	Kalee Stutzman 	(stutzmak@mail.gvsu.edu)
+    *	Joe Gibson		(gibsjose@mail.gvsu.edu)
+    *
+    *	08 July 2015
+    *
+    *   www.rfcx.org
+    **********************************************************/
+
+    #ifndef RFCX_GLOBALS_H
+    #define RFCX_GLOBALS_H
+
+    #ifdef ARDUINO
+        #define F_CPU 16000000UL
+    #else
+        #define F_CPU 8000000UL     //Clock Speed (Hz)
+    #endif
+
+    #endif//RFCX_GLOBALS_H
+\end{lstlisting}
+
+\subsubsection{delay.c}\label{sect:delay.c}
+\begin{lstlisting}[language=C,label=lst:delay.c,caption=delay.c]
+    #include "delay.h"
+
+    int delay_us(unsigned long int microseconds) {
+    	volatile unsigned cycles = microseconds/64;
+    	TCCR2A	= 0x00;
+    	TCCR2B =_BV(CS22) | _BV(CS21) | _BV(CS20); // set timer to use internal clock with 1:1024 pre-scale
+    	if(microseconds < 16321) {
+    		TCNT2 = 0;
+    		OCR2A = cycles;
+    		TIFR2 = _BV(OCF2A); // Set to clear bit 1
+    		while ((TIFR2 & _BV(OCF2A)) == 0); // NULL
+    		return(0);
+    	}
+    	else {
+    		TCNT2 = 0;
+    		OCR2A = 255;
+    		TIFR2 = _BV(OCF2A); // Set to clear bit 1
+    		while ((TIFR2 & _BV(OCF2A)) == 0); // NULL
+    		return(delay_us(microseconds - 16320));
+    	}
+    }
+\end{lstlisting}
+
+\subsubsection{delay.h}\label{sect:delay.h}
+\begin{lstlisting}[language=C,label=lst:delay.h,caption=delay.h]
+    #ifndef DELAY_H
+    #define DELAY_H
+
+    #include "../rfcx-globals.h"    //F_CPU definition
+
+    #include <util/delay.h>
+    #include <avr/interrupt.h>
+
+    int delay_us(unsigned long int);
+
+    #endif//DELAY_H
+\end{lstlisting}
+
+\subsubsection{usart.c}\label{sect:usart.c}
+\begin{lstlisting}[language=C,label=lst:usart.c,caption=usart.c]
+    /*
+     * usart.cpp
+     *
+     * Created: 07/12/2011 15:17:35
+     *  Author: Boomber
+     * Modified: 09/15/2013 by R. Bossemeyer to usart.c
+     * changed one line to placate GCC
+     *
+     */
+    #include "usart.h"
+    #include <avr/io.h>
+    #include <avr/interrupt.h>
+    #include <avr/pgmspace.h>
+    #include <stdio.h>			// Conversions
+
+    void usart_init( unsigned int ubrr)
+    {
+    /*Set baud rate */
+    UBRR0H = (unsigned char)(ubrr>>8);
+    UBRR0L = (unsigned char)ubrr;
+    //Enable receiver and transmitter */
+    UCSR0B = (1<<RXEN0)|(1<<TXEN0);
+    /* Set frame format: 8data, 2stop bit */
+    UCSR0C = (1<<USBS0)|(3<<UCSZ00);
+    }
+
+
+
+
+    void usart_send_byte( unsigned char data )
+    {
+    /* Wait for empty transmit buffer */
+    while ( !( UCSR0A & (1<<UDRE0)) )
+    ;
+    /* Put data into buffer, sends the data */
+    //UDR0 = char(data);
+    UDR0 = data;
+    }
+
+    void usart_send_string(const char *str)
+    {
+
+    	  while (*str)
+          usart_send_byte(*str++);
+
+    }
+
+    void usart_send_int(unsigned int d )
+    {
+    	char str[10];
+    	sprintf(str,"%u",d);
+    	usart_send_string(str);
+
+    }
+
+
+
+    unsigned char usart_receive( void )
+    {
+    /* Wait for data to be received */
+    while ( !(UCSR0A & (1<<RXC0)) )
+    ;
+    /* Get and return received data from buffer */
+    return UDR0;
+    }
+\end{lstlisting}
+
+\subsubsection{usart.h}\label{sect:usart.h}
+\begin{lstlisting}[language=C,label=lst:usart.h,caption=usart.h]
+    /*
+     * usart.h
+     *
+     * Created: 07/12/2011 15:16:27
+     *  Author: Boomber
+     */
+
+
+    #ifndef USART_H_
+    #define USART_H_
+
+    void usart_init( unsigned int ubrr);
+
+    void usart_send_byte( unsigned char data );
+    void usart_send_string(const char *str);
+    void usart_send_int(unsigned int d);
+
+    unsigned char usart_receive( void );
+
+
+    #endif /* USART_H_ */
+\end{lstlisting}
+
+\subsection{Peter Fleury's I2C Library}\label{sect:sect:fleury-source}
+Peter Fleury's open source AVR I2C library was used for the I2C/TWI communication. The library and documentation can be found at \href{http://homepage.hispeed.ch/peterfleury/avr-software.html}{http://homepage.hispeed.ch/peterfleury/avr-software.html}.
+\subsubsection{twimaster.c}\label{sect:twimaster.c}
+\begin{lstlisting}[language=C,label=lst:twimaster.c,caption=twimaster.c]
+    /*************************************************************************
+    * Title:    I2C master library using hardware TWI interface
+    * Author:   Peter Fleury <pfleury@gmx.ch>  http://jump.to/fleury
+    * File:     $Id: twimaster.c,v 1.3 2005/07/02 11:14:21 Peter Exp $
+    * Software: AVR-GCC 3.4.3 / avr-libc 1.2.3
+    * Target:   any AVR device with hardware TWI
+    * Usage:    API compatible with I2C Software Library i2cmaster.h
+    **************************************************************************/
+    #include <inttypes.h>
+    #include <compat/twi.h>
+
+    #include <i2cmaster.h>
+
+    #include "../utilities/usart.h"
+
+    /* define CPU frequency in Mhz here if not defined in Makefile */
+    #ifndef F_CPU
+    #define F_CPU 8000000UL
+    #endif
+
+    /* I2C clock in Hz */
+    #define SCL_CLOCK  100000L
+
+    /*************************************************************************
+     Initialization of the I2C bus interface. Need to be called only once
+    *************************************************************************/
+    void i2c_init(void)
+    {
+      /* initialize TWI clock: 100 kHz clock, TWPS = 0 => prescaler = 1 */
+
+      TWSR = 0;                         /* no prescaler */
+      TWBR = ((F_CPU/SCL_CLOCK)-16)/2;  /* must be > 10 for stable operation */
+
+    }/* i2c_init */
+
+
+    /*************************************************************************
+      Issues a start condition and sends address and transfer direction.
+      return 0 = device accessible, 1= failed to access device
+    *************************************************************************/
+    unsigned char i2c_start(unsigned char address)
+    {
+        uint8_t   twst;
+
+    	// send START condition
+    	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
+
+    	// wait until transmission completed
+    	while(!(TWCR & (1<<TWINT)));
+
+    	// check value of TWI Status Register. Mask prescaler bits.
+    	twst = TW_STATUS & 0xF8;
+    	if ( (twst != TW_START) && (twst != TW_REP_START)) return 1;
+
+    	// send device address
+    	TWDR = address;
+    	TWCR = (1<<TWINT) | (1<<TWEN);
+
+    	// wail until transmission completed and ACK/NACK has been received
+    	while(!(TWCR & (1<<TWINT)));
+
+    	// check value of TWI Status Register. Mask prescaler bits.
+    	twst = TW_STATUS & 0xF8;
+    	if ( (twst != TW_MT_SLA_ACK) && (twst != TW_MR_SLA_ACK) ) return 1;
+
+    	return 0;
+
+    }/* i2c_start */
+
+
+    /*************************************************************************
+     Issues a start condition and sends address and transfer direction.
+     If device is busy, use ack polling to wait until device is ready
+
+     Input:   address and transfer direction of I2C device
+    *************************************************************************/
+    void i2c_start_wait(unsigned char address)
+    {
+        uint8_t   twst;
+
+
+        while ( 1 )
+        {
+    	    // send START condition
+    	    TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
+
+        	// wait until transmission completed
+        	while(!(TWCR & (1<<TWINT)));
+
+        	// check value of TWI Status Register. Mask prescaler bits.
+        	twst = TW_STATUS & 0xF8;
+        	if ( (twst != TW_START) && (twst != TW_REP_START)) continue;
+
+        	// send device address
+        	TWDR = address;
+        	TWCR = (1<<TWINT) | (1<<TWEN);
+
+        	// wail until transmission completed
+        	while(!(TWCR & (1<<TWINT)));
+
+        	// check value of TWI Status Register. Mask prescaler bits.
+        	twst = TW_STATUS & 0xF8;
+        	if ( (twst == TW_MT_SLA_NACK )||(twst ==TW_MR_DATA_NACK) )
+        	{
+        	    /* device busy, send stop condition to terminate write operation */
+    	        TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
+
+    	        // wait until stop condition is executed and bus released
+    	        while(TWCR & (1<<TWSTO));
+
+        	    continue;
+        	}
+        	//if( twst != TW_MT_SLA_ACK) return 1;
+        	break;
+         }
+
+    }/* i2c_start_wait */
+
+
+    /*************************************************************************
+     Issues a repeated start condition and sends address and transfer direction
+
+     Input:   address and transfer direction of I2C device
+
+     Return:  0 device accessible
+              1 failed to access device
+    *************************************************************************/
+    unsigned char i2c_rep_start(unsigned char address)
+    {
+        return i2c_start( address );
+
+    }/* i2c_rep_start */
+
+
+    /*************************************************************************
+     Terminates the data transfer and releases the I2C bus
+    *************************************************************************/
+    void i2c_stop(void)
+    {
+        /* send stop condition */
+    	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
+
+    	// wait until stop condition is executed and bus released
+    	while(TWCR & (1<<TWSTO));
+
+    }/* i2c_stop */
+
+
+    /*************************************************************************
+      Send one byte to I2C device
+
+      Input:    byte to be transfered
+      Return:   0 write successful
+                1 write failed
+    *************************************************************************/
+    unsigned char i2c_write( unsigned char data )
+    {
+        uint8_t   twst;
+
+    	// send data to the previously addressed device
+    	TWDR = data;
+    	TWCR = (1<<TWINT) | (1<<TWEN);
+
+    	// wait until transmission completed
+    	while(!(TWCR & (1<<TWINT)));
+
+    	// check value of TWI Status Register. Mask prescaler bits
+    	twst = TW_STATUS & 0xF8;
+    	if( twst != TW_MT_DATA_ACK) return 1;
+    	return 0;
+
+    }/* i2c_write */
+
+
+    /*************************************************************************
+     Read one byte from the I2C device, request more data from device
+
+     Return:  byte read from I2C device
+    *************************************************************************/
+    unsigned char i2c_readAck(void)
+    {
+    	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
+    	while(!(TWCR & (1<<TWINT)));
+
+        return TWDR;
+
+    }/* i2c_readAck */
+
+
+    /*************************************************************************
+     Read one byte from the I2C device, read is followed by a stop condition
+
+     Return:  byte read from I2C device
+    *************************************************************************/
+    unsigned char i2c_readNak(void)
+    {
+    	TWCR = (1<<TWINT) | (1<<TWEN);
+    	while(!(TWCR & (1<<TWINT)));
+
+        return TWDR;
+
+    }/* i2c_readNak */
+\end{lstlisting}
+
+\subsubsection{i2cmaster.h}\label{sect:i2cmaster.h}
+\begin{lstlisting}[language=C,label=lst:i2cmaster.h,caption=i2cmaster.h]
+    #ifndef _I2CMASTER_H
+    #define _I2CMASTER_H   1
+    /*************************************************************************
+    * Title:    C include file for the I2C master interface
+    *           (i2cmaster.S or twimaster.c)
+    * Author:   Peter Fleury <pfleury@gmx.ch>  http://jump.to/fleury
+    * File:     $Id: i2cmaster.h,v 1.10 2005/03/06 22:39:57 Peter Exp $
+    * Software: AVR-GCC 3.4.3 / avr-libc 1.2.3
+    * Target:   any AVR device
+    * Usage:    see Doxygen manual
+    **************************************************************************/
+
+    #ifdef DOXYGEN
+    /**
+     @defgroup pfleury_ic2master I2C Master library
+     @code #include <i2cmaster.h> @endcode
+
+     @brief I2C (TWI) Master Software Library
+
+     Basic routines for communicating with I2C slave devices. This single master
+     implementation is limited to one bus master on the I2C bus.
+
+     This I2c library is implemented as a compact assembler software implementation of the I2C protocol
+     which runs on any AVR (i2cmaster.S) and as a TWI hardware interface for all AVR with built-in TWI hardware (twimaster.c).
+     Since the API for these two implementations is exactly the same, an application can be linked either against the
+     software I2C implementation or the hardware I2C implementation.
+
+     Use 4.7k pull-up resistor on the SDA and SCL pin.
+
+     Adapt the SCL and SDA port and pin definitions and eventually the delay routine in the module
+     i2cmaster.S to your target when using the software I2C implementation !
+
+     Adjust the  CPU clock frequence F_CPU in twimaster.c or in the Makfile when using the TWI hardware implementaion.
+
+     @note
+        The module i2cmaster.S is based on the Atmel Application Note AVR300, corrected and adapted
+        to GNU assembler and AVR-GCC C call interface.
+        Replaced the incorrect quarter period delays found in AVR300 with
+        half period delays.
+
+     @author Peter Fleury pfleury@gmx.ch  http://jump.to/fleury
+
+     @par API Usage Example
+      The following code shows typical usage of this library, see example test_i2cmaster.c
+
+     @code
+
+     #include <i2cmaster.h>
+
+
+     #define Dev24C02  0xA2      // device address of EEPROM 24C02, see datasheet
+
+     int main(void)
+     {
+         unsigned char ret;
+
+         i2c_init();                             // initialize I2C library
+
+         // write 0x75 to EEPROM address 5 (Byte Write)
+         i2c_start_wait(Dev24C02+I2C_WRITE);     // set device address and write mode
+         i2c_write(0x05);                        // write address = 5
+         i2c_write(0x75);                        // write value 0x75 to EEPROM
+         i2c_stop();                             // set stop conditon = release bus
+
+
+         // read previously written value back from EEPROM address 5
+         i2c_start_wait(Dev24C02+I2C_WRITE);     // set device address and write mode
+
+         i2c_write(0x05);                        // write address = 5
+         i2c_rep_start(Dev24C02+I2C_READ);       // set device address and read mode
+
+         ret = i2c_readNak();                    // read one byte from EEPROM
+         i2c_stop();
+
+         for(;;);
+     }
+     @endcode
+
+    */
+    #endif /* DOXYGEN */
+
+    /**@{*/
+
+    #if (__GNUC__ * 100 + __GNUC_MINOR__) < 304
+    #error "This library requires AVR-GCC 3.4 or later, update to newer AVR-GCC compiler !"
+    #endif
+
+    #include <avr/io.h>
+
+    /** defines the data direction (reading from I2C device) in i2c_start(),i2c_rep_start() */
+    #define I2C_READ    1
+
+    /** defines the data direction (writing to I2C device) in i2c_start(),i2c_rep_start() */
+    #define I2C_WRITE   0
+
+
+    /**
+     @brief initialize the I2C master interace. Need to be called only once
+     @param  void
+     @return none
+     */
+    extern void i2c_init(void);
+
+
+    /**
+     @brief Terminates the data transfer and releases the I2C bus
+     @param void
+     @return none
+     */
+    extern void i2c_stop(void);
+
+
+    /**
+     @brief Issues a start condition and sends address and transfer direction
+
+     @param    addr address and transfer direction of I2C device
+     @retval   0   device accessible
+     @retval   1   failed to access device
+     */
+    extern unsigned char i2c_start(unsigned char addr);
+
+
+    /**
+     @brief Issues a repeated start condition and sends address and transfer direction
+
+     @param   addr address and transfer direction of I2C device
+     @retval  0 device accessible
+     @retval  1 failed to access device
+     */
+    extern unsigned char i2c_rep_start(unsigned char addr);
+
+
+    /**
+     @brief Issues a start condition and sends address and transfer direction
+
+     If device is busy, use ack polling to wait until device ready
+     @param    addr address and transfer direction of I2C device
+     @return   none
+     */
+    extern void i2c_start_wait(unsigned char addr);
+
+
+    /**
+     @brief Send one byte to I2C device
+     @param    data  byte to be transfered
+     @retval   0 write successful
+     @retval   1 write failed
+     */
+    extern unsigned char i2c_write(unsigned char data);
+
+
+    /**
+     @brief    read one byte from the I2C device, request more data from device
+     @return   byte read from I2C device
+     */
+    extern unsigned char i2c_readAck(void);
+
+    /**
+     @brief    read one byte from the I2C device, read is followed by a stop condition
+     @return   byte read from I2C device
+     */
+    extern unsigned char i2c_readNak(void);
+
+    /**
+     @brief    read one byte from the I2C device
+
+     Implemented as a macro, which calls either i2c_readAck or i2c_readNak
+
+     @param    ack 1 send ack, request more data from device<br>
+                   0 send nak, read is followed by a stop condition
+     @return   byte read from I2C device
+     */
+    extern unsigned char i2c_read(unsigned char ack);
+    #define i2c_read(ack)  (ack) ? i2c_readAck() : i2c_readNak();
+
+
+    /**@}*/
+    #endif
+\end{lstlisting}
+\subsection{Android Source Code}\label{sect:android-source}
 \begin{lstlisting}[language=Java,label=lst:devicelist,caption=DeviceListActivity.java]
     /**
      * Copyright 2015 RFCx <www.rfcx.org>
