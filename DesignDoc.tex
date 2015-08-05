@@ -752,12 +752,21 @@ The results of the verification and validation signoff are as below. Following e
 The board does include a USB connection that supports both power and data. A phone was charged using the USB connector on the board.
 
 \paragraph{\ref{comp3}}
-The new device costs \$%@TODO, as shown in the following breakdown of parts:
-
-%@TODO INSERT BOMs and PRICE LISTS!!!
+The new device costs \$131.48, as shown in the Bill of Materials in \ref{sect:appendixB}. The Main Board, including all components and the enclosure is \$93.87, and the MPPT Board with all components is \$37.61.
 
 \paragraph{\ref{comp4}}
-The input voltage is capable of charging the batteries using the BQ2057 battery charge controllers. The batteries were charged from just 3.2V (extremely low) to fully charged in approximately 3.5 hours. %@TODO
+The input voltage is capable of charging the batteries using the BQ2057 battery charge controllers. The batteries were fully charged in approximately 11 hours. The current and voltage was monitored during the charging process and it was plotted below in Figure \ref{fig:bat_charge}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{BatteryCharge}
+	\caption{Battery Charging Curve}
+	\label{fig:bat_charge}
+\end{figure}
+
+\bigskip
+
+Although the BQ2057 \emph{does} seem to work, an alternative IC, the MCP73871 shown here \href{https://www.adafruit.com/datasheets/MCP73871.pdf}{https://www.adafruit.com/datasheets/MCP73871.pdf}, could be another option. This IC is used on the current revision of the device, and has been tested in the field. The MCP73871 was not chosen for the new design because the package is not solderable by hand. Since the design was completed, RFCx has shown interest in having the boards manufactured using automated pick-and-place machines, so the MCP73871 could be used again.
 
 \paragraph{\ref{comp5}}
 The diode-ORing circuit was able to properly switch between the two voltage sources with no interruption. The switching can be seen below, where channel 1 (yellow) is the gate of the switching transistor for the Diode-ORing chip and channel 2 (blue) is the output voltage. It can be seen that when the input voltage exceeded the battery voltage, the output voltage followed the input. The DMM shows the battery voltage.
@@ -961,15 +970,21 @@ Conversely, in Figure \ref{fig:doredsimres2} the Diode-ORed topology simulation 
 \section{Bill Of Materials} \label{sect:appendixB}
 \begin{figure}[H]
 	\centering
-	\includegraphics[page=1,width=0.9\textwidth]{RFCx_BOM.pdf}
+	\includegraphics[page=1,width=0.9\textwidth]{Mainboard_BOM.pdf}
 	\caption{}
-	\label{fig:bom1}
+	\label{fig:mainbom1}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[page=2,width=0.9\textwidth]{RFCx_BOM.pdf}
+	\includegraphics[page=2,width=0.9\textwidth]{Mainboard_BOM.pdf}
 	\caption{}
-	\label{fig:bom2}
+	\label{fig:mainbom1}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[page=1,width=0.9\textwidth]{MPPT_BOM.pdf}
+	\caption{}
+	\label{fig:mpptbom1}
 \end{figure}
 
 
